@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Container, Card, CardContent, Typography } from '@material-ui/core'
+import { Container, Card, CardContent, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles({
     root: {
@@ -14,10 +14,10 @@ const Home = (props) => {
     const classes = useStyles();
 
     return(
-        <Container flex>
+        <Container component="main" maxWidth="md">
             <Card className={classes.root} variant="outlined">
                 <CardContent>
-                    <Typography variant="h5" component="h2">
+                    <Typography variant="h3">
                         Home !!!
                     </Typography>
                 </CardContent>
