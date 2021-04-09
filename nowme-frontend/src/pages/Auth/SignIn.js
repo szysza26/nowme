@@ -11,6 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,6 +36,28 @@ const useStyles = makeStyles((theme) => ({
 const SignIn = (props) => {
   const classes = useStyles();
 
+  let postData = {
+    username: "test1",
+    password: "test123"
+  };
+  
+  let axiosConfig = {
+    headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        "Access-Control-Allow-Origin": "*",
+    }
+  };
+
+  const login = () => {
+      axios.post("http://localhost:8000/api/login_check", postData, axiosConfig)
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -45,7 +68,7 @@ const SignIn = (props) => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate >
           <TextField
             variant="outlined"
             margin="normal"
@@ -73,11 +96,11 @@ const SignIn = (props) => {
             label="Remember me"
           />
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={login}
           >
             Sign In
           </Button>

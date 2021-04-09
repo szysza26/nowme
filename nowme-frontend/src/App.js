@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import SignIn from './pages/Auth/SignIn';
@@ -8,14 +8,25 @@ import Specialists from './pages/specialists/Specialists';
 import Main from './component/Main';
 
 function App() {
+
+    const [token, setToken] = useState('');
+
     return (
         <BrowserRouter>
             <Main>
                 <Switch>
-                    <Route exact path="/" component={Home}/>
-                    <Route exact path="/signin" component={SignIn}/>
-                    <Route exact path="/signup" component={SignUp}/>
-                    <Route exact path="/specialists" component={Specialists}/>
+                    <Route exact path="/">
+                        <Home token={token}/>
+                    </Route>
+                    <Route exact path="/signin">
+                        <SignIn setToken={setToken}/>
+                    </Route>
+                    <Route exact path="/signup">
+                        <SignUp />
+                    </Route>
+                    <Route exact path="/specialists">
+                        <Specialists/>
+                    </Route>
                 </Switch>
             </Main>
       </BrowserRouter>
