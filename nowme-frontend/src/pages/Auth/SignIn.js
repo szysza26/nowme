@@ -43,15 +43,14 @@ const SignIn = (props) => {
   
   let axiosConfig = {
     headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        "Access-Control-Allow-Origin": "*",
+        "Content-Type": 'application/json',
     }
   };
 
   const login = () => {
       axios.post("http://localhost:8000/api/login_check", postData, axiosConfig)
       .then((res) => {
-        console.log(res.data)
+        props.setToken(res.data.token);
       })
       .catch((error) => {
         console.log(error)
