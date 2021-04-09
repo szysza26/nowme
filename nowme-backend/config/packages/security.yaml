@@ -1,7 +1,20 @@
 security:
+  encoders:
+    Symfony\Component\Security\Core\User\User:
+      algorithm: auto
+
   # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
   providers:
-    users_in_memory: { memory: null }
+    users_in_memory:
+      memory:
+        users:
+          test1: { password: '$argon2id$v=19$m=65536,t=4,p=1$Udb1KvOEdXslk8kfDXv5Gg$JhRMePxh6MlisWhuubZ2Ibdfg8N8sJO/QKWvSXSLVI4', roles: [ 'ROLE_ADMIN' ] } # password: test123
+          test2: { password: '$argon2id$v=19$m=65536,t=4,p=1$mEzv1+TKbsTczCv4hthPoA$wyeU0Ur5KFsFWqiXDxUwCz2qiWKsIcs01rhU3WgwFCM', roles: [ 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN' ] } # password: test123
+
+    all_users:
+      chain:
+        providers: [ 'users_in_memory' ]
+
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -15,6 +28,7 @@ security:
         check_path: /api/login_check
         success_handler: lexik_jwt_authentication.handler.authentication_success
         failure_handler: lexik_jwt_authentication.handler.authentication_failure
+      provider: all_users
 
     api:
       pattern: ^/api
@@ -22,11 +36,12 @@ security:
       guard:
         authenticators:
           - lexik_jwt_authentication.jwt_token_authenticator
-#
-#    main:
-#      anonymous: true
-#      lazy: true
-#      provider: users_in_memory
+      provider: all_users
+      #
+      #    main:
+      #      anonymous: true
+      #      lazy: true
+      #      provider: users_in_memory
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#firewalls-authentication
