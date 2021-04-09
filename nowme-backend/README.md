@@ -6,8 +6,13 @@ How init project ?
 
 2. Make install project's dependencies  
 ```cd my-project/ ```  
-```composer install```
+```composer install```  
+```php bin/console lexik:jwt:generate-keypair```   
    
   
 3. Run local web server  
-```symfony server:start```
+```symfony server:start```  
+
+   
+Example login by curl:
+```curl -X POST -H "Content-Type: application/json" http://localhost/api/login_check -d '{"username":"johndoe","password":"test"}'```
