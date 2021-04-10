@@ -5,7 +5,7 @@ services:
         image: nginx:1.19.0-alpine
         volumes:
             - ./nowme-backend/public:/var/www/symfony/public:cached
-            - ./default.conf:/etc/nginx/conf.d/default.conf:ro
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
         ports:
             - 8000:80
         depends_on:
@@ -14,6 +14,21 @@ services:
     php:
         build:
             context: .
-            dockerfile: Dockerfile
+            dockerfile: docker/php/Dockerfile
         volumes:
             - ./nowme-backend:/var/www/symfony:cached
+
+    mysql:
+        image: mysql:8.0.23
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: app
+
+    node:
+        build:
+            context: .
+            dockerfile: docker/node/Dockerfile
+        volumes:
+            - ./nowme-frontend:/var/www/react:cached
+        ports:
+            - 3000:3000

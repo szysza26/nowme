@@ -19,7 +19,7 @@ RUN apk update \
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-COPY ./opcache.ini $PHP_INI_DIR/conf.d/opcache.ini
+COPY ./docker/php/opcache.ini $PHP_INI_DIR/conf.d/opcache.ini
 COPY ./nowme-backend /var/www/symfony
 
 WORKDIR /var/www/symfony
