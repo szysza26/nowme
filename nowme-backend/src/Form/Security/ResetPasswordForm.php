@@ -9,11 +9,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class ResetPasswordForm extends AbstractType
 {
-    public function getBlockPrefix(): string
-    {
-        return '';
-    }
-
     /**
      * @param array<mixed> $options
      */

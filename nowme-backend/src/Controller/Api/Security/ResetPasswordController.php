@@ -9,7 +9,6 @@ use NowMe\Form\Security\ResetPasswordForm;
 use NowMe\Form\Security\SendResetPasswordLinkForm;
 use NowMe\Message\Security\ResetPassword;
 use NowMe\Message\Security\SendResetPasswordLink;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,7 +33,7 @@ final class ResetPasswordController extends AbstractApiController
             )
         );
 
-        return new JsonResponse(['message' => 'An email has been sent to your address']);
+        return $this->json(['message' => 'An email has been sent to your address']);
     }
 
     #[Route('/reset-password/{token}', name: 'reset_password', methods: ['POST'])]
@@ -56,6 +55,6 @@ final class ResetPasswordController extends AbstractApiController
             )
         );
 
-        return new JsonResponse('Your password has been changed, you can now log in');
+        return $this->json(['message' => 'Your password has been changed, you can now log in']);
     }
 }

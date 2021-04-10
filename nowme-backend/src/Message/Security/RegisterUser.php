@@ -6,7 +6,7 @@ namespace NowMe\Message\Security;
 
 final class RegisterUser
 {
-    public function __construct(private string $username, private string $password, private string $email)
+    public function __construct(private string $username, private string $password, private string $email, private string $firstName, private string $lastName)
     {
     }
 
@@ -23,5 +23,15 @@ final class RegisterUser
     public function password(): string
     {
         return $this->password;
+    }
+
+    public function firstName(): string
+    {
+        return $this->firstName;
+    }
+
+    public function lastName(): string
+    {
+        return $this->lastName;
     }
 }
