@@ -24,12 +24,13 @@ final class RegistrationController extends AbstractApiController
         $form->submit($this->parseJsonRequestContent($request));
 
         if (!$form->isValid()) {
+            return $this->invalidFormValidationResponse($this->getErrors($form));
         }
 
         $this->dispatchMessage(
             new RegisterUser(
                 $form->get('username')->getData(),
-                $form->get('password')->getData(),
+                $form->get('plainPassword')->getData(),
                 $form->get('email')->getData(),
             )
         );

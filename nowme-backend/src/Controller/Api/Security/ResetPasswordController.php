@@ -25,10 +25,13 @@ final class ResetPasswordController extends AbstractApiController
         $form->submit($this->parseJsonRequestContent($request));
 
         if (!$form->isValid()) {
+            return $this->invalidFormValidationResponse($this->getErrors($form));
         }
 
         $this->dispatchMessage(
-            new SendResetPasswordLink($form->get('email')->getData())
+            new SendResetPasswordLink(
+                $form->get('email')->getData()
+            )
         );
 
         return new JsonResponse(['message' => 'An email has been sent to your address']);
@@ -43,6 +46,7 @@ final class ResetPasswordController extends AbstractApiController
         $form->submit($this->parseJsonRequestContent($request));
 
         if (!$form->isValid()) {
+            return $this->invalidFormValidationResponse($this->getErrors($form));
         }
 
         $this->dispatchMessage(
