@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace NowMe\MessageHandler\Security;
 
+use NowMe\Event\UserWasCreated;
 use NowMe\Message\Security\RegisterUser;
 use NowMe\Model\User;
 use NowMe\Security\Model\User as SecurityUser;
 use NowMe\Repository\UserRepository;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class RegisterUserHandler
 {
     public function __construct(
         private UserRepository $userRepository,
-        private EncoderFactoryInterface $passwordEncoder
+        private EncoderFactoryInterface $passwordEncoder,
+        private EventDispatcherInterface $eventDispatcher
     ) {
     }
 
@@ -29,5 +32,7 @@ final class RegisterUserHandler
         );
 
         $this->userRepository->add($user);
+
+        $this->eventDispatcher->dispatch(new UserWasCreated($message->username(), $message->email()));
     }
 }
