@@ -66,9 +66,15 @@ const Main = (props) => {
         <div>
             <List>
                 {props.token ?
+                <>
                 <ListItemLink icon={<AccountCircleIcon/>} primary={'Profile'} to={'/profile'}/>
+                <ListItemLink icon={<AccountCircleIcon/>} primary={'Logout'} to={'/logout'}/>
+                </>
                 :
+                <>
                 <ListItemLink icon={<AccountCircleIcon/>} primary={'Sign in'} to={'/signin'}/>
+                <ListItemLink icon={<AccountCircleIcon/>} primary={'Sign up'} to={'/signup'}/>
+                </>
                 }
             </List>
             <Divider />

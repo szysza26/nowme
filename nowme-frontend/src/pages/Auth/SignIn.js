@@ -57,7 +57,7 @@ const SignIn = (props) => {
       }
     };
 
-      axios.post("http://localhost:8000/api/login_check", {username, password}, axiosConfig)
+      axios.post("http://localhost:8000/api/login_check", {"username": username, "password": password}, axiosConfig)
       .then((res) => {
         localStorage.setItem('token', res.data.token);
         props.setToken(res.data.token);
