@@ -10,10 +10,13 @@ use Symfony\Component\Mailer\MailerInterface;
 
 final class SendResetPasswordLinkHandler
 {
-    public function __construct(private MailerInterface $mailer, private ResetPasswordTokenGenerator $passwordTokenGenerator, private $users)
-    {
-        
+    public function __construct(
+        private MailerInterface $mailer,
+        private ResetPasswordTokenGenerator $passwordTokenGenerator,
+        private $users
+    ) {
     }
+
     public function __invoke(SendResetPasswordLink $message)
     {
         if (!$this->users->emailExist($message->email())) {
