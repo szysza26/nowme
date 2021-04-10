@@ -1,4 +1,4 @@
-import React, { useState }from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Divider from '@material-ui/core/Divider';
@@ -22,20 +22,20 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   drawer: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: drawerWidth,
       flexShrink: 0,
     },
   },
   appBar: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'none',
     },
   },
@@ -55,8 +55,6 @@ const Main = (props) => {
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    
-    const [auth] = useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -65,15 +63,23 @@ const Main = (props) => {
     const drawer = (
         <div>
             <List>
-                {auth ?
+                {props.token ?
+                <>
                 <ListItemLink icon={<AccountCircleIcon/>} primary={'Profile'} to={'/profile'}/>
+                <ListItemLink icon={<AccountCircleIcon/>} primary={'Logout'} to={'/logout'}/>
+                </>
                 :
-                <ListItemLink icon={<AccountCircleIcon/>} primary={'Profile'} to={'/signin'}/>
+                <>
+                <ListItemLink icon={<AccountCircleIcon/>} primary={'Sign in'} to={'/signin'}/>
+                <ListItemLink icon={<AccountCircleIcon/>} primary={'Sign up'} to={'/signup'}/>
+                </>
                 }
             </List>
             <Divider />
             <List>
+                {props.token &&
                 <ListItemLink icon={<AccessibilityIcon/>} primary={'Spiecjaliści'} to={'/specialists'}/>
+                }
             </List>
         </div>
     );
@@ -99,7 +105,7 @@ const Main = (props) => {
                 </Toolbar>
             </AppBar>
             <nav className={classes.drawer} aria-label="mailbox folders">
-                <Hidden smUp implementation="css">
+                <Hidden mdUp implementation="css">
                     <Drawer
                         container={container}
                         variant="temporary"
@@ -116,7 +122,7 @@ const Main = (props) => {
                         {drawer}
                     </Drawer>
                 </Hidden>
-                <Hidden xsDown implementation="css">
+                <Hidden smDown implementation="css">
                     <Drawer
                         classes={{
                         paper: classes.drawerPaper,

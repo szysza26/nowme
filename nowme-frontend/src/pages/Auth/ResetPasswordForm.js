@@ -32,28 +32,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = (props) => {
+const ResetPasswordForm = (props) => {
   const classes = useStyles();
 
   const history = useHistory();
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
 
   const handleChange = (event) => {
     switch(event.target.name){
-        case 'username':
-            setUsername(event.target.value);
-            break;
-        case 'password':
-            setPassword(event.target.value);
+        case 'email':
+            setEmail(event.target.value);
             break;
         default:
             console.log('can not handle this value');
     }
   }
 
-  const login = () => {
+  const send = () => {
+    console.log("send", email);
+    return;
+
     let axiosConfig = {
       headers: {
           "Content-Type": 'application/json',
@@ -61,14 +60,12 @@ const SignIn = (props) => {
     };
 
     let data = {
-      "username": username,
-      "password": password
+      "email": email,
     }
 
-    axios.post("http://localhost:8000/api/login_check", data, axiosConfig)
+    axios.post("http://localhost:8000/api/reset-password", data, axiosConfig)
       .then((res) => {
-        props.setToken(res.data.token);
-        history.push('/profile');
+        console.log(res)
       })
       .catch((error) => {
         console.log(error)
@@ -83,7 +80,7 @@ const SignIn = (props) => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Reset Password
         </Typography>
         <form className={classes.form} noValidate >
           <TextField
@@ -91,25 +88,11 @@ const SignIn = (props) => {
             margin="normal"
             required
             fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            autoComplete="current-username"
+            id="email"
+            label="Email"
+            name="email"
             autoFocus
-            value={username}
-            onChange={handleChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
+            value={email}
             onChange={handleChange}
           />
           <Button
@@ -117,26 +100,14 @@ const SignIn = (props) => {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={login}
+            onClick={send}
           >
-            Sign In
+            Send
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link to={"/reset"} variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to={"/signup"} variant="body2">
-                Don't have an account? Sign Up
-              </Link>
-            </Grid>
-          </Grid>
         </form>
       </div>
     </Container>
   );
 }
 
-export default SignIn;
+export default ResetPasswordForm;
