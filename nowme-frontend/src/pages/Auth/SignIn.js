@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SignIn = (props) => {
   const classes = useStyles();
+
+  const history = useHistory();
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -61,6 +64,7 @@ const SignIn = (props) => {
       .then((res) => {
         localStorage.setItem('token', res.data.token);
         props.setToken(res.data.token);
+        history.push('/profile');
       })
       .catch((error) => {
         console.log(error)

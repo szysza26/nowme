@@ -25,10 +25,6 @@ function App() {
         }
     }, [])
 
-    useEffect(() => {
-        token === '' && localStorage.setItem('token', '');
-    }, [token])
-
     return (
         <BrowserRouter>
             <Main token={token}>

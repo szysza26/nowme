@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = (props) => {
   const classes = useStyles();
+
+  const history = useHistory();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -68,6 +71,7 @@ const SignUp = (props) => {
 
   const register = () => {
     console.log({firstName, lastName, email, username, passwordFirst, passwordSecond});
+    history.push('/signin');
     // let axiosConfig = {
     //   headers: {
     //       "Content-Type": 'application/json',

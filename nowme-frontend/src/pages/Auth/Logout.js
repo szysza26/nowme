@@ -18,6 +18,7 @@ const Logout = (props) => {
 
     const handleClickLogout = () => {
         props.setToken('');
+        localStorage.setItem('token', '');
         history.push('/');
     }
 
