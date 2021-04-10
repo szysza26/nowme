@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace NowMe\Controller\Api\Security;
 
 use NowMe\Controller\Api\AbstractApiController;
+use NowMe\Form\Security\ResetPasswordForm;
 use NowMe\Form\Security\SendResetPasswordLinkForm;
+use NowMe\Message\Security\ResetPassword;
 use NowMe\Message\Security\SendResetPasswordLink;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +38,20 @@ final class ResetPasswordController extends AbstractApiController
     public function resetPassword(
         Request $request
     ): Response {
-        $form = $this->createForm();
-        return new JsonResponse('');
+        $form = $this->createForm(ResetPasswordForm::class);
+
+        $form->submit($this->parseJsonRequestContent($request));
+
+        if (!$form->isValid()) {
+        }
+
+        $this->dispatchMessage(
+            new ResetPassword(
+                $form->get('token')->getData(),
+                $form->get('password')->getData()
+            )
+        );
+
+        return new JsonResponse('Your password has been changed, you can now log in');
     }
 }
