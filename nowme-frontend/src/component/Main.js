@@ -65,15 +65,17 @@ const Main = (props) => {
     const drawer = (
         <div>
             <List>
-                {auth ?
+                {props.token ?
                 <ListItemLink icon={<AccountCircleIcon/>} primary={'Profile'} to={'/profile'}/>
                 :
-                <ListItemLink icon={<AccountCircleIcon/>} primary={'Profile'} to={'/signin'}/>
+                <ListItemLink icon={<AccountCircleIcon/>} primary={'Sign in'} to={'/signin'}/>
                 }
             </List>
             <Divider />
             <List>
+                {props.token &&
                 <ListItemLink icon={<AccessibilityIcon/>} primary={'Spiecjaliści'} to={'/specialists'}/>
+                }
             </List>
         </div>
     );

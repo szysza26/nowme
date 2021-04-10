@@ -18,7 +18,7 @@ const Home = (props) => {
             <Card className={classes.root} variant="outlined">
                 <CardContent>
                     <Typography variant="h3">
-                        Token: {props.token}
+                        Home !!!
                     </Typography>
                 </CardContent>
             </Card>

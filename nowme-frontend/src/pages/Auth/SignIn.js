@@ -1,11 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -36,21 +34,32 @@ const useStyles = makeStyles((theme) => ({
 const SignIn = (props) => {
   const classes = useStyles();
 
-  let postData = {
-    username: "test1",
-    password: "test123"
-  };
-  
-  let axiosConfig = {
-    headers: {
-        "Content-Type": 'application/json',
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
+  const handleChange = (event) => {
+    switch(event.target.name){
+        case 'username':
+            setUsername(event.target.value);
+            break;
+        case 'password':
+            setPassword(event.target.value);
+            break;
+        default:
+            console.log('can not handle this value');
     }
-  };
+  }
 
   const login = () => {
-      axios.post("http://localhost:8000/api/login_check", postData, axiosConfig)
+    let axiosConfig = {
+      headers: {
+          "Content-Type": 'application/json',
+      }
+    };
+
+      axios.post("http://localhost:8000/api/login_check", {username, password}, axiosConfig)
       .then((res) => {
+        localStorage.setItem('token', res.data.token);
         props.setToken(res.data.token);
       })
       .catch((error) => {
@@ -74,11 +83,13 @@ const SignIn = (props) => {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="current-username"
             autoFocus
+            value={username}
+            onChange={handleChange}
           />
           <TextField
             variant="outlined"
@@ -90,10 +101,8 @@ const SignIn = (props) => {
             type="password"
             id="password"
             autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            value={password}
+            onChange={handleChange}
           />
           <Button
             fullWidth
