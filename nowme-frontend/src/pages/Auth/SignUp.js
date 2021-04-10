@@ -70,22 +70,30 @@ const SignUp = (props) => {
   }
 
   const register = () => {
-    console.log({firstName, lastName, email, username, passwordFirst, passwordSecond});
-    history.push('/signin');
-    // let axiosConfig = {
-    //   headers: {
-    //       "Content-Type": 'application/json',
-    //   }
-    // };
+    let axiosConfig = {
+      headers: {
+          "Content-Type": 'application/json',
+      }
+    };
 
-    //   axios.post("http://localhost:8000/api/login_check", {"username": username, "password": password}, axiosConfig)
-    //   .then((res) => {
-    //     localStorage.setItem('token', res.data.token);
-    //     props.setToken(res.data.token);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error)
-    //   })
+    let data = {
+      "email": email,
+      "plainPassword": {
+          "first": passwordFirst,
+          "second": passwordSecond
+      },
+      "firstName": firstName,
+      "lastName": lastName,
+      "username": username
+  }
+
+    axios.post("http://localhost:8000/register", data, axiosConfig)
+      .then((res) => {
+        history.push('/signin')
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   return (

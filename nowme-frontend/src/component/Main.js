@@ -1,4 +1,4 @@
-import React, { useState }from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Divider from '@material-ui/core/Divider';
@@ -55,8 +55,6 @@ const Main = (props) => {
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    
-    const [auth] = useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);

@@ -8,22 +8,27 @@ import Profile from './pages/Auth/Profile';
 import Logout from './pages/Auth/Logout';
 import SignIn from './pages/Auth/SignIn';
 import SignUp from './pages/Auth/SignUp';
+import ResetPasswordForm from "./pages/Auth/ResetPasswordForm";
 import jwt_decode from 'jwt-decode';
+
+
+const VALID_TOKEN_MS = 60000;
 
 function App() {
 
-    const [token, setToken] = useState('');
+    const [token, setToken] = useState(localStorage.getItem('token'));
 
     useEffect(() => {
-        if (localStorage.getItem('token') !== null && localStorage.getItem('token') !== '') {
-            const tmp = jwt_decode(localStorage.getItem('token'));
-            if(tmp.exp > Date.now()/1000) {
-                setToken(localStorage.getItem('token'));
-            }else{
-                localStorage.setItem('token', '');
-            }
-        }
+        const interval = setInterval(() => {
+            token && (jwt_decode(token).exp * 1000) < (Date.now() - (2* VALID_TOKEN_MS)) && setToken(null);
+        }, VALID_TOKEN_MS);
+        
+        return () => clearInterval(interval);
     }, [])
+
+    useEffect(() => {
+        token ? localStorage.setItem('token', token) : localStorage.removeItem('token');
+    }, [token])
 
     return (
         <BrowserRouter>
@@ -40,12 +45,15 @@ function App() {
                     <Route exact path="/signup">
                         <SignUp />
                     </Route>
+                    <Route exact path="/reset">
+                        <ResetPasswordForm />
+                    </Route>
                     </>
                     }
                     {token &&
                     <>
                     <Route exact path="/profile">
-                        <Profile setToken={setToken} />
+                        <Profile token={token} />
                     </Route>
                     <Route exact path="/logout">
                         <Logout setToken={setToken} />
