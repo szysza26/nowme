@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+namespace NowMe\Form\Security;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+
+final class RegisterUserForm extends AbstractType
+{
+    public function getBlockPrefix(): string
+    {
+        return '';
+    }
+
+    /**
+     * @param array<mixed> $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+
+    }
+}
