@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace NowMe\MessageHandler\Security;
 
-use NowMe\Entity\User;
 use NowMe\Message\Security\RegisterUser;
+use NowMe\Model\User;
+use NowMe\Security\Model\User as SecurityUser;
 use NowMe\Repository\UserRepository;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 final class RegisterUserHandler
 {
     public function __construct(
         private UserRepository $userRepository,
-        private PasswordEncoderInterface $passwordEncoder
+        private EncoderFactoryInterface $passwordEncoder
     ) {
     }
 
@@ -22,7 +23,9 @@ final class RegisterUserHandler
         $user = User::create(
             $message->username(),
             $message->email(),
-            $this->passwordEncoder->encodePassword($message->password(), null)
+            $this->passwordEncoder->getEncoder(SecurityUser::class)->encodePassword($message->password(), null),
+            $message->firstName(),
+            $message->lastName(),
         );
 
         $this->userRepository->add($user);

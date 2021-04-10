@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace NowMe\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
-use NowMe\Entity\User;
+use NowMe\Model\User;
 
 final class DoctrineORMUserRepository implements UserRepository
 {

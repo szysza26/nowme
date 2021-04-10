@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace NowMe\Repository;
 
-use NowMe\Entity\User;
+use NowMe\Model\User;
 
 interface UserRepository
 {
