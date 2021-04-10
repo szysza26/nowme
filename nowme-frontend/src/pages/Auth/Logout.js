@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Card, CardContent, Typography, Button } from '@material-ui/core'
-import jwt_decode from 'jwt-decode';
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {
@@ -11,11 +11,14 @@ const useStyles = makeStyles({
     },
   });
 
-const Profile = (props) => {
+const Logout = (props) => {
     const classes = useStyles();
+
+    const history = useHistory();
 
     const handleClickLogout = () => {
         props.setToken('');
+        history.push('/');
     }
 
     return(
@@ -23,7 +26,6 @@ const Profile = (props) => {
             <Card className={classes.root} variant="outlined">
                 <CardContent>
                     <Typography variant="h3">
-                        Profile !!!
                         <Button variant="contained" color="primary" onClick={handleClickLogout}>
                             Logout
                         </Button>
@@ -34,4 +36,4 @@ const Profile = (props) => {
     )
 }
 
-export default Profile;
+export default Logout;

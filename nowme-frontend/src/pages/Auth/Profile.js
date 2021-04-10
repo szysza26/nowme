@@ -14,19 +14,12 @@ const useStyles = makeStyles({
 const Profile = (props) => {
     const classes = useStyles();
 
-    const handleClickLogout = () => {
-        props.setToken('');
-    }
-
     return(
         <Container component="main" maxWidth="md">
             <Card className={classes.root} variant="outlined">
                 <CardContent>
                     <Typography variant="h3">
                         Profile !!!
-                        <Button variant="contained" color="primary" onClick={handleClickLogout}>
-                            Logout
-                        </Button>
                     </Typography>
                 </CardContent>
             </Card>

@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-import SignIn from './pages/Auth/SignIn';
-import SignUp from './pages/Auth/SignUp';
 import Home from './pages/Home';
 import Specialists from './pages/specialists/Specialists';
 import Main from './component/Main';
 import Profile from './pages/Auth/Profile';
+import Logout from './pages/Auth/Logout';
+import SignIn from './pages/Auth/SignIn';
+import SignUp from './pages/Auth/SignUp';
 import jwt_decode from 'jwt-decode';
 
 function App() {
@@ -44,11 +45,14 @@ function App() {
                         <SignUp />
                     </Route>
                     </>
-                    } 
+                    }
                     {token &&
                     <>
                     <Route exact path="/profile">
                         <Profile setToken={setToken} />
+                    </Route>
+                    <Route exact path="/logout">
+                        <Logout setToken={setToken} />
                     </Route>
                     <Route exact path="/specialists">
                         <Specialists />
