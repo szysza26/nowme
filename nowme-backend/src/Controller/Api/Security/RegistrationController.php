@@ -39,7 +39,7 @@ final class RegistrationController extends AbstractApiController
         return $this->json(['message' => 'Your account has been created.']);
     }
 
-    #[Route('/register/confirm/{token}', name: 'register_confirm', methods: ['GET'])]
+    #[Route('/register/confirm/{token}', name: 'register_confirm', methods: ['POST'])]
     public function confirm(
         string $token
     ): Response {
