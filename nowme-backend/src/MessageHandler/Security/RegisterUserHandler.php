@@ -6,7 +6,7 @@ namespace NowMe\MessageHandler\Security;
 
 use NowMe\Event\UserWasCreated;
 use NowMe\Message\Security\RegisterUser;
-use NowMe\Model\User;
+use NowMe\Entity\User;
 use NowMe\Security\Model\User as SecurityUser;
 use NowMe\Repository\UserRepository;
 use NowMe\Security\Sha512TokenGenerator;
@@ -25,15 +25,17 @@ final class RegisterUserHandler
 
     public function __invoke(RegisterUser $message): void
     {
+        $token = $this->generator->generate();
+
         $user = User::create(
             $message->username(),
             $message->email(),
             $this->passwordEncoder->getEncoder(SecurityUser::class)->encodePassword($message->password(), null),
             $message->firstName(),
             $message->lastName(),
+            $token
         );
 
-        $token = $this->generator->generate();
         $this->userRepository->add($user);
 
         $this->eventDispatcher->dispatch(
