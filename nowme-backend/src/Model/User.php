@@ -11,6 +11,7 @@ final class User
     private string $password;
     private string $firstName;
     private string $lastName;
+    private string $token;
 
     public static function create(
         string $username,
@@ -27,5 +28,14 @@ final class User
         $self->lastName = $lastName;
 
         return $self;
+    }
+
+    public function setResetPasswordToken(string $token): void
+    {
+        $this->token = $token;
+    }
+
+    public function resetPassword(string $token, string $encodePassword): void
+    {
     }
 }

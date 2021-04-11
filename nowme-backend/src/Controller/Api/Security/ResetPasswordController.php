@@ -38,7 +38,8 @@ final class ResetPasswordController extends AbstractApiController
 
     #[Route('/reset-password/{token}', name: 'reset_password', methods: ['POST'])]
     public function resetPassword(
-        Request $request
+        Request $request,
+        string $token
     ): Response {
         $form = $this->createForm(ResetPasswordForm::class);
 
@@ -50,8 +51,8 @@ final class ResetPasswordController extends AbstractApiController
 
         $this->dispatchMessage(
             new ResetPassword(
-                $form->get('token')->getData(),
-                $form->get('password')->getData()
+                $token,
+                $form->get('plainPassword')->getData()
             )
         );
 

@@ -6,7 +6,7 @@ framework:
     buses:
       command.bus:
         middleware:
-          - doctrine_transaction
+#          - doctrine_transaction
 
     transports:
       failed: 'doctrine://default?queue_name=failed&auto_setup=false'

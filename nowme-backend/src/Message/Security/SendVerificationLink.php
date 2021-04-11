@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace NowMe\Message;
+namespace NowMe\Message\Security;
 
 final class SendVerificationLink
 {
-    public function __construct(private string $username, private string $email)
+    public function __construct(private string $username, private string $email, private string $token)
     {
     }
 
@@ -20,4 +20,8 @@ final class SendVerificationLink
         return $this->email;
     }
 
+    public function token(): string
+    {
+        return $this->token;
+    }
 }

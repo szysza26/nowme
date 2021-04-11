@@ -15,6 +15,21 @@ final class DoctrineORMUserRepository implements UserRepository
 
     public function add(User $user): void
     {
-        $this->entityManager->persist($user);
+//        $this->entityManager->persist($user);
+    }
+
+    public function emailExist(string $email): bool
+    {
+        return true;
+    }
+
+    public function getByEmail(string $email): User
+    {
+        return new User();
+    }
+
+    public function getByResetPasswordToken(string $token): User
+    {
+        return new User();
     }
 }

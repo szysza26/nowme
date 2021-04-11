@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace NowMe\MessageHandler\Security;
 
 use NowMe\Message\Security\ResetPassword;
+use NowMe\Repository\UserRepository;
 use NowMe\Security\Model\User as SecurityUser;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 final class ResetPasswordHandler
 {
-    public function __construct(private $users, private EncoderFactoryInterface $encoderFactory)
+    public function __construct(private EncoderFactoryInterface $encoderFactory, private UserRepository $users)
     {
     }
 

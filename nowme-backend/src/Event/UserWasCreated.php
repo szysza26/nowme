@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace NowMe\Event;
 
-final class UserWasCreated
+use Symfony\Contracts\EventDispatcher\Event;
+
+final class UserWasCreated extends Event
 {
-    public function __construct(private string $username, private string $email)
+    public function __construct(private string $username, private string $email, private string $token)
     {
     }
 
@@ -18,5 +20,10 @@ final class UserWasCreated
     public function email(): string
     {
         return $this->email;
+    }
+
+    public function token(): string
+    {
+        return $this->token;
     }
 }

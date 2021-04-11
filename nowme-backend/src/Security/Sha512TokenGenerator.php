@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace NowMe\Security;
 
-final class ResetPasswordTokenGenerator
+final class Sha512TokenGenerator
 {
     public function generate(): string
     {

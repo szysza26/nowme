@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace NowMe\MessageHandler\Security;
 
 use NowMe\Message\Security\SendResetPasswordLink;
-use NowMe\Security\ResetPasswordTokenGenerator;
+use NowMe\Repository\UserRepository;
+use NowMe\Security\Sha512TokenGenerator;
 use NowMe\Service\Mailer\SecurityMailer;
 
 final class SendResetPasswordLinkHandler
 {
     public function __construct(
         private SecurityMailer $mailer,
-        private ResetPasswordTokenGenerator $passwordTokenGenerator,
-        private $users
+        private Sha512TokenGenerator $passwordTokenGenerator,
+        private UserRepository $users
     ) {
     }
 

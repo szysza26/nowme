@@ -30,7 +30,7 @@ final class SecurityMailer
         );
     }
 
-    public function sendVerificationLink(string $email, string $token): void
+    public function sendVerificationLink(string $email, string $username, string $token): void
     {
         $this->mailer->send(
             (new TemplatedEmail())->from(Address::create($this->sender))
@@ -40,6 +40,7 @@ final class SecurityMailer
                 ->context(
                     [
                         'userEmail' => $email,
+                        'username' => $username,
                         'token' => $token,
                     ]
                 )
