@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
-namespace AppBundle\Repository;
+namespace NowMe\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use NowMe\Entity\Office;
 
-class OfficeRepository extends EntityRepository
+interface OfficeRepository
 {
+    public function add(Office $office): void;
+
+    public function getByName(string $name): Office;
 }
