@@ -14,7 +14,7 @@ final class DoctrineORMUserRepository implements UserRepository
     private ObjectRepository $objectManager;
 
     public function __construct(EntityManagerInterface $entityManager)
-    {
+   {
         $this->entityManager = $entityManager;
         $this->objectManager = $this->entityManager->getRepository(User::class);
     }

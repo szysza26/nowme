@@ -44,7 +44,7 @@ final class User
     private string $lastName;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", length=512, unique=true, nullable=true)
      */
     private ?string $emailConfirmToken;
 
@@ -54,7 +54,7 @@ final class User
     private ?\DateTimeImmutable $emailConfirmedAt = null;
 
     /**
-     * @ORM\Column(type="string", nullable=true, unique=true)
+     * @ORM\Column(type="string", length=512, nullable=true, unique=true)
      */
     private ?string $resetPasswordToken = null;
 
