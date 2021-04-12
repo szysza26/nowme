@@ -46,7 +46,6 @@ final class RegistrationController extends AbstractApiController
     public function confirm(
         string $token
     ): Response {
-
         $this->dispatchMessage(new ConfirmEmail($token));
 
         return $this->json(['message' => 'E-mail address was confirmed.']);
