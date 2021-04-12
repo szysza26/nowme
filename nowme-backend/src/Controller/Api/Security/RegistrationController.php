@@ -6,6 +6,7 @@ namespace NowMe\Controller\Api\Security;
 
 use NowMe\Controller\Api\AbstractApiController;
 use NowMe\Form\Security\RegisterUserForm;
+use NowMe\Message\Security\ConfirmEmail;
 use NowMe\Message\Security\RegisterUser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 final class RegistrationController extends AbstractApiController
 {
     #[Route('/register', name: 'register', methods: ['POST'])]
-    public function __invoke(
+    public function register(
         Request $request
     ): Response {
         $form = $this->createForm(RegisterUserForm::class);
@@ -35,6 +36,16 @@ final class RegistrationController extends AbstractApiController
             )
         );
 
-        return $this->json('');
+        return $this->json(['message' => 'Your account has been created.']);
+    }
+
+    #[Route('/register/confirm/{token}', name: 'register_confirm', methods: ['POST'])]
+    public function confirm(
+        string $token
+    ): Response {
+
+        $this->dispatchMessage(new ConfirmEmail($token));
+
+        return $this->json(['message' => 'E-mail address was confirmed.']);
     }
 }
