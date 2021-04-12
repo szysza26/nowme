@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace NowMe\Controller\Api\Security;
 
 use NowMe\Controller\Api\AbstractApiController;
+use NowMe\Controller\Api\Security\Model\ResetPasswordRequest;
+use NowMe\Controller\Api\Security\Model\SendResetPasswordLinkRequest;
 use NowMe\Form\Security\ResetPasswordForm;
 use NowMe\Form\Security\SendResetPasswordLinkForm;
 use NowMe\Message\Security\ResetPassword;
@@ -19,7 +21,8 @@ final class ResetPasswordController extends AbstractApiController
     public function sendResetPasswordLink(
         Request $request
     ): Response {
-        $form = $this->createForm(SendResetPasswordLinkForm::class);
+        $sendResetPasswordLinkRequest = new SendResetPasswordLinkRequest();
+        $form = $this->createForm(SendResetPasswordLinkForm::class, $sendResetPasswordLinkRequest);
 
         $form->submit($this->parseJsonRequestContent($request));
 
@@ -27,11 +30,7 @@ final class ResetPasswordController extends AbstractApiController
             return $this->invalidFormValidationResponse($this->getErrors($form));
         }
 
-        $this->dispatchMessage(
-            new SendResetPasswordLink(
-                $form->get('email')->getData()
-            )
-        );
+        $this->dispatchMessage(new SendResetPasswordLink($sendResetPasswordLinkRequest->email));
 
         return $this->json(['message' => 'An email has been sent to your address']);
     }
@@ -41,7 +40,9 @@ final class ResetPasswordController extends AbstractApiController
         Request $request,
         string $token
     ): Response {
-        $form = $this->createForm(ResetPasswordForm::class);
+        $resetPasswordRequest = new ResetPasswordRequest();
+
+        $form = $this->createForm(ResetPasswordForm::class, $resetPasswordRequest);
 
         $form->submit($this->parseJsonRequestContent($request));
 
@@ -49,12 +50,7 @@ final class ResetPasswordController extends AbstractApiController
             return $this->invalidFormValidationResponse($this->getErrors($form));
         }
 
-        $this->dispatchMessage(
-            new ResetPassword(
-                $token,
-                $form->get('plainPassword')->getData()
-            )
-        );
+        $this->dispatchMessage(new ResetPassword($token, $resetPasswordRequest->plainPassword));
 
         return $this->json(['message' => 'Your password has been changed, you can now log in']);
     }
