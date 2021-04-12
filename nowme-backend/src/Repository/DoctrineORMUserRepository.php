@@ -14,7 +14,7 @@ final class DoctrineORMUserRepository implements UserRepository
     private ObjectRepository $objectManager;
 
     public function __construct(EntityManagerInterface $entityManager)
-   {
+    {
         $this->entityManager = $entityManager;
         $this->objectManager = $this->entityManager->getRepository(User::class);
     }
@@ -26,8 +26,14 @@ final class DoctrineORMUserRepository implements UserRepository
 
     public function emailExist(string $email): bool
     {
-        //@TODO fill implementation
-        return throw new \Exception('Fill implementation');
+        $sql = "SELECT 1 FROM NowMe\User u WHERE u.email = :email";
+
+        $result = $this->entityManager->createQuery($sql)
+            ->setParameter('email', $email)
+            ->setMaxResults(1)
+            ->getResult();
+
+        return !empty($result);
     }
 
     public function getByEmail(string $email): User
