@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 /**
  * @ORM\Entity
  */
-final class User
+class User
 {
     /**
      * @ORM\Id

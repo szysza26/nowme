@@ -16,7 +16,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 final class RegisterUserHandler
 {
     public function __construct(
-        private UserRepository $userRepository,
+        private UserRepository $users,
         private EncoderFactoryInterface $passwordEncoder,
         private EventDispatcherInterface $eventDispatcher,
         private Sha512TokenGenerator $generator
@@ -25,6 +25,10 @@ final class RegisterUserHandler
 
     public function __invoke(RegisterUser $message): void
     {
+        if ($this->users->emailOrUsernameExist($message->email(), $message->username())) {
+            throw new \Exception('User exists');
+        }
+
         $token = $this->generator->generate();
 
         $user = User::create(
@@ -36,7 +40,7 @@ final class RegisterUserHandler
             $token
         );
 
-        $this->userRepository->add($user);
+        $this->users->add($user);
 
         $this->eventDispatcher->dispatch(
             new UserWasCreated($message->username(), $message->email(), $token)

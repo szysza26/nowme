@@ -12,6 +12,8 @@ interface UserRepository
 
     public function emailExist(string $email): bool;
 
+    public function emailOrUsernameExist(string $email, string $username): bool;
+
     public function getByEmail(string $email): User;
 
     public function getByResetPasswordToken(string $token): User;

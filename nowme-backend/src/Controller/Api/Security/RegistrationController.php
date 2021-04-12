@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace NowMe\Controller\Api\Security;
 
 use NowMe\Controller\Api\AbstractApiController;
+use NowMe\Controller\Api\Security\Model\RegisterRequest;
 use NowMe\Form\Security\RegisterUserForm;
 use NowMe\Message\Security\ConfirmEmail;
 use NowMe\Message\Security\RegisterUser;
@@ -18,7 +19,9 @@ final class RegistrationController extends AbstractApiController
     public function register(
         Request $request
     ): Response {
-        $form = $this->createForm(RegisterUserForm::class);
+        $registerRequest = new RegisterRequest();
+
+        $form = $this->createForm(RegisterUserForm::class, $registerRequest);
 
         $form->submit($this->parseJsonRequestContent($request));
 
@@ -28,11 +31,11 @@ final class RegistrationController extends AbstractApiController
 
         $this->dispatchMessage(
             new RegisterUser(
-                $form->get('username')->getData(),
-                $form->get('plainPassword')->getData(),
-                $form->get('email')->getData(),
-                $form->get('firstName')->getData(),
-                $form->get('lastName')->getData(),
+                $registerRequest->username,
+                $registerRequest->plainPassword,
+                $registerRequest->email,
+                $registerRequest->firstName,
+                $registerRequest->lastName,
             )
         );
 
@@ -43,7 +46,6 @@ final class RegistrationController extends AbstractApiController
     public function confirm(
         string $token
     ): Response {
-
         $this->dispatchMessage(new ConfirmEmail($token));
 
         return $this->json(['message' => 'E-mail address was confirmed.']);

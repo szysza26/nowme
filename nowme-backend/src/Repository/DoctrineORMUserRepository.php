@@ -68,4 +68,21 @@ final class DoctrineORMUserRepository implements UserRepository
 
         return $user;
     }
+
+    public function emailOrUsernameExist(string $email, string $username): bool
+    {
+        $sql = "SELECT 1 FROM NowMe\Entity\User u WHERE u.email = :email OR u.username = :username";
+
+        $result = $this->entityManager->createQuery($sql)
+            ->setParameters(
+                [
+                    'email' => $email,
+                    'username' => $username,
+                ]
+            )
+            ->setMaxResults(1)
+            ->getResult();
+
+        return !empty($result);
+    }
 }
