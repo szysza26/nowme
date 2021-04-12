@@ -26,7 +26,7 @@ final class DoctrineORMUserRepository implements UserRepository
 
     public function emailExist(string $email): bool
     {
-        $sql = "SELECT 1 FROM NowMe\User u WHERE u.email = :email";
+        $sql = "SELECT 1 FROM NowMe\Entity\User u WHERE u.email = :email";
 
         $result = $this->entityManager->createQuery($sql)
             ->setParameter('email', $email)
