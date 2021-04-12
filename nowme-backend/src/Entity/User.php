@@ -4,17 +4,63 @@ declare(strict_types=1);
 
 namespace NowMe\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\GeneratedValue;
+
+/**
+ * @ORM\Entity
+ */
 final class User
 {
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @GeneratedValue
+     */
+    private int $id;
+
+    /**
+     * @ORM\Column(type="string", unique=true)
+     */
     private string $username;
+
+    /**
+     * @ORM\Column(type="string", unique=true)
+     */
     private string $email;
+    /**
+     * @ORM\Column(type="string")
+     */
     private string $password;
+
+    /**
+     * @ORM\Column(type="string", length=30)
+     */
     private string $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=60)
+     */
     private string $lastName;
-    private string $token;
-    private string $emailConfirmToken;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $emailConfirmToken;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
     private ?\DateTimeImmutable $emailConfirmedAt = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, unique=true)
+     */
     private ?string $resetPasswordToken = null;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
     private \DateTimeImmutable $createdAt;
 
     public static function create(
@@ -37,9 +83,14 @@ final class User
         return $self;
     }
 
-    public function setResetPasswordToken(string $token): void
+    public function id(): int
     {
-        $this->token = $token;
+        return $this->id;
+    }
+
+    public function setResetPasswordToken(string $resetPasswordToken): void
+    {
+        $this->resetPasswordToken = $resetPasswordToken;
     }
 
     public function resetPassword(string $token, string $encodePassword): void
@@ -62,6 +113,7 @@ final class User
             throw new \InvalidArgumentException('Invalid confirm e-mail token');
         }
 
+        $this->emailConfirmToken = null;
         $this->emailConfirmedAt = new \DateTimeImmutable();
     }
 }
