@@ -10,7 +10,7 @@ import SignIn from './pages/Auth/SignIn';
 import SignUp from './pages/Auth/SignUp';
 import ResetPasswordForm from "./pages/Auth/ResetPasswordForm";
 import jwt_decode from 'jwt-decode';
-
+import Offices from './pages/offices/Offices';
 
 const VALID_TOKEN_MS = 60000;
 
@@ -24,6 +24,8 @@ function App() {
         }, VALID_TOKEN_MS);
         
         return () => clearInterval(interval);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
@@ -60,6 +62,9 @@ function App() {
                     </Route>
                     <Route exact path="/specialists">
                         <Specialists />
+                    </Route>
+                    <Route path="/offices">
+                        <Offices />
                     </Route>
                     </>
                     }
