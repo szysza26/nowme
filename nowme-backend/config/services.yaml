@@ -30,6 +30,9 @@ services:
   NowMe\Repository\DoctrineORMUserRepository: ~
   NowMe\Repository\UserRepository: '@NowMe\Repository\DoctrineORMUserRepository'
 
+  NowMe\Repository\DoctrineORMOfficeRepository: ~
+  NowMe\Repository\OfficeRepository: '@NowMe\Repository\DoctrineORMOfficeRepository'
+
   NowMe\EventListener\:
     resource: '../src/EventListener/'
     tags:

@@ -18,7 +18,7 @@ services:
     volumes:
       - ./nowme-backend:/var/www/symfony:cached
     depends_on:
-      - db
+      - mysql
 
   mysql:
     image: mysql:8.0.23
