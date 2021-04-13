@@ -16,19 +16,25 @@ final class DoctrineORMOfficeRepository implements OfficeRepository
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->objectManager = $this->entityManager->getRepository(User::class);
+        $this->objectManager = $this->entityManager->getRepository(Office::class);
     }
 
     public function add(Office $office): void
     {
         $this->entityManager->persist($office);
+        $this->entityManager->flush();
+    }
+
+    public function all(): array
+    {
+        return $this->objectManager->findAll();
     }
 
     public function getByName(string $name): Office
     {
         $office = $this->objectManager->findOneBy(['name' => $name]);
 
-        if (!$user instanceof Office) {
+        if (!$office instanceof Office) {
             throw new \InvalidArgumentException(sprintf('Office with name %s not found', $name));
         }
 

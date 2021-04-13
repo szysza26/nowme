@@ -21,7 +21,7 @@ final class OfficeController extends AbstractApiController
         $this->officeRepository = $officeRepository;
     }
 
-    #[Route('/offices', name: 'office_create', methods: ['POST'])]
+    #[Route('/offices', name: 'create_office', methods: ['POST'])]
     public function create(Request $request): Response {
         $form = $this->createForm(AddOfficeForm::class);
 
@@ -33,14 +33,21 @@ final class OfficeController extends AbstractApiController
         
 
         $office = new Office();
-        $office->name = $form->get("name")->getData();
-        $office->street = $form->get("street")->getData();
-        $office->houseNumber = $form->get("houseNumber")->getData();
-        $office->city = $form->get("city")->getData();
-        $office->zip = $form->get("zip")->getData();
+        $office->setName($form->get("name")->getData());
+        $office->setStreet($form->get("street")->getData());
+        $office->setHouseNumber($form->get("houseNumber")->getData());
+        $office->setCity($form->get("city")->getData());
+        $office->setZip($form->get("zip")->getData());
 
         $this->officeRepository->add($office);
 
         return $this->json([$office]);
+    }
+
+    #[Route('/offices', name: 'office_list', methods: ['GET'])]
+    public function index(Request $request): Response {
+        $offices = $this->officeRepository->all();
+
+        return $this->json([$offices]);
     }
 }

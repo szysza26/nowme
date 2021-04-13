@@ -10,5 +10,7 @@ interface OfficeRepository
 {
     public function add(Office $office): void;
 
+    public function all(): array;
+
     public function getByName(string $name): Office;
 }
