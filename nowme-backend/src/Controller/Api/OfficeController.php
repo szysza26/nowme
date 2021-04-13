@@ -48,6 +48,6 @@ final class OfficeController extends AbstractApiController
     public function index(Request $request): Response {
         $offices = $this->officeRepository->all();
 
-        return $this->json([$offices]);
+        return $this->json($offices);
     }
 }
