@@ -21,6 +21,18 @@ final class OfficeController extends AbstractApiController
         $this->officeRepository = $officeRepository;
     }
 
+    #[Route('/offices', name: 'list_offices', methods: ['GET'])]
+    public function index(Request $request): Response {
+        $offices = $this->officeRepository->all();
+        return $this->json($offices);
+    }
+
+    #[Route('/offices/{id}', name: 'show_office', methods: ['GET'])]
+    public function show(Request $request, int $id): Response {
+        $office = $this->officeRepository->get($id);
+        return $this->json($office);
+    }
+
     #[Route('/offices', name: 'create_office', methods: ['POST'])]
     public function create(Request $request): Response {
         $form = $this->createForm(AddOfficeForm::class);
@@ -41,13 +53,41 @@ final class OfficeController extends AbstractApiController
 
         $this->officeRepository->add($office);
 
-        return $this->json([$office]);
+        return $this->json(['message' => 'ok']);
     }
 
-    #[Route('/offices', name: 'office_list', methods: ['GET'])]
-    public function index(Request $request): Response {
-        $offices = $this->officeRepository->all();
+    #[Route('/offices/{id}', name: 'update_office', methods: ['PUT'])]
+    public function update(Request $request, int $id): Response {
+        $form = $this->createForm(AddOfficeForm::class);
 
-        return $this->json($offices);
+        $form->submit($this->parseJsonRequestContent($request));
+
+        if (!$form->isValid()) {
+            return $this->invalidFormValidationResponse($this->getErrors($form));
+        }
+
+        $office = $this->officeRepository->get($id);
+
+        $office->setName($form->get("name")->getData());
+        $office->setStreet($form->get("street")->getData());
+        $office->setHouseNumber($form->get("houseNumber")->getData());
+        $office->setCity($form->get("city")->getData());
+        $office->setZip($form->get("zip")->getData());
+
+        $this->officeRepository->edit($office);
+
+        return $this->json(['message' => 'ok']);
     }
+
+    #[Route('/offices/{id}', name: 'destroy_office', methods: ['DELETE'])]
+    public function destroy(Request $request, int $id): Response {
+        $office = $this->officeRepository->get($id);
+        $this->officeRepository->delete($office);
+
+        return $this->json(['message' => 'ok']);
+    }
+
+
+
+
 }

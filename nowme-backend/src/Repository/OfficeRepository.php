@@ -10,7 +10,11 @@ interface OfficeRepository
 {
     public function add(Office $office): void;
 
-    public function all(): array;
+    public function edit(Office $office): void;
 
-    public function getByName(string $name): Office;
+    public function delete(Office $office): void;
+
+    public function get(int $id) : Office;
+
+    public function all(): array;
 }
