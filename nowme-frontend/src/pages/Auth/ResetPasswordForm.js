@@ -37,12 +37,24 @@ const ResetPasswordForm = (props) => {
 
   const history = useHistory();
 
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('');
+  const [resetToken, setResetToken] = useState('');
+  const [passwordFirst, setPasswordFirst] = useState('');
+  const [passwordSecond, setPasswordSecond] = useState('');
 
   const handleChange = (event) => {
     switch(event.target.name){
         case 'email':
             setEmail(event.target.value);
+            break;
+        case 'resetToken':
+            setResetToken(event.target.value);
+            break;
+        case 'passwordFirst':
+            setPasswordFirst(event.target.value);
+            break;
+        case 'passwordSecond':
+            setPasswordSecond(event.target.value);
             break;
         default:
             console.log('can not handle this value');
@@ -50,8 +62,6 @@ const ResetPasswordForm = (props) => {
   }
 
   const send = () => {
-    console.log("send", email);
-    return;
 
     let axiosConfig = {
       headers: {
@@ -65,11 +75,33 @@ const ResetPasswordForm = (props) => {
 
     axios.post("http://localhost:8000/api/reset-password", data, axiosConfig)
       .then((res) => {
-        console.log(res)
+        setEmail('');
+        console.log(res);
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
       })
+  }
+
+  const changePassword = () => {
+    let axiosConfig = {
+      headers: {
+        "Content-Type": 'application/json',
+      }
+    };
+
+    let data = {
+      "email": email,
+    }
+
+    axios.post(`http://localhost:8000/api/reset-password/${resetToken}`, data, axiosConfig)
+        .then((res) => {
+          setEmail('');
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
   }
 
   return (
@@ -80,7 +112,7 @@ const ResetPasswordForm = (props) => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Reset Password
+          Get Token
         </Typography>
         <form className={classes.form} noValidate >
           <TextField
@@ -102,7 +134,59 @@ const ResetPasswordForm = (props) => {
             className={classes.submit}
             onClick={send}
           >
-            Send
+            Wyślij
+          </Button>
+        </form>
+        <Typography component="h1" variant="h5">
+          Reset Password
+        </Typography>
+        <form className={classes.form} noValidate >
+          <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="resetToken"
+              label="Token"
+              name="resetToken"
+              autoFocus
+              value={resetToken}
+              onChange={handleChange}
+          />
+          <Grid item xs={12}>
+            <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="passwordFirst"
+                label="Password"
+                type="password"
+                id="passwordFirst"
+                value={passwordFirst}
+                onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="passwordSecond"
+                label="Password"
+                type="password"
+                id="passwordSecond"
+                value={passwordSecond}
+                onChange={handleChange}
+            />
+          </Grid>
+          <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={changePassword}
+          >
+            Zmień
           </Button>
         </form>
       </div>
