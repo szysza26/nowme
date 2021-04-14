@@ -11,6 +11,7 @@ import SignUp from './pages/Auth/SignUp';
 import ResetPasswordForm from "./pages/Auth/ResetPasswordForm";
 import jwt_decode from 'jwt-decode';
 import Offices from './pages/offices/Offices';
+import Services from './pages/services/Services';
 
 const VALID_TOKEN_MS = 60000;
 
@@ -65,6 +66,9 @@ function App() {
                     </Route>
                     <Route path="/offices">
                         <Offices />
+                    </Route>
+                    <Route path="/services">
+                        <Services />
                     </Route>
                     </>
                     }
