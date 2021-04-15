@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace NowMe\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\GeneratedValue;
 
@@ -63,6 +65,16 @@ class User
      */
     private \DateTimeImmutable $createdAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Service::class, mappedBy="specjalist")
+     */
+    private $services;
+
+    public function __construct()
+    {
+        $this->services = new ArrayCollection();
+    }
+
     public static function create(
         string $username,
         string $email,
@@ -115,5 +127,35 @@ class User
 
         $this->emailConfirmToken = null;
         $this->emailConfirmedAt = new \DateTimeImmutable();
+    }
+
+    /**
+     * @return Collection|Service[]
+     */
+    public function getServices(): Collection
+    {
+        return $this->services;
+    }
+
+    public function addService(Service $service): self
+    {
+        if (!$this->services->contains($service)) {
+            $this->services[] = $service;
+            $service->setSpecjalist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeService(Service $service): self
+    {
+        if ($this->services->removeElement($service)) {
+            // set the owning side to null (unless already changed)
+            if ($service->getSpecjalist() === $this) {
+                $service->setSpecjalist(null);
+            }
+        }
+
+        return $this;
     }
 }

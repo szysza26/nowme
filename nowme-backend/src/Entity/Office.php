@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace NowMe\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\GeneratedValue;
 
@@ -43,6 +45,16 @@ final class Office
      * @ORM\Column(type="string", length=255)
      */
     private $zip;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Service::class, mappedBy="offices")
+     */
+    private $services;
+
+    public function __construct()
+    {
+        $this->services = new ArrayCollection();
+    }
 
     public function getId() : int
     {
@@ -105,6 +117,33 @@ final class Office
     public function setZip(string $zip) : self
     {
         $this->zip = $zip;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Service[]
+     */
+    public function getServices(): Collection
+    {
+        return $this->services;
+    }
+
+    public function addService(Service $service): self
+    {
+        if (!$this->services->contains($service)) {
+            $this->services[] = $service;
+            $service->addOffice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeService(Service $service): self
+    {
+        if ($this->services->removeElement($service)) {
+            $service->removeOffice($this);
+        }
 
         return $this;
     }
