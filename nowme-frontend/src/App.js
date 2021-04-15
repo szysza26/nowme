@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import axios from 'axios';
 
 import Home from './pages/Home';
 import Specialists from './pages/specialists/Specialists';
@@ -20,17 +21,14 @@ function App() {
     const [token, setToken] = useState(localStorage.getItem('token'));
 
     useEffect(() => {
+        token ? localStorage.setItem('token', token) : localStorage.removeItem('token');
+        axios.defaults.headers.common['Authorization'] = "Bearer " + token;
+
         const interval = setInterval(() => {
             token && (jwt_decode(token).exp * 1000) < (Date.now() - (2* VALID_TOKEN_MS)) && setToken(null);
         }, VALID_TOKEN_MS);
-        
+
         return () => clearInterval(interval);
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    useEffect(() => {
-        token ? localStorage.setItem('token', token) : localStorage.removeItem('token');
     }, [token])
 
     return (
@@ -61,7 +59,7 @@ function App() {
                     <Route exact path="/logout">
                         <Logout setToken={setToken} />
                     </Route>
-                    <Route exact path="/specialists">
+                    <Route path="/specialists">
                         <Specialists />
                     </Route>
                     <Route path="/offices">

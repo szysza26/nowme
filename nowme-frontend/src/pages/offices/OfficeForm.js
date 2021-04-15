@@ -96,21 +96,30 @@ const OfficesForm = (props) => {
             zip
         }
 
-        let url = props.action === "add" ? "http://localhost:8000/api/offices" : `http://localhost:8000/api/offices/${params.id}/edit`;
-      
-        axios.post(url, data, axiosConfig)
-            .then((res) => {
-              setName('');
-              setStreet('');
-              setHouseNumber('');
-              setCity('');
-              setZip('');
-              setSuccess(true);
-            })
-            .catch((error) => {
-              console.log(error)
-              setError(true);
-            })
+        if(props.action === "add") {
+            axios.post("http://localhost:8000/api/offices", data, axiosConfig)
+                .then((res) => {
+                    setName('');
+                    setStreet('');
+                    setHouseNumber('');
+                    setCity('');
+                    setZip('');
+                    setSuccess(true);
+                })
+                .catch((error) => {
+                    console.log(error)
+                    setError(true);
+                })
+        }else if(props.action === "edit"){
+            axios.put(`http://localhost:8000/api/offices/${params.id}`, data, axiosConfig)
+                .then((res) => {
+                    setSuccess(true);
+                })
+                .catch((error) => {
+                    console.log(error)
+                    setError(true);
+                })
+        }
     }
 
     return (

@@ -54,6 +54,7 @@ const ServicesList = (props) => {
         axios.delete(`http://localhost:8000/api/services/${id}`)
             .then((res) => {
               setSuccess(true);
+                setServices(services.filter(service => service.id !== id));
             })
             .catch((error) => {
               console.log(error)

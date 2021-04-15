@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -96,8 +95,8 @@ const ResetPasswordForm = (props) => {
 
     axios.post(`http://localhost:8000/api/reset-password/${resetToken}`, data, axiosConfig)
         .then((res) => {
-          setEmail('');
           console.log(res);
+          history.push('/siginin');
         })
         .catch((error) => {
           console.log(error);

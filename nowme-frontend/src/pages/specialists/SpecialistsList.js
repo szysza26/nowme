@@ -13,7 +13,7 @@ const useStyles = makeStyles({
 
 const SpecialistsList = (props) => {
     const classes = useStyles();
-    const [specjalists, setSpecjalists] = useState(null);
+    const [specialists, setSpecialists] = useState(null);
     const history = useHistory();
 
     const [success, setSuccess] = useState(false);
@@ -33,9 +33,9 @@ const SpecialistsList = (props) => {
 
     useEffect(() => {
 
-        axios.get("http://localhost:8000/api/specjalists")
+        axios.get("http://localhost:8000/api/specialists")
             .then((res) => {
-                setSpecjalists(res.data)
+                setSpecialists(res.data)
             })
             .catch((error) => {
                 console.log(error)
@@ -45,15 +45,16 @@ const SpecialistsList = (props) => {
     }, [])
 
     const handleClickShow = (id) => {
-        history.push(`/specjalists/show/${id}`);
+        history.push(`/specialists/show/${id}`);
     }
     const handleClickEdit = (id) => {
-        history.push(`/specjalists/edit/${id}`);
+        history.push(`/specialists/edit/${id}`);
     }
     const handleClickDelete = (id) => {
-        axios.delete(`http://localhost:8000/api/specjalists/${id}`)
+        axios.delete(`http://localhost:8000/api/specialists/${id}`)
             .then((res) => {
                 setSuccess(true);
+                setSpecialists(specialists.filter(specialist => specialist.id !== id));
             })
             .catch((error) => {
                 console.log(error)
@@ -64,7 +65,7 @@ const SpecialistsList = (props) => {
     return (
         <>
             <Paper className={classes.paper}>
-                <Typography variant="h6" gutterBottom>Lista specjalistów: </Typography>
+                <Typography variant="h6" gutterBottom>Lista specialistów: </Typography>
                 {success && <Alert severity="success">Sukces</Alert>}
                 {error && <Alert severity="error">Niepowodzenie</Alert>}
                 <Table className={classes.table} aria-label="simple table">
@@ -78,7 +79,7 @@ const SpecialistsList = (props) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {specjalists && specjalists.map((row, index) => (
+                        {specialists && specialists.map((row, index) => (
                             <TableRow key={row.id}>
                                 <TableCell align="center" component="th" scope="row">{row.id}</TableCell>
                                 <TableCell align="center">{row.firstName}</TableCell>

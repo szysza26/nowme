@@ -117,7 +117,7 @@ const SpecialistsForm = (props) => {
                 {success && <Alert severity="success">Sukces</Alert>}
                 {error && <Alert severity="error">Niepowodzenie</Alert>}
                 <Grid container spacing={3}>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} md={6}>
                         <TextField
                             required
                             name="firstName"
@@ -139,7 +139,7 @@ const SpecialistsForm = (props) => {
                             onChange={handleChange}
                         />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                         <TextField
                             required
                             name="spec"

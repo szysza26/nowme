@@ -79,7 +79,8 @@ const Main = (props) => {
             <List>
                 {props.token &&
                 <>
-                <ListItemLink icon={<AccessibilityIcon/>} primary={'Spiecjaliści'} to={'/specialists'}/>
+                <ListItemLink icon={<AccessibilityIcon/>} primary={'Spiecjaliści'} to={'/specialists/list'}/>
+                <ListItemLink icon={<AccessibilityIcon/>} primary={'Dodawanie specjalisty'} to={'/specialists/add'}/>
                 <Divider />
                 <ListItemLink icon={<AccessibilityIcon/>} primary={'Gabinety'} to={'/offices/list'}/>
                 <ListItemLink icon={<AccessibilityIcon/>} primary={'Dodawanie gabinetu'} to={'/offices/add'}/>

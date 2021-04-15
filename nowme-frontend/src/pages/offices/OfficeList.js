@@ -54,6 +54,7 @@ const OfficesList = (props) => {
         axios.delete(`http://localhost:8000/api/offices/${id}`)
             .then((res) => {
               setSuccess(true);
+              setOffices(offices.filter(office => office.id !== id));
             })
             .catch((error) => {
               console.log(error)
