@@ -4,6 +4,7 @@ namespace NowMe\Controller\Api;
 
 use Doctrine\Persistence\ObjectManager;
 use NowMe\Entity\Service;
+use NowMe\Form\Service\AddServiceForm;
 use NowMe\Repository\DoctrineORMOfficeRepository;
 use NowMe\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
