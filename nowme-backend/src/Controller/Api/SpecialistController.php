@@ -47,6 +47,17 @@ class SpecialistController extends AbstractApiController
         return $this->json($this->transformSpecialists($specialists));
     }
 
+    #[Route('/specialists', name: 'specialists', methods: ['DELETE'])]
+    public function deleteSpecialist(Request $request): Response
+    {
+//        $user = $this->userRepository
+//            ->getByUsername($form->get('username')->getData());
+//
+//        $this->entityManager->remove($user);
+
+        return $this->json(['message' => 'Specialist was deleted successfully.']);
+    }
+
     /**
      * Tak wiem to można wydzielić do nowej klasy np SpecialistsTransformer
      */

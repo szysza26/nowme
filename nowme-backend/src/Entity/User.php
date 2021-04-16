@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace NowMe\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -66,18 +65,6 @@ class User implements UserInterface
      */
     private \DateTimeImmutable $createdAt;
 
-//    /**
-//     * @ORM\OneToMany(targetEntity=Service::class, mappedBy="specjalist")
-//     * @ORM\JoinColumn(nullable=true)
-//     */
-//    private $services;
-//
-//    /**
-//     * @ORM\ManyToMany (targetEntity=Office::class, mappedBy="specjalists")
-//     * @ORM\JoinColumn(nullable=true)
-//     */
-//    private $offices;
-
     /**
      * @var string[]
      */
@@ -85,8 +72,6 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->services = new ArrayCollection();
-        $this->offices = new ArrayCollection();
     }
 
     public static function create(
@@ -161,60 +146,6 @@ class User implements UserInterface
 
         $this->roles[] = $role;
     }
-
-//    /**
-//     * @return Collection|Service[]
-//     */
-//    public function getServices(): Collection
-//    {
-//        return $this->services;
-//    }
-//
-//    public function addService(Service $service): self
-//    {
-//        if (!$this->services->contains($service)) {
-//            $this->services[] = $service;
-//            $service->setSpecjalist($this);
-//        }
-//
-//        return $this;
-//    }
-//
-//    public function removeService(Service $service): self
-//    {
-//        if ($this->services->removeElement($service)) {
-//            // set the owning side to null (unless already changed)
-//            if ($service->getSpecjalist() === $this) {
-//                $service->setSpecjalist(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * @return Collection|Office[]
-//     */
-//    public function getOffices(): Collection
-//    {
-//        return $this->offices;
-//    }
-//
-//    public function addOffice(Office $office): self
-//    {
-//        if (!$this->offices->contains($office)) {
-//            $this->offices[] = $office;
-//        }
-//
-//        return $this;
-//    }
-//
-//    public function removeOffice(Office $office): self
-//    {
-//        $this->offices->removeElement($office);
-//
-//        return $this;
-//    }
 
     public function getRoles()
     {
