@@ -3,6 +3,7 @@
 namespace NowMe\Controller\Api;
 
 use Doctrine\ORM\EntityManagerInterface;
+use NowMe\Entity\User;
 use NowMe\Form\Specialist\CreateSpecialistForm;
 use NowMe\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,5 +37,30 @@ class SpecialistController extends AbstractApiController
         $this->entityManager->flush();
 
         return $this->json(['message' => 'Specialist role was assigned successfuly.']);
+    }
+
+    #[Route('/specialists', name: 'specialists', methods: ['GET'])]
+    public function list(): Response
+    {
+        $specialists = $this->userRepository->all();
+
+        return $this->json($this->transformSpecialists($specialists));
+    }
+
+    /**
+     * Tak wiem to można wydzielić do nowej klasy np SpecialistsTransformer
+     */
+    private function transformSpecialists(array $specialists): array
+    {
+        return array_map(
+            static function (User $specialist) {
+                return [
+                    'id' => $specialist->id(),
+                    'first_name' => $specialist->firstName(),
+                    'last_name' => $specialist->lastName(),
+                ];
+            },
+            $specialists
+        );
     }
 }

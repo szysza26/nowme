@@ -21,4 +21,6 @@ interface UserRepository
     public function getByResetPasswordToken(string $token): User;
 
     public function getByConfirmEmailToken(string $token): User;
+
+    public function all(): array;
 }

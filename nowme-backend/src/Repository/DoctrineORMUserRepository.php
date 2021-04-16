@@ -96,4 +96,9 @@ final class DoctrineORMUserRepository implements UserRepository
 
         return $user;
     }
+
+    public function all(): array
+    {
+        return $this->objectManager->findAll();
+    }
 }
