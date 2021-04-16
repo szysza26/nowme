@@ -31,12 +31,13 @@ class Service
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="services")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $specjalist;
 
     /**
      * @ORM\ManyToMany(targetEntity=Office::class, inversedBy="services")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $offices;
 

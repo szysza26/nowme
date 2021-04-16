@@ -21,7 +21,7 @@ const ServicesForm = (props) => {
 
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
-    const [time, setTime] = useState('');
+    const [duration, setDuration] = useState('');
 
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
@@ -44,11 +44,11 @@ const ServicesForm = (props) => {
                 .then((res) => {
                     setName(res.data.name);
                     setPrice(res.data.price);
-                    setTime(res.data.time);
+                    setDuration(res.data.duration);
                 })
                 .catch((error) => {
                     console.log(error)
-                    history.push('/offices/list');
+                    history.push('/services/list');
                 });
         }
         
@@ -63,8 +63,8 @@ const ServicesForm = (props) => {
             case 'price':
                 setPrice(event.target.value);
                 break;
-            case 'time':
-                setTime(event.target.value);
+            case 'duration':
+                setDuration(event.target.value);
                 break;
             default:
                 console.log('can not handle this value');
@@ -81,7 +81,7 @@ const ServicesForm = (props) => {
         let data = {
             name,
             price,
-            time,
+            duration,
         }
 
         if(props.action === "add"){
@@ -89,7 +89,7 @@ const ServicesForm = (props) => {
                 .then((res) => {
                   setName('');
                   setPrice('');
-                  setTime('');
+                  setDuration('');
                   setSuccess(true);
                 })
                 .catch((error) => {
@@ -97,7 +97,7 @@ const ServicesForm = (props) => {
                   setError(true);
                 })
         } else if(props.action === "edit"){
-            axios.put(`http://localhost:8000/api/offices/${params.id}`, data, axiosConfig)
+            axios.put(`http://localhost:8000/api/services/${params.id}`, data, axiosConfig)
                 .then((res) => {
                     setSuccess(true);
                 })
@@ -142,11 +142,11 @@ const ServicesForm = (props) => {
                 <Grid item xs={12} md={6}>
                     <TextField
                         required
-                        name="time"
+                        name="duration"
                         label="Czas usługi"
                         fullWidth
                         InputProps={props.action === 'show' ? {readOnly: true,} : {}}
-                        value={time}
+                        value={duration}
                         onChange={handleChange}
                     />
                 </Grid>

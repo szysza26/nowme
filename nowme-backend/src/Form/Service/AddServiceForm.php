@@ -15,8 +15,8 @@ class AddServiceForm extends AbstractType
             ->add('name')
             ->add('price')
             ->add('duration')
-            ->add('specjalist')
-            ->add('offices')
+            //->add('specjalist')
+            //->add('offices')
         ;
     }
 

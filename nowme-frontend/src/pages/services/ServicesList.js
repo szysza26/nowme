@@ -74,6 +74,7 @@ const ServicesList = (props) => {
                         <TableCell align="center">Id</TableCell>
                         <TableCell align="center">Nazwa</TableCell>
                         <TableCell align="center">Cena</TableCell>
+                        <TableCell align="center">Czas</TableCell>
                         <TableCell align="center">Akcja</TableCell>
                     </TableRow>
                 </TableHead>
@@ -83,6 +84,7 @@ const ServicesList = (props) => {
                         <TableCell align="center" component="th" scope="row">{row.id}</TableCell>
                         <TableCell align="center">{row.name}</TableCell>
                         <TableCell align="center">{row.price}</TableCell>
+                        <TableCell align="center">{row.duration}</TableCell>
                         <TableCell align="center">
                             <ButtonGroup variant="contained" aria-label="contained button group">
                                 <Button onClick={() => handleClickShow(row.id)} size="small" color="primary">Show</Button>

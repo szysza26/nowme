@@ -18,4 +18,22 @@ class ServiceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Service::class);
     }
+
+    public function add(Service $service) : void
+    {
+        $this->getEntityManager()->persist($service);
+        $this->getEntityManager()->flush();
+    }
+
+    public function edit(Service $service) : void
+    {
+        $this->getEntityManager()->persist($service);
+        $this->getEntityManager()->flush();
+    }
+
+    public function delete(Service $service) : void
+    {
+        $this->getEntityManager()->remove($service);
+        $this->getEntityManager()->flush();
+    }
 }

@@ -67,12 +67,20 @@ class User
 
     /**
      * @ORM\OneToMany(targetEntity=Service::class, mappedBy="specjalist")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $services;
+
+    /**
+     * @ORM\ManyToMany (targetEntity=Office::class, mappedBy="specjalists")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $offices;
 
     public function __construct()
     {
         $this->services = new ArrayCollection();
+        $this->offices = new ArrayCollection();
     }
 
     public static function create(
@@ -155,6 +163,30 @@ class User
                 $service->setSpecjalist(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Office[]
+     */
+    public function getOffices(): Collection
+    {
+        return $this->offices;
+    }
+
+    public function addOffice(Office $office): self
+    {
+        if (!$this->offices->contains($office)) {
+            $this->offices[] = $office;
+        }
+
+        return $this;
+    }
+
+    public function removeOffice(Office $office): self
+    {
+        $this->offices->removeElement($office);
 
         return $this;
     }

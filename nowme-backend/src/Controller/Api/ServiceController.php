@@ -2,25 +2,22 @@
 
 namespace NowMe\Controller\Api;
 
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use NowMe\Entity\Service;
 use NowMe\Form\Service\AddServiceForm;
 use NowMe\Repository\DoctrineORMOfficeRepository;
 use NowMe\Repository\ServiceRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ServiceController extends AbstractController
+class ServiceController extends AbstractApiController
 {
     private ServiceRepository $serviceRepository;
-    private ObjectManager $entityManager;
 
     public function __construct(ServiceRepository $serviceRepository)
     {
         $this->serviceRepository = $serviceRepository;
-        $this->entityManager = $this->getDoctrine()->getManager();
     }
 
     #[Route('/services', name: 'list_services', methods: ['GET'])]
@@ -31,13 +28,13 @@ class ServiceController extends AbstractController
 
     #[Route('/services/{id}', name: 'show_service', methods: ['GET'])]
     public function show(Request $request, int $id): Response {
-        $office = $this->serviceRepository->get($id);
+        $office = $this->serviceRepository->find($id);
         return $this->json($office);
     }
 
     #[Route('/services', name: 'create_service', methods: ['POST'])]
     public function create(Request $request): Response {
-        $form = $this->createForm(AddSericeForm::class);
+        $form = $this->createForm(AddServiceForm::class);
 
         $form->submit($this->parseJsonRequestContent($request));
 
@@ -49,16 +46,15 @@ class ServiceController extends AbstractController
         $service
             ->setName($form->get("name")->getData())
             ->setPrice($form->get("price")->getData())
-            ->setDuration($form->get("duration")->getData())
-            ->setSpecjalist($this->getUser())
-            ->removeOffices();
-        $officeRepository = new DoctrineORMOfficeRepository();
-        foreach ($form->get("officeIds")->getData() as $officeId) {
-            $service->addOffice($officeRepository->get($officeId));
-        }
+            ->setDuration($form->get("duration")->getData());
+//            ->setSpecjalist($this->getUser())
+//            ->removeOffices();
+//        $officeRepository = new DoctrineORMOfficeRepository();
+//        foreach ($form->get("officeIds")->getData() as $officeId) {
+//            $service->addOffice($officeRepository->get($officeId));
+//        }
 
-        $this->entityManager->persist($service);
-        $this->entityManager->flush();
+        $this->serviceRepository->add($service);
 
         return $this->json(['message' => 'ok']);
     }
@@ -77,25 +73,24 @@ class ServiceController extends AbstractController
         $service
             ->setName($form->get("name")->getData())
             ->setPrice($form->get("price")->getData())
-            ->setDuration($form->get("duration")->getData())
-            ->removeOffices();
+            ->setDuration($form->get("duration")->getData());
+//            ->removeOffices();
+//
+//        $officeRepository = new DoctrineORMOfficeRepository();
+//        foreach ($form->get("officeIds")->getData() as $officeId) {
+//            $service->addOffice($officeRepository->get($officeId));
+//        }
 
-        $officeRepository = new DoctrineORMOfficeRepository();
-        foreach ($form->get("officeIds")->getData() as $officeId) {
-            $service->addOffice($officeRepository->get($officeId));
-        }
-
-        $this->entityManager->persist($service);
-        $this->entityManager->flush();
+        $this->serviceRepository->edit($service);
 
         return $this->json(['message' => 'ok']);
     }
 
     #[Route('/services/{id}', name: 'destroy_service', methods: ['DELETE'])]
     public function destroy(Request $request, int $id): Response {
-        $service = $this->serviceRepository->get($id);
-        $this->entityManager->remove($service);
-        $this->entityManager->flush();
+        $service = $this->serviceRepository->find($id);
+
+        $this->serviceRepository->delete($service);
 
         return $this->json(['message' => 'ok']);
     }
