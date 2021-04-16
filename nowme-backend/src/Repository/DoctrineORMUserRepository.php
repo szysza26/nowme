@@ -85,4 +85,20 @@ final class DoctrineORMUserRepository implements UserRepository
 
         return !empty($result);
     }
+
+    public function getByUsername(string $username): User
+    {
+        $user = $this->objectManager->findOneBy(['username' => $username]);
+
+        if (!$user instanceof User) {
+            throw new \InvalidArgumentException(sprintf('User with username %s not found', $username));
+        }
+
+        return $user;
+    }
+
+    public function all(): array
+    {
+        return $this->objectManager->findAll();
+    }
 }

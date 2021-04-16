@@ -16,7 +16,11 @@ interface UserRepository
 
     public function getByEmail(string $email): User;
 
+    public function getByUsername(string $username): User;
+
     public function getByResetPasswordToken(string $token): User;
 
     public function getByConfirmEmailToken(string $token): User;
+
+    public function all(): array;
 }
