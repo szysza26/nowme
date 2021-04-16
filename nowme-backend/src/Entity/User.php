@@ -8,11 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\GeneratedValue;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -77,6 +78,11 @@ class User
      */
     private $offices;
 
+    /**
+     * @var string[]
+     */
+    private array $roles;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
@@ -137,6 +143,15 @@ class User
         $this->emailConfirmedAt = new \DateTimeImmutable();
     }
 
+    public function changeRole(string $role): void
+    {
+        if (in_array($role, $this->roles, true)) {
+            return;
+        }
+
+        $this->roles[] = $role;
+    }
+
     /**
      * @return Collection|Service[]
      */
@@ -189,5 +204,30 @@ class User
         $this->offices->removeElement($office);
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        // TODO: Implement getRoles() method.
+    }
+
+    public function getPassword()
+    {
+        // TODO: Implement getPassword() method.
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method.
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
