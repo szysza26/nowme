@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, Grid, TextField, Button } from '@material-ui/core';
+import { Paper, Typography, Grid, TextField, Button, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles({
@@ -19,9 +19,13 @@ const SpecialistsForm = (props) => {
     const history = useHistory();
     const params = useParams();
 
+    const [offices, setOffices] = useState([]);
+
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [spec, setSpec] = useState('');
+    const [username, setUsername] = useState('');
+    const [selectOffices, setSelectOffices] = useState([]);
 
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
@@ -50,6 +54,15 @@ const SpecialistsForm = (props) => {
                     console.log(error)
                     history.push('/specialists/list');
                 });
+        }else{
+            axios.get(`http://localhost:8000/api/offices`)
+                .then((res) => {
+                    setOffices(res.data);
+                })
+                .catch((error) => {
+                    console.log(error)
+                    history.push('/specialists/list');
+                });
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -65,6 +78,21 @@ const SpecialistsForm = (props) => {
                 break;
             case 'spec':
                 setSpec(event.target.value);
+                break;
+            case "username":
+                setUsername(event.target.value);
+                break;
+            case "office":
+                let index = selectOffices.indexOf(event.target.value);
+                if(index >= 0){
+                    let tmp = selectOffices;
+                    tmp.splice(index, 1)
+                    setSelectOffices(tmp);
+                }else {
+                    let tmp = selectOffices;
+                    selectOffices.push(event.target.value)
+                    setSelectOffices(tmp);
+                }
                 break;
             default:
                 console.log('can not handle this value');
@@ -82,6 +110,8 @@ const SpecialistsForm = (props) => {
             firstName,
             lastName,
             spec,
+            username,
+            offices: selectOffices
         }
 
         if(props.action === "add"){
@@ -90,6 +120,7 @@ const SpecialistsForm = (props) => {
                     setFirstName('');
                     setLastName('');
                     setSpec('');
+                    setUsername('');
                     setSuccess(true);
                 })
                 .catch((error) => {
@@ -139,7 +170,7 @@ const SpecialistsForm = (props) => {
                             onChange={handleChange}
                         />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} md={6}>
                         <TextField
                             required
                             name="spec"
@@ -149,6 +180,31 @@ const SpecialistsForm = (props) => {
                             value={spec}
                             onChange={handleChange}
                         />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <TextField
+                            required
+                            name="username"
+                            label="Username"
+                            fullWidth
+                            InputProps={props.action === 'show' ? {readOnly: true,} : {}}
+                            value={username}
+                            onChange={handleChange}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography variant="h6" gutterBottom>Gabinety: </Typography>
+                        <FormGroup>
+                            {offices.map(office => {
+                                return (
+                                    <FormControlLabel
+                                        key={office.name}
+                                        control={<Checkbox onChange={handleChange} name="office" value={office.id}/>}
+                                        label={office.name}
+                                    />
+                                )
+                            })}
+                        </FormGroup>
                     </Grid>
                     {props.action !== "show" &&
                     <Grid item xs={4} sm={3} md={2} className={classes.button}>

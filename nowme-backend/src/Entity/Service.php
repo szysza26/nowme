@@ -30,26 +30,9 @@ class Service
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="services")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $specjalist;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Office::class, inversedBy="services")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $offices;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $duration;
-
-    public function __construct()
-    {
-        $this->offices = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -80,49 +63,6 @@ class Service
         return $this;
     }
 
-    public function getSpecjalist(): ?User
-    {
-        return $this->specjalist;
-    }
-
-    public function setSpecjalist(?User $specjalist): self
-    {
-        $this->specjalist = $specjalist;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Office[]
-     */
-    public function getOffices(): Collection
-    {
-        return $this->offices;
-    }
-
-    public function addOffice(Office $office): self
-    {
-        if (!$this->offices->contains($office)) {
-            $this->offices[] = $office;
-        }
-
-        return $this;
-    }
-
-    public function removeOffice(Office $office): self
-    {
-        $this->offices->removeElement($office);
-
-        return $this;
-    }
-
-    public function removeOffices(): self
-    {
-        $this->offices = new ArrayCollection();
-
-        return $this;
-    }
-
     public function getDuration(): ?int
     {
         return $this->duration;
@@ -130,7 +70,7 @@ class Service
 
     public function setDuration(int $duration): self
     {
-        $this->duration = $duration;
+        $this->$duration = $duration;
 
         return $this;
     }
