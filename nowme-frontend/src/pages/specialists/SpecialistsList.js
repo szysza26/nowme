@@ -82,8 +82,8 @@ const SpecialistsList = (props) => {
                         {specialists && specialists.map((row, index) => (
                             <TableRow key={row.id}>
                                 <TableCell align="center" component="th" scope="row">{row.id}</TableCell>
-                                <TableCell align="center">{row.firstName}</TableCell>
-                                <TableCell align="center">{row.lastName}</TableCell>
+                                <TableCell align="center">{row.first_name}</TableCell>
+                                <TableCell align="center">{row.last_name}</TableCell>
                                 {/*<TableCell align="center">{row.spec}</TableCell>*/}
                                 <TableCell align="center">
                                     <ButtonGroup variant="contained" aria-label="contained button group">
