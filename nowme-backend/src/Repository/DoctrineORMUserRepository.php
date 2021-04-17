@@ -111,4 +111,9 @@ final class DoctrineORMUserRepository implements UserRepository
 
         return $result;
     }
+
+    public function getById(string $id): User
+    {
+        return $this->objectManager->find($id);
+    }
 }

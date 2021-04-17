@@ -23,4 +23,6 @@ interface UserRepository
     public function getByConfirmEmailToken(string $token): User;
 
     public function allSpecialists(): array;
+
+    public function getById(string $id): User;
 }

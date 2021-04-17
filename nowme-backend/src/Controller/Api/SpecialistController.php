@@ -5,6 +5,7 @@ namespace NowMe\Controller\Api;
 use Doctrine\ORM\EntityManagerInterface;
 use NowMe\Entity\User;
 use NowMe\Form\Specialist\CreateSpecialistForm;
+use NowMe\Form\Specialist\DeleteSpecialistForm;
 use NowMe\Repository\OfficeRepository;
 use NowMe\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,10 +59,23 @@ class SpecialistController extends AbstractApiController
     #[Route('/specialists', name: 'delete_specialists', methods: ['DELETE'])]
     public function deleteSpecialist(Request $request): Response
     {
-//        $user = $this->userRepository
-//            ->getByUsername($form->get('username')->getData());
-//
-//        $this->entityManager->remove($user);
+        $form = $this->createForm(DeleteSpecialistForm::class);
+
+        $data = $this->parseJsonRequestContent($request);
+
+        $form->submit($data);
+
+        if (!$form->isValid()) {
+            return $this->invalidFormValidationResponse($this->getErrors($form));
+        }
+
+        /**
+         * @var User $user
+         */
+        $user = $form->get('id')->getData();
+
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
 
         return $this->json(['message' => 'Specialist was deleted successfully.']);
     }
