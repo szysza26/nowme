@@ -68,13 +68,13 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity="NowMe\Entity\Service", mappedBy="specialist")
      */
-    private ArrayCollection $services;
+    private $services;
 
     /**
      * @ORM\Column(type="json")
-     * @var string[]
+     * @var array<string>
      */
-    private array $roles;
+    private array $roles = [];
 
     public function __construct()
     {
@@ -145,7 +145,7 @@ class User implements UserInterface
         $this->emailConfirmedAt = new \DateTimeImmutable();
     }
 
-    public function changeRole(string $role): void
+    public function assignAs(string $role): void
     {
         if (in_array($role, $this->roles, true)) {
             return;

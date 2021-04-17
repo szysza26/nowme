@@ -32,7 +32,7 @@ class SpecialistController extends AbstractApiController
 
         $this->userRepository
             ->getByUsername($form->get('username')->getData())
-            ->changeRole($form->get('role')->getData());
+            ->assignAs('ROLE_SPECIALIST');
 
         $this->entityManager->flush();
 
