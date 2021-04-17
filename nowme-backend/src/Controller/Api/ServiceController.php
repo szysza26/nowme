@@ -46,8 +46,8 @@ class ServiceController extends AbstractApiController
         $service
             ->setName($form->get("name")->getData())
             ->setPrice($form->get("price")->getData())
-            ->setDuration($form->get("duration")->getData());
-            //->setSpecialist($this->getUser()); // wait for doctrine user provider
+            ->setDuration($form->get("duration")->getData())
+            ->setSpecialist($this->getUser());
 
         $this->serviceRepository->add($service);
 

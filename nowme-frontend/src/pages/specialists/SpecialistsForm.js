@@ -46,8 +46,8 @@ const SpecialistsForm = (props) => {
         if(props.action === "edit" || props.action === "show"){
             axios.get(`http://localhost:8000/api/specialists/${params.id}`)
                 .then((res) => {
-                    setFirstName(res.data.firstName);
-                    setLastName(res.data.lastName);
+                    setFirstName(res.data.first_name);
+                    setLastName(res.data.last_name);
                     //setSpec(res.data.spec);
                     setOffices(res.data.offices);
                 })
@@ -108,8 +108,8 @@ const SpecialistsForm = (props) => {
         };
 
         let data = {
-            firstName,
-            lastName,
+            first_name: firstName,
+            last_name: lastName,
             //spec,
             username,
             offices: selectOffices
