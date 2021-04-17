@@ -59,7 +59,7 @@ class SpecialistController extends AbstractApiController
         return $this->json($this->transformSpecialists($specialists));
     }
 
-    #[Route('/specialists', name: 'delete_specialists', methods: ['DELETE'])]
+    #[Route('/specialists', name: 'delete_specialist', methods: ['DELETE'])]
     public function deleteSpecialist(
         Request $request
     ): Response {
