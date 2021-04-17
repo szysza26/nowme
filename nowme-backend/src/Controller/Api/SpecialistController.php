@@ -5,11 +5,11 @@ namespace NowMe\Controller\Api;
 use Doctrine\ORM\EntityManagerInterface;
 use NowMe\Entity\User;
 use NowMe\Form\Specialist\CreateSpecialistForm;
-use NowMe\Form\Specialist\DeleteSpecialistForm;
 use NowMe\Repository\OfficeRepository;
 use NowMe\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SpecialistController extends AbstractApiController
@@ -59,24 +59,13 @@ class SpecialistController extends AbstractApiController
         return $this->json($this->transformSpecialists($specialists));
     }
 
-    #[Route('/specialists', name: 'delete_specialist', methods: ['DELETE'])]
-    public function deleteSpecialist(
-        Request $request
-    ): Response {
-        $form = $this->createForm(DeleteSpecialistForm::class);
+    #[Route('/specialists/{specialistId}', name: 'delete_specialist', methods: ['DELETE'])]
+    public function deleteSpecialist(string $specialistId): Response {
+        $user = $this->userRepository->findBy($specialistId);
 
-        $data = $this->parseJsonRequestContent($request);
-
-        $form->submit($data);
-
-        if (!$form->isValid()) {
-            return $this->invalidFormValidationResponse($this->getErrors($form));
+        if (null === $user) {
+            throw new NotFoundHttpException();
         }
-
-        /**
-         * @var User $user
-         */
-        $user = $form->get('id')->getData();
 
         $this->entityManager->remove($user);
         $this->entityManager->flush();

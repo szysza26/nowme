@@ -24,5 +24,5 @@ interface UserRepository
 
     public function allSpecialists(): array;
 
-    public function getById(string $id): User;
+    public function findBy(string $id): ?User;
 }
