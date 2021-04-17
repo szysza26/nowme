@@ -74,7 +74,7 @@ const SpecialistsList = (props) => {
                             <TableCell align="center">Id</TableCell>
                             <TableCell align="center">Imię</TableCell>
                             <TableCell align="center">Nazwisko</TableCell>
-                            <TableCell align="center">Specializacija</TableCell>
+                            {/*<TableCell align="center">Specializacija</TableCell>*/}
                             <TableCell align="center">Akcja</TableCell>
                         </TableRow>
                     </TableHead>
@@ -84,7 +84,7 @@ const SpecialistsList = (props) => {
                                 <TableCell align="center" component="th" scope="row">{row.id}</TableCell>
                                 <TableCell align="center">{row.firstName}</TableCell>
                                 <TableCell align="center">{row.lastName}</TableCell>
-                                <TableCell align="center">{row.spec}</TableCell>
+                                {/*<TableCell align="center">{row.spec}</TableCell>*/}
                                 <TableCell align="center">
                                     <ButtonGroup variant="contained" aria-label="contained button group">
                                         <Button onClick={() => handleClickShow(row.id)} size="small" color="primary">Show</Button>

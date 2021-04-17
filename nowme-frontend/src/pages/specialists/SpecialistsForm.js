@@ -23,7 +23,7 @@ const SpecialistsForm = (props) => {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [spec, setSpec] = useState('');
+    //const [spec, setSpec] = useState('');
     const [username, setUsername] = useState('');
     const [selectOffices, setSelectOffices] = useState([]);
 
@@ -48,7 +48,8 @@ const SpecialistsForm = (props) => {
                 .then((res) => {
                     setFirstName(res.data.firstName);
                     setLastName(res.data.lastName);
-                    setSpec(res.data.spec);
+                    //setSpec(res.data.spec);
+                    setOffices(res.data.offices);
                 })
                 .catch((error) => {
                     console.log(error)
@@ -76,9 +77,9 @@ const SpecialistsForm = (props) => {
             case 'lastName':
                 setLastName(event.target.value);
                 break;
-            case 'spec':
-                setSpec(event.target.value);
-                break;
+            // case 'spec':
+            //     setSpec(event.target.value);
+            //     break;
             case "username":
                 setUsername(event.target.value);
                 break;
@@ -109,7 +110,7 @@ const SpecialistsForm = (props) => {
         let data = {
             firstName,
             lastName,
-            spec,
+            //spec,
             username,
             offices: selectOffices
         }
@@ -119,7 +120,7 @@ const SpecialistsForm = (props) => {
                 .then((res) => {
                     setFirstName('');
                     setLastName('');
-                    setSpec('');
+                    //setSpec('');
                     setUsername('');
                     setSuccess(true);
                 })
@@ -170,17 +171,17 @@ const SpecialistsForm = (props) => {
                             onChange={handleChange}
                         />
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            required
-                            name="spec"
-                            label="Specializacija"
-                            fullWidth
-                            InputProps={props.action === 'show' ? {readOnly: true,} : {}}
-                            value={spec}
-                            onChange={handleChange}
-                        />
-                    </Grid>
+                    {/*<Grid item xs={12} md={6}>*/}
+                    {/*    <TextField*/}
+                    {/*        required*/}
+                    {/*        name="spec"*/}
+                    {/*        label="Specializacija"*/}
+                    {/*        fullWidth*/}
+                    {/*        InputProps={props.action === 'show' ? {readOnly: true,} : {}}*/}
+                    {/*        value={spec}*/}
+                    {/*        onChange={handleChange}*/}
+                    {/*    />*/}
+                    {/*</Grid>*/}
                     <Grid item xs={12} md={6}>
                         <TextField
                             required

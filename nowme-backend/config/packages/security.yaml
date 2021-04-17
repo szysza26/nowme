@@ -4,6 +4,8 @@ security:
       algorithm: auto
     NowMe\Security\Model\User:
       algorithm: auto
+    NowMe\Entity\User:
+      algorithm: auto
 
   providers:
     users_in_memory:
