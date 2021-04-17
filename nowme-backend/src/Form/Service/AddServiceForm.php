@@ -14,10 +14,7 @@ class AddServiceForm extends AbstractType
         $builder
             ->add('name')
             ->add('price')
-            ->add('duration')
-            //->add('specjalist')
-            //->add('offices')
-        ;
+            ->add('duration');
     }
 
     public function configureOptions(OptionsResolver $resolver)

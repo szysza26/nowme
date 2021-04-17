@@ -47,12 +47,7 @@ class ServiceController extends AbstractApiController
             ->setName($form->get("name")->getData())
             ->setPrice($form->get("price")->getData())
             ->setDuration($form->get("duration")->getData());
-//            ->setSpecjalist($this->getUser())
-//            ->removeOffices();
-//        $officeRepository = new DoctrineORMOfficeRepository();
-//        foreach ($form->get("officeIds")->getData() as $officeId) {
-//            $service->addOffice($officeRepository->get($officeId));
-//        }
+            //->setSpecialist($this->getUser()); // wait for doctrine user provider
 
         $this->serviceRepository->add($service);
 
@@ -74,12 +69,6 @@ class ServiceController extends AbstractApiController
             ->setName($form->get("name")->getData())
             ->setPrice($form->get("price")->getData())
             ->setDuration($form->get("duration")->getData());
-//            ->removeOffices();
-//
-//        $officeRepository = new DoctrineORMOfficeRepository();
-//        foreach ($form->get("officeIds")->getData() as $officeId) {
-//            $service->addOffice($officeRepository->get($officeId));
-//        }
 
         $this->serviceRepository->edit($service);
 

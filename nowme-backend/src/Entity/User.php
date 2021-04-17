@@ -66,12 +66,18 @@ class User implements UserInterface
     private \DateTimeImmutable $createdAt;
 
     /**
+     * @ORM\OneToMany(targetEntity="NowMe\Entity\Service", mappedBy="specialist")
+     */
+    private $services;
+
+    /**
      * @var string[]
      */
     private array $roles;
 
     public function __construct()
     {
+        $this->services = new ArrayCollection();
     }
 
     public static function create(
@@ -170,5 +176,13 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return Collection|Service[]
+     */
+    public function getServices(): Collection
+    {
+        return $this->services;
     }
 }

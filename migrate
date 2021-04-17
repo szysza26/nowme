@@ -1,0 +1,40 @@
+
+[37;41m                                                 [39;49m
+[37;41m  Command "doctrine:migration" is not defined.   [39;49m
+[37;41m                                                 [39;49m
+[37;41m  Did you mean one of these?                     [39;49m
+[37;41m      doctrine:cache:clear-collection-region     [39;49m
+[37;41m      doctrine:cache:clear-entity-region         [39;49m
+[37;41m      doctrine:cache:clear-metadata              [39;49m
+[37;41m      doctrine:cache:clear-query                 [39;49m
+[37;41m      doctrine:cache:clear-query-region          [39;49m
+[37;41m      doctrine:cache:clear-result                [39;49m
+[37;41m      doctrine:database:create                   [39;49m
+[37;41m      doctrine:database:drop                     [39;49m
+[37;41m      doctrine:database:import                   [39;49m
+[37;41m      doctrine:ensure-production-settings        [39;49m
+[37;41m      doctrine:mapping:convert                   [39;49m
+[37;41m      doctrine:mapping:import                    [39;49m
+[37;41m      doctrine:mapping:info                      [39;49m
+[37;41m      doctrine:migrations:current                [39;49m
+[37;41m      doctrine:migrations:diff                   [39;49m
+[37;41m      doctrine:migrations:dump-schema            [39;49m
+[37;41m      doctrine:migrations:execute                [39;49m
+[37;41m      doctrine:migrations:generate               [39;49m
+[37;41m      doctrine:migrations:latest                 [39;49m
+[37;41m      doctrine:migrations:list                   [39;49m
+[37;41m      doctrine:migrations:migrate                [39;49m
+[37;41m      doctrine:migrations:rollup                 [39;49m
+[37;41m      doctrine:migrations:status                 [39;49m
+[37;41m      doctrine:migrations:sync-metadata-storage  [39;49m
+[37;41m      doctrine:migrations:up-to-date             [39;49m
+[37;41m      doctrine:migrations:version                [39;49m
+[37;41m      doctrine:query:dql                         [39;49m
+[37;41m      doctrine:query:sql                         [39;49m
+[37;41m      doctrine:schema:create                     [39;49m
+[37;41m      doctrine:schema:drop                       [39;49m
+[37;41m      doctrine:schema:update                     [39;49m
+[37;41m      doctrine:schema:validate                   [39;49m
+[37;41m      make:migration                             [39;49m
+[37;41m                                                 [39;49m
+

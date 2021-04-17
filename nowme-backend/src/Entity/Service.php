@@ -34,6 +34,23 @@ class Service
      */
     private $duration;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="NowMe\Entity\User", inversedBy="services")
+     */
+    private $specialist;
+
+    public function getSpecialist(): ?User
+    {
+        return $this->specialist;
+    }
+
+    public function setSpecialist(?User $specialist): self
+    {
+        $this->specialist = $specialist;
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -63,15 +80,19 @@ class Service
         return $this;
     }
 
+
     public function getDuration(): ?int
     {
         return $this->duration;
     }
 
+
     public function setDuration(int $duration): self
     {
-        $this->$duration = $duration;
+        $this->duration = $duration;
 
         return $this;
     }
+
+
 }
