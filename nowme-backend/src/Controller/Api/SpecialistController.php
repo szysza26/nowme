@@ -14,8 +14,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SpecialistController extends AbstractApiController
 {
-    public function __construct(private UserRepository $userRepository, private EntityManagerInterface $entityManager, private OfficeRepository $officeRepository)
-    {
+    public function __construct(
+        private UserRepository $userRepository,
+        private EntityManagerInterface $entityManager,
+        private OfficeRepository $officeRepository
+    ) {
     }
 
     #[Route('/specialists', name: 'create_specialist', methods: ['POST'])]
@@ -45,7 +48,7 @@ class SpecialistController extends AbstractApiController
 
         $this->entityManager->flush();
 
-        return $this->json(['message' => 'Specialist role was assigned successfuly.']);
+        return $this->json(['message' => 'Specialist role was assigned successfully.']);
     }
 
     #[Route('/specialists', name: 'specialists', methods: ['GET'])]
@@ -57,8 +60,9 @@ class SpecialistController extends AbstractApiController
     }
 
     #[Route('/specialists', name: 'delete_specialists', methods: ['DELETE'])]
-    public function deleteSpecialist(Request $request): Response
-    {
+    public function deleteSpecialist(
+        Request $request
+    ): Response {
         $form = $this->createForm(DeleteSpecialistForm::class);
 
         $data = $this->parseJsonRequestContent($request);
