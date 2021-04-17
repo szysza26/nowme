@@ -17,4 +17,6 @@ interface OfficeRepository
     public function get(int $id) : Office;
 
     public function all(): array;
+
+    public function allById(array $offices): array;
 }

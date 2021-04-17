@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Webmozart\Assert\Assert;
 
 /**
  * @ORM\Entity
@@ -76,9 +77,15 @@ class User implements UserInterface
      */
     private array $roles = [];
 
+    /**
+     * @ORM\ManyToMany(targetEntity="NowMe\Entity\Office", inversedBy="specialists")
+     */
+    private $offices;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
+        $this->offices = new ArrayCollection();
     }
 
     public static function create(
@@ -185,5 +192,29 @@ class User implements UserInterface
     public function getServices(): Collection
     {
         return $this->services;
+    }
+
+    public function assignOffices(array $offices): void
+    {
+        Assert::allIsInstanceOf($offices, Office::class);
+
+        foreach ($offices as $office) {
+            if ($this->offices->contains($office)) {
+                continue;
+            }
+
+            $this->offices->add($office);
+            $office->addSpecialist($this);
+        }
+    }
+
+    public function addOffice(Office $office): void
+    {
+        if ($this->offices->contains($office)) {
+            return;
+        }
+
+        $this->offices->add($office);
+        $office->addSpecialist($this);
     }
 }

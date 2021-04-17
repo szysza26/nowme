@@ -26,9 +26,7 @@ final class DoctrineORMOfficeRepository implements OfficeRepository
 
     public function get(int $id): Office
     {
-        $office = $this->objectManager->find($id);
-
-        return $office;
+        return $this->objectManager->find($id);
     }
 
     public function add(Office $office): void
@@ -47,5 +45,19 @@ final class DoctrineORMOfficeRepository implements OfficeRepository
     {
         $this->entityManager->remove($office);
         $this->entityManager->flush();
+    }
+
+    public function allById(array $offices): array
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $result = $qb->select('o')
+            ->from(Office::class, 'o')
+            ->where($qb->expr()->in('o.id', ':ids'))
+            ->setParameters(['ids' => $offices])
+            ->getQuery()
+            ->getResult();
+
+        return $result;
     }
 }
