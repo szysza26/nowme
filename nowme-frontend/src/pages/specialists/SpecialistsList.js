@@ -89,7 +89,7 @@ const SpecialistsList = (props) => {
                                     <ButtonGroup variant="contained" aria-label="contained button group">
                                         <Button onClick={() => handleClickShow(row.id)} size="small" color="primary">Show</Button>
                                         {/*<Button onClick={() => handleClickEdit(row.id)} size="small">Edit</Button>*/}
-                                        <Button onClick={() => handleClickDelete(row.id)} size="small" color="secondary">Delete</Button>
+                                        {/*<Button onClick={() => handleClickDelete(row.id)} size="small" color="secondary">Delete</Button>*/}
                                     </ButtonGroup>
                                 </TableCell>
                             </TableRow>
