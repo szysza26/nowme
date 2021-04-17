@@ -189,7 +189,7 @@ class User implements UserInterface
     /**
      * @return Collection|Service[]
      */
-    public function getServices(): Collection
+    public function getServices()
     {
         return $this->services;
     }
