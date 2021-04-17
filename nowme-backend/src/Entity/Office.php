@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace NowMe\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\GeneratedValue;
 
@@ -45,6 +44,16 @@ final class Office
      * @ORM\Column(type="string", length=255)
      */
     private $zip;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="offices")
+     */
+    private $specialists;
+
+    public function __construct()
+    {
+        $this->specialists = new ArrayCollection();
+    }
 
     public function getId() : int
     {
@@ -109,5 +118,15 @@ final class Office
         $this->zip = $zip;
 
         return $this;
+    }
+
+    public function addSpecialist(User $specialist): void
+    {
+        if ($this->specialists->contains($specialist)) {
+            return;
+        }
+
+        $this->specialists->add($specialist);
+        $specialist->addOffice($this);
     }
 }

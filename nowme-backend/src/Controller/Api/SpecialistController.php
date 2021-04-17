@@ -5,6 +5,7 @@ namespace NowMe\Controller\Api;
 use Doctrine\ORM\EntityManagerInterface;
 use NowMe\Entity\User;
 use NowMe\Form\Specialist\CreateSpecialistForm;
+use NowMe\Repository\OfficeRepository;
 use NowMe\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SpecialistController extends AbstractApiController
 {
-    public function __construct(private UserRepository $userRepository, private EntityManagerInterface $entityManager)
+    public function __construct(private UserRepository $userRepository, private EntityManagerInterface $entityManager, private OfficeRepository $officeRepository)
     {
     }
 
@@ -30,9 +31,16 @@ class SpecialistController extends AbstractApiController
             return $this->invalidFormValidationResponse($this->getErrors($form));
         }
 
-        $this->userRepository
-            ->getByUsername($form->get('username')->getData())
-            ->changeRole($form->get('role')->getData());
+        /**
+         * @TODO Tak wiem to nie powinno byc w kontrolerze ale czas goni
+         */
+        $user = $this->userRepository
+            ->getByUsername($form->get('username')->getData());
+
+        $offices = $this->officeRepository->allById($form->get('offices')->getData());
+
+        $user->assignAs('ROLE_SPECIALIST');
+        $user->assignOffices($offices);
 
         $this->entityManager->flush();
 
