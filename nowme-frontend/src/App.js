@@ -19,9 +19,11 @@ const VALID_TOKEN_MS = 60000;
 function App() {
 
     const [token, setToken] = useState(localStorage.getItem('token'));
+    const [parseToken, setParseToken] = useState(null);
 
     useEffect(() => {
         token ? localStorage.setItem('token', token) : localStorage.removeItem('token');
+        token ? setParseToken(jwt_decode(token)) : setParseToken(null);
         axios.defaults.headers.common['Authorization'] = "Bearer " + token;
 
         const interval = setInterval(() => {
@@ -33,43 +35,54 @@ function App() {
 
     return (
         <BrowserRouter>
-            <Main token={token}>
+            <Main token={parseToken}>
                 <Switch>
                     <Route exact path="/">
                         <Home />
                     </Route>
-                    {!token &&
                     <>
-                    <Route exact path="/signin">
-                        <SignIn setToken={setToken}/>
-                    </Route>
-                    <Route exact path="/signup">
-                        <SignUp />
-                    </Route>
-                    <Route exact path="/reset">
-                        <ResetPasswordForm />
-                    </Route>
+                        {!parseToken &&
+                        <>
+                            <Route exact path="/signin">
+                                <SignIn setToken={setToken}/>
+                            </Route>
+                            <Route exact path="/signup">
+                                <SignUp/>
+                            </Route>
+                            <Route exact path="/reset">
+                                <ResetPasswordForm/>
+                            </Route>
+                        </>
+                        }
+                        {parseToken &&
+                        <>
+                            <Route exact path="/profile">
+                                <Profile token={parseToken} />
+                            </Route>
+                            <Route exact path="/logout">
+                                <Logout setToken={setToken} />
+                            </Route>
+                        </>
+
+                        }
+                        {parseToken?.roles.includes("ROLE_ADMIN") && (
+                        <>
+                            <Route path="/specialists">
+                                <Specialists />
+                            </Route>
+                            <Route path="/offices">
+                                <Offices />
+                            </Route>
+                        </>
+                        )}
+                        {parseToken?.roles.includes("ROLE_SPECIALIST") &&
+                        <>
+                            <Route path="/services">
+                                <Services />
+                            </Route>
+                        </>
+                        }
                     </>
-                    }
-                    {token &&
-                    <>
-                    <Route exact path="/profile">
-                        <Profile token={token} />
-                    </Route>
-                    <Route exact path="/logout">
-                        <Logout setToken={setToken} />
-                    </Route>
-                    <Route path="/specialists">
-                        <Specialists />
-                    </Route>
-                    <Route path="/offices">
-                        <Offices />
-                    </Route>
-                    <Route path="/services">
-                        <Services />
-                    </Route>
-                    </>
-                    }
                 </Switch>
             </Main>
       </BrowserRouter>

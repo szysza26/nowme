@@ -77,18 +77,25 @@ const Main = (props) => {
             </List>
             <Divider />
             <List>
-                {props.token &&
                 <>
-                <ListItemLink icon={<AccessibilityIcon/>} primary={'Spiecjaliści'} to={'/specialists/list'}/>
-                <ListItemLink icon={<AccessibilityIcon/>} primary={'Dodawanie specjalisty'} to={'/specialists/add'}/>
-                <Divider />
-                <ListItemLink icon={<AccessibilityIcon/>} primary={'Gabinety'} to={'/offices/list'}/>
-                <ListItemLink icon={<AccessibilityIcon/>} primary={'Dodawanie gabinetu'} to={'/offices/add'}/>
-                <Divider />
-                <ListItemLink icon={<AccessibilityIcon/>} primary={'Usługi'} to={'/services/list'}/>
-                <ListItemLink icon={<AccessibilityIcon/>} primary={'Dodawanie usługi'} to={'/services/add'}/>
+                    {props.token?.roles.includes("ROLE_ADMIN") &&
+                    <>
+                        <ListItemLink icon={<AccessibilityIcon/>} primary={'Spiecjaliści'} to={'/specialists/list'}/>
+                        <ListItemLink icon={<AccessibilityIcon/>} primary={'Dodawanie specjalisty'} to={'/specialists/add'}/>
+                        <Divider />
+                        <ListItemLink icon={<AccessibilityIcon/>} primary={'Gabinety'} to={'/offices/list'}/>
+                        <ListItemLink icon={<AccessibilityIcon/>} primary={'Dodawanie gabinetu'} to={'/offices/add'}/>
+                        <Divider />
+                    </>
+                    }
+                    {props.token?.roles.includes("ROLE_SPECIALIST") &&
+                    <>
+                        <ListItemLink icon={<AccessibilityIcon/>} primary={'Usługi'} to={'/services/list'}/>
+                        <ListItemLink icon={<AccessibilityIcon/>} primary={'Dodawanie usługi'} to={'/services/add'}/>
+                        <Divider/>
+                    </>
+                    }
                 </>
-                }
             </List>
         </div>
     );
