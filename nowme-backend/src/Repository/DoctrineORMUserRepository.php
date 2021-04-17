@@ -104,12 +104,10 @@ final class DoctrineORMUserRepository implements UserRepository
         $result = $qb
             ->select('u')
             ->from(User::class, 'u')
-            ->where(
-                $qb->expr()->in('u.roles', ':role')
-            )
-            ->setParameter('role', 'ROLE_SPECIALIST')
+            ->where($qb->expr()->like('u.roles', ':role'),)
+            ->setParameter('role', '%ROLE_SPECIALIST%')
             ->getQuery()
-            ->getArrayResult();
+            ->execute();
 
         return $result;
     }

@@ -13,10 +13,14 @@ security:
         users:
           test1: { password: '$argon2id$v=19$m=65536,t=4,p=1$Udb1KvOEdXslk8kfDXv5Gg$JhRMePxh6MlisWhuubZ2Ibdfg8N8sJO/QKWvSXSLVI4', roles: [ 'ROLE_ADMIN' ] } # password: test123
           test2: { password: '$argon2id$v=19$m=65536,t=4,p=1$mEzv1+TKbsTczCv4hthPoA$wyeU0Ur5KFsFWqiXDxUwCz2qiWKsIcs01rhU3WgwFCM', roles: [ 'ROLE_ADMIN' ] } # password: test123
+    users_in_db:
+      entity:
+        class: 'NowMe\Entity\User'
+        property: username
 
     all_users:
       chain:
-        providers: [ 'users_in_memory' ]
+        providers: [ 'users_in_db' ]
 
   firewalls:
     dev:
