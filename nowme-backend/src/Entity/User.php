@@ -86,6 +86,7 @@ class User implements UserInterface
     {
         $this->services = new ArrayCollection();
         $this->offices = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public static function create(
@@ -103,7 +104,6 @@ class User implements UserInterface
         $self->firstName = $firstName;
         $self->lastName = $lastName;
         $self->emailConfirmToken = $emailConfirmToken;
-        $self->createdAt = new \DateTimeImmutable();
 
         return $self;
     }
