@@ -2,8 +2,11 @@
 
 namespace NowMe\Controller\Api;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use NowMe\Entity\Office;
 use NowMe\Entity\Service;
+use NowMe\Entity\User;
 use NowMe\Form\Service\AddServiceForm;
 use NowMe\Repository\DoctrineORMOfficeRepository;
 use NowMe\Repository\ServiceRepository;
@@ -22,14 +25,18 @@ class ServiceController extends AbstractApiController
 
     #[Route('/services', name: 'list_services', methods: ['GET'])]
     public function index(Request $request): Response {
-        $service = $this->serviceRepository->findAll();
-        return $this->json($service);
+        $service = $this->getUser()->getServices();
+        return $this->json($this->transformServices($service));
     }
 
     #[Route('/services/{id}', name: 'show_service', methods: ['GET'])]
     public function show(Request $request, int $id): Response {
-        $office = $this->serviceRepository->find($id);
-        return $this->json($office);
+        $service = $this->serviceRepository->find($id);
+        return $this->json([
+            "name" => $service->getName(),
+            "price" => $service->getPrice(),
+            "duration" => $service->getDuration()
+        ]);
     }
 
     #[Route('/services', name: 'create_service', methods: ['POST'])]
@@ -72,7 +79,11 @@ class ServiceController extends AbstractApiController
 
         $this->serviceRepository->edit($service);
 
-        return $this->json(['message' => 'ok']);
+        return $this->json([
+            "name" => $service->getName(),
+            "price" => $service->getPrice(),
+            "duration" => $service->getDuration()
+        ]);
     }
 
     #[Route('/services/{id}', name: 'destroy_service', methods: ['DELETE'])]
@@ -82,5 +93,20 @@ class ServiceController extends AbstractApiController
         $this->serviceRepository->delete($service);
 
         return $this->json(['message' => 'ok']);
+    }
+
+    private function transformServices(Collection $serviceslist): array
+    {
+        return array_map(
+            static function (Service $service) {
+                return [
+                    'id' => $service->getId(),
+                    'name' => $service->getName(),
+                    'price' => $service->getPrice(),
+                    'duration' => $service->getDuration()
+                ];
+            },
+            $serviceslist->toArray()
+        );
     }
 }
