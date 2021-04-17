@@ -68,9 +68,10 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity="NowMe\Entity\Service", mappedBy="specialist")
      */
-    private $services;
+    private ArrayCollection $services;
 
     /**
+     * @ORM\Column(type="json")
      * @var string[]
      */
     private array $roles;

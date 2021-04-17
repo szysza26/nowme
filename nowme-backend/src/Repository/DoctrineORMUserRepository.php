@@ -97,8 +97,20 @@ final class DoctrineORMUserRepository implements UserRepository
         return $user;
     }
 
-    public function all(): array
+    public function allSpecialists(): array
     {
-        return $this->objectManager->findAll();
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $result = $qb
+            ->select('u')
+            ->from(User::class, 'u')
+            ->where(
+                $qb->expr()->in('u.roles', ':role')
+            )
+            ->setParameter('role', 'ROLE_SPECIALIST')
+            ->getQuery()
+            ->getArrayResult();
+
+        return $result;
     }
 }

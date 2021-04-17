@@ -42,12 +42,12 @@ class SpecialistController extends AbstractApiController
     #[Route('/specialists', name: 'specialists', methods: ['GET'])]
     public function list(): Response
     {
-        $specialists = $this->userRepository->all();
+        $specialists = $this->userRepository->allSpecialists();
 
         return $this->json($this->transformSpecialists($specialists));
     }
 
-    #[Route('/specialists', name: 'specialists', methods: ['DELETE'])]
+    #[Route('/specialists', name: 'delete_specialists', methods: ['DELETE'])]
     public function deleteSpecialist(Request $request): Response
     {
 //        $user = $this->userRepository
