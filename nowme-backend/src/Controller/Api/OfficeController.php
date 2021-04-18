@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace NowMe\Controller\Api;
 
-use NowMe\Controller\Api\AbstractApiController;
 use NowMe\Form\Office\AddOfficeForm;
 use NowMe\Repository\OfficeRepository;
 use NowMe\Entity\Office;

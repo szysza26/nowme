@@ -8,7 +8,7 @@ use Doctrine\DBAL\Connection;
 use NowMe\Query\Api\Model\DictionaryService;
 use NowMe\Query\Api\Model\DictionaryServices;
 
-final class DbalDictionaryServicesRepository implements ServiceDictionaryRepository
+final class DbalDictionaryServiceRepository implements ServiceDictionaryRepository
 {
     public function __construct(private Connection $connection)
     {

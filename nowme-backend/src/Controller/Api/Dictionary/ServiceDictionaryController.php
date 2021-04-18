@@ -15,7 +15,7 @@ final class ServiceDictionaryController extends AbstractApiController
     {
     }
 
-    #[Route('/dictionary/services', name: 'dictionary_services', methods: ['GET'])]
+    #[Route('/dictionaries/services', name: 'dictionary_services', methods: ['GET'])]
     public function list(): Response
     {
         $dictionaryServices = $this->serviceDictionaryRepository->all();
