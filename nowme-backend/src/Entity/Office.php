@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace NowMe\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\GeneratedValue;
 
@@ -50,9 +51,15 @@ final class Office
      */
     private $specialists;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Availability::class, mappedBy="office")
+     */
+    private $availabilities;
+
     public function __construct()
     {
         $this->specialists = new ArrayCollection();
+        $this->availabilities = new ArrayCollection();
     }
 
     public function getId() : int
@@ -128,5 +135,35 @@ final class Office
 
         $this->specialists->add($specialist);
         $specialist->addOffice($this);
+    }
+
+    /**
+     * @return Collection|Availability[]
+     */
+    public function getAvailabilities(): Collection
+    {
+        return $this->availabilities;
+    }
+
+    public function addAvailability(Availability $availability): self
+    {
+        if (!$this->availabilities->contains($availability)) {
+            $this->availabilities[] = $availability;
+            $availability->setOffice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvailability(Availability $availability): self
+    {
+        if ($this->availabilities->removeElement($availability)) {
+            // set the owning side to null (unless already changed)
+            if ($availability->getOffice() === $this) {
+                $availability->setOffice(null);
+            }
+        }
+
+        return $this;
     }
 }
