@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace NowMe\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -92,6 +93,11 @@ class User implements UserInterface
      */
     private $offices;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Availability::class, mappedBy="specjalist")
+     */
+    private $availabilities;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
@@ -99,6 +105,7 @@ class User implements UserInterface
         $this->createdAt = new \DateTimeImmutable();
         $this->specialistReservations = new ArrayCollection();
         $this->userReservations = new ArrayCollection();
+        $this->availabilities = new ArrayCollection();
     }
 
     public static function create(
@@ -244,5 +251,35 @@ class User implements UserInterface
 
         $this->offices->add($office);
         $office->addSpecialist($this);
+    }
+
+    /**
+     * @return Collection|Availability[]
+     */
+    public function getAvailabilities(): Collection
+    {
+        return $this->availabilities;
+    }
+
+    public function addAvailability(Availability $availability): self
+    {
+        if (!$this->availabilities->contains($availability)) {
+            $this->availabilities[] = $availability;
+            $availability->setSpecjalist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvailability(Availability $availability): self
+    {
+        if ($this->availabilities->removeElement($availability)) {
+            // set the owning side to null (unless already changed)
+            if ($availability->getSpecjalist() === $this) {
+                $availability->setSpecjalist(null);
+            }
+        }
+
+        return $this;
     }
 }
