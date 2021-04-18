@@ -1,0 +1,34 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20210418112436 extends AbstractMigration
+{
+    public function getDescription() : string
+    {
+        return '';
+    }
+
+    public function up(Schema $schema) : void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE TABLE reservation (id INT AUTO_INCREMENT NOT NULL, specialist_id INT DEFAULT NULL, user_id INT DEFAULT NULL, office_id INT DEFAULT NULL, day DATE NOT NULL, start_time TIME NOT NULL, end_time TIME NOT NULL, INDEX IDX_42C849557B100C1A (specialist_id), INDEX IDX_42C84955A76ED395 (user_id), INDEX IDX_42C84955FFA0C224 (office_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE reservation ADD CONSTRAINT FK_42C849557B100C1A FOREIGN KEY (specialist_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE reservation ADD CONSTRAINT FK_42C84955A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE reservation ADD CONSTRAINT FK_42C84955FFA0C224 FOREIGN KEY (office_id) REFERENCES office (id)');
+    }
+
+    public function down(Schema $schema) : void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('DROP TABLE reservation');
+    }
+}
