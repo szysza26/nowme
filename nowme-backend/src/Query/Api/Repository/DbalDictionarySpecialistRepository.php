@@ -19,7 +19,7 @@ final class DbalDictionarySpecialistRepository implements SpecialistDictionaryRe
         $qb = $this->connection->createQueryBuilder();
 
         $results = $qb->select(['sd.id', 'sd.name'])
-            ->from('specialist_directory', 'sd')
+            ->from('specialist_dictionary', 'sd')
             ->execute()
             ->fetchAllAssociative();
 
