@@ -72,6 +72,16 @@ class User implements UserInterface
     private $services;
 
     /**
+     * @ORM\OneToMany(targetEntity="NowMe\Entity\Reservation", mappedBy="specialist")
+     */
+    private $specialistReservations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="NowMe\Entity\Reservation", mappedBy="user")
+     */
+    private $userReservations;
+
+    /**
      * @ORM\Column(type="json")
      * @var array<string>
      */
@@ -87,6 +97,8 @@ class User implements UserInterface
         $this->services = new ArrayCollection();
         $this->offices = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
+        $this->specialistReservations = new ArrayCollection();
+        $this->userReservations = new ArrayCollection();
     }
 
     public static function create(
@@ -192,6 +204,22 @@ class User implements UserInterface
     public function getServices()
     {
         return $this->services;
+    }
+
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getSpecialistReservations()
+    {
+        return $this->specialistReservations;
+    }
+
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getUserReservations()
+    {
+        return $this->userReservations;
     }
 
     public function assignOffices(array $offices): void
