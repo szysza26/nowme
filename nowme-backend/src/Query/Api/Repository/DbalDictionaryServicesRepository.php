@@ -18,8 +18,8 @@ final class DbalDictionaryServicesRepository implements ServiceDictionaryReposit
     {
         $qb = $this->connection->createQueryBuilder();
 
-        $results = $qb->select(['ds.id', 'ds.name'])
-            ->from('dictionary_services', 'ds')
+        $results = $qb->select(['sd.id', 'sd.name'])
+            ->from('service_dictionary', 'sd')
             ->execute()
             ->fetchAllAssociative();
 
