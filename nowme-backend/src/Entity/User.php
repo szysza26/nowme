@@ -94,7 +94,7 @@ class User implements UserInterface
     private $offices;
 
     /**
-     * @ORM\OneToMany(targetEntity=Availability::class, mappedBy="specjalist")
+     * @ORM\OneToMany(targetEntity="NowMe\Entity\Availability", mappedBy="specjalist")
      */
     private $availabilities;
 
@@ -256,7 +256,7 @@ class User implements UserInterface
     /**
      * @return Collection|Availability[]
      */
-    public function getAvailabilities(): Collection
+    public function getAvailabilities()
     {
         return $this->availabilities;
     }

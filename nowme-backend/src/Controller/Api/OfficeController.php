@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace NowMe\Controller\Api;
 
+use Doctrine\Common\Collections\Collection;
 use NowMe\Form\Office\AddOfficeForm;
 use NowMe\Repository\OfficeRepository;
 use NowMe\Entity\Office;
@@ -23,7 +24,7 @@ final class OfficeController extends AbstractApiController
     #[Route('/offices', name: 'list_offices', methods: ['GET'])]
     public function index(Request $request): Response {
         $offices = $this->officeRepository->all();
-        return $this->json($offices);
+        return $this->json($this->transformOffices($offices));
     }
 
     #[Route('/offices/{id}', name: 'show_office', methods: ['GET'])]
@@ -86,7 +87,32 @@ final class OfficeController extends AbstractApiController
         return $this->json(['message' => 'ok']);
     }
 
+    private function transformOffice(Office $office)
+    {
+        return [
+            'id' => $office->getId(),
+            'name' => $office->getName(),
+            'street' => $office->getStreet(),
+            'houseNumber' => $office->getHouseNumber(),
+            'city' => $office->getCity(),
+            'zip' => $office->getZip(),
+        ];
+    }
 
-
-
+    private function transformOffices(array $offices): array
+    {
+        return array_map(
+            static function (Office $office) {
+                return [
+                    'id' => $office->getId(),
+                    'name' => $office->getName(),
+                    'street' => $office->getStreet(),
+                    'houseNumber' => $office->getHouseNumber(),
+                    'city' => $office->getCity(),
+                    'zip' => $office->getZip(),
+                ];
+            },
+            $offices
+        );
+    }
 }

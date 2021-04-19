@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 /**
  * @ORM\Entity
  */
-final class Office
+class Office
 {
     /**
      * @ORM\Id
@@ -140,7 +140,7 @@ final class Office
     /**
      * @return Collection|Availability[]
      */
-    public function getAvailabilities(): Collection
+    public function getAvailabilities()
     {
         return $this->availabilities;
     }

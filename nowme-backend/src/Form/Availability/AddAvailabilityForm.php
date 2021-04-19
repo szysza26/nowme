@@ -19,11 +19,4 @@ class AddAvailabilityForm extends AbstractType
             ->add('specjalist')
         ;
     }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => Availability::class,
-        ]);
-    }
 }

@@ -2,9 +2,11 @@
 
 namespace NowMe\Controller\Api;
 
+use Doctrine\Common\Collections\Collection;
 use NowMe\Entity\Availability;
 use NowMe\Form\Availability\AddAvailabilityForm;
 use NowMe\Repository\AvailabilityRepository;
+use NowMe\Repository\OfficeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,28 +17,25 @@ class AvailabilityController extends AbstractApiController
 {
 
     private AvailabilityRepository $availabilityRepository;
+    private OfficeRepository $officeRepository;
 
-    public function __construct(AvailabilityRepository $savailabilityRepository)
+    public function __construct(AvailabilityRepository $savailabilityRepository, OfficeRepository $officeRepository)
     {
         $this->availabilityRepository = $savailabilityRepository;
+        $this->officeRepository = $officeRepository;
     }
 
     #[Route('/availabilities', name: 'list_availabilities', methods: ['GET'])]
     public function index(Request $request): Response {
         $availabilities = $this->getUser()->getAvailabilities();
-        return $this->json($availabilities);
+        return $this->json($this->transformAvailabilities($availabilities));
     }
 
 
     #[Route('/availability/{id}', name: 'show_availability', methods: ['GET'])]
     public function show(Request $request, int $id): Response {
         $availability = $this->availabilityRepository->find($id);
-        return $this->json([
-            "date" => $availability->getDate(),
-            "hour_from" => $availability->getHourFrom(),
-            "hour_to" => $availability->getHourTo(),
-            "office" => $availability->getOffice()
-        ]);
+        return $this->json($this->transformAvailability($availability));
     }
 
     #[Route('/availability', name: 'create_availability', methods: ['POST'])]
@@ -49,13 +48,14 @@ class AvailabilityController extends AbstractApiController
             return $this->invalidFormValidationResponse($this->getErrors($form));
         }
 
+        $office = $this->officeRepository->get($form->get("office")->getData());
         $availability = new Availability();
         $availability
-            ->setDate($form->get("date")->getData())
-            ->setHourFrom($form->get("hour_from")->getData())
-            ->setHourTo($form->get("hour_to")->getData())
+            ->setDate(new \DateTime($form->get("date")->getData()))
+            ->setHourFrom(new \DateTime($form->get("hour_from")->getData()))
+            ->setHourTo(new \DateTime($form->get("hour_to")->getData()))
             ->setSpecjalist($this->getUser())
-            ->setOffice($form->get("office")->getData());
+            ->setOffice($office);
 
         $this->availabilityRepository->add($availability);
 
@@ -72,20 +72,17 @@ class AvailabilityController extends AbstractApiController
             return $this->invalidFormValidationResponse($this->getErrors($form));
         }
 
+        $office = $this->officeRepository->get($form->get("office")->getData());
         $availability = $this->availabilityRepository->find($id);
         $availability
-            ->setHourFrom($form->get("hour_from")->getData())
-            ->setHourTo($form->get("hour_to")->getData())
-            ->setOffice($form->get("office")->getData());
+            ->setDate(new \DateTime($form->get("date")->getData()))
+            ->setHourFrom(new \DateTime($form->get("hour_from")->getData()))
+            ->setHourTo(new \DateTime($form->get("hour_to")->getData()))
+            ->setOffice($office);
 
         $this->availabilityRepository->edit($availability);
 
-        return $this->json([
-            "date" => $availability->getDate(),
-            "hour_from" => $availability->getHourFrom(),
-            "hour_to" => $availability->getHourTo(),
-            "office" => $availability->getOffice()
-        ]);
+        return $this->json(['message' => 'ok']);
     }
 
     #[Route('/availability/{id}', name: 'destroy_availability', methods: ['DELETE'])]
@@ -95,5 +92,33 @@ class AvailabilityController extends AbstractApiController
         $this->availabilityRepository->delete($availability);
 
         return $this->json(['message' => 'ok']);
+    }
+
+    private function transformAvailability(Availability $availability)
+    {
+        return [
+            'id' => $availability->getId(),
+            "date" => $availability->getDate(),
+            "hour_from" => $availability->getHourFrom(),
+            "hour_to" => $availability->getHourTo(),
+            "office_id" => $availability->getOffice()->getId(),
+            "office_name" => $availability->getOffice()->getName(),
+        ];
+    }
+
+    private function transformAvailabilities(Collection $availabilities): array
+    {
+        return array_map(
+            static function (Availability $availability) {
+                return [
+                    "date" => $availability->getDate(),
+                    "hour_from" => $availability->getHourFrom(),
+                    "hour_to" => $availability->getHourTo(),
+                    "office_id" => $availability->getOffice()->getId(),
+                    "office_name" => $availability->getOffice()->getName(),
+                ];
+            },
+            $availabilities->toArray()
+        );
     }
 }

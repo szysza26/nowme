@@ -39,7 +39,7 @@ class Availability
     private $office;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="availabilities")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="availabilities")
      */
     private $specjalist;
 
