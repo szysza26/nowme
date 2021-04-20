@@ -30,7 +30,7 @@ final class OfficeController extends AbstractApiController
     #[Route('/offices/{id}', name: 'show_office', methods: ['GET'])]
     public function show(Request $request, int $id): Response {
         $office = $this->officeRepository->get($id);
-        return $this->json($office);
+        return $this->json($this->transformOffice($office));
     }
 
     #[Route('/offices', name: 'create_office', methods: ['POST'])]
