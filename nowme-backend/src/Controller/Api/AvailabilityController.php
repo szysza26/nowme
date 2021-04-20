@@ -32,13 +32,13 @@ class AvailabilityController extends AbstractApiController
     }
 
 
-    #[Route('/availability/{id}', name: 'show_availability', methods: ['GET'])]
+    #[Route('/availabilities/{id}', name: 'show_availability', methods: ['GET'])]
     public function show(Request $request, int $id): Response {
         $availability = $this->availabilityRepository->find($id);
         return $this->json($this->transformAvailability($availability));
     }
 
-    #[Route('/availability', name: 'create_availability', methods: ['POST'])]
+    #[Route('/availabilities', name: 'create_availability', methods: ['POST'])]
     public function create(Request $request): Response {
         $form = $this->createForm(AddAvailabilityForm::class);
 
@@ -62,7 +62,7 @@ class AvailabilityController extends AbstractApiController
         return $this->json(['message' => 'ok']);
     }
 
-    #[Route('/availability/{id}', name: 'update_availability', methods: ['PUT'])]
+    #[Route('/availabilities/{id}', name: 'update_availability', methods: ['PUT'])]
     public function update(Request $request, int $id): Response {
         $form = $this->createForm(AddAvailabilityForm::class);
 
@@ -85,7 +85,7 @@ class AvailabilityController extends AbstractApiController
         return $this->json(['message' => 'ok']);
     }
 
-    #[Route('/availability/{id}', name: 'destroy_availability', methods: ['DELETE'])]
+    #[Route('/availabilities/{id}', name: 'destroy_availability', methods: ['DELETE'])]
     public function destroy(Request $request, int $id): Response {
         $availability = $this->availabilityRepository->find($id);
 
@@ -111,6 +111,7 @@ class AvailabilityController extends AbstractApiController
         return array_map(
             static function (Availability $availability) {
                 return [
+                    'id' => $availability->getId(),
                     "date" => $availability->getDate(),
                     "hour_from" => $availability->getHourFrom(),
                     "hour_to" => $availability->getHourTo(),

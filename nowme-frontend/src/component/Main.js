@@ -93,6 +93,9 @@ const Main = (props) => {
                         <ListItemLink icon={<AccessibilityIcon/>} primary={'Usługi'} to={'/services/list'}/>
                         <ListItemLink icon={<AccessibilityIcon/>} primary={'Dodawanie usługi'} to={'/services/add'}/>
                         <Divider/>
+                        <ListItemLink icon={<AccessibilityIcon/>} primary={'Wolne terminy'} to={'/availabilities/list'}/>
+                        <ListItemLink icon={<AccessibilityIcon/>} primary={'Dodawanie terminów'} to={'/availabilities/add'}/>
+                        <Divider/>
                     </>
                     }
                 </>

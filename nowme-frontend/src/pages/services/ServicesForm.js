@@ -111,7 +111,7 @@ const ServicesForm = (props) => {
     return (
     <>
         <Paper className={classes.paper}>
-            {props.action === "show" && <Typography variant="h6" gutterBottom>Usługa </Typography>}
+            {props.action === "show" && <Typography variant="h6" gutterBottom>Usługa</Typography>}
             {props.action === "add" && <Typography variant="h6" gutterBottom>Dodawanie usługi: </Typography>}
             {props.action === "edit" && <Typography variant="h6" gutterBottom>Edytowanie usługi: </Typography>}
             {success && <Alert severity="success">Sukces</Alert>}

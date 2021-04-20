@@ -13,6 +13,7 @@ import ResetPasswordForm from "./pages/Auth/ResetPasswordForm";
 import jwt_decode from 'jwt-decode';
 import Offices from './pages/offices/Offices';
 import Services from './pages/services/Services';
+import Availabilities from "./pages/availabilities/Availabilities";
 
 const VALID_TOKEN_MS = 60000;
 
@@ -79,6 +80,9 @@ function App() {
                         <>
                             <Route path="/services">
                                 <Services />
+                            </Route>
+                            <Route path="/availabilities">
+                                <Availabilities />
                             </Route>
                         </>
                         }
