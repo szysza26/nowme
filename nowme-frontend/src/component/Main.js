@@ -78,6 +78,10 @@ const Main = (props) => {
             <Divider />
             <List>
                 <>
+                    <>
+                        <ListItemLink icon={<AccessibilityIcon/>} primary={'Wyszukiwarka'} to={'/search'}/>
+                        <Divider />
+                    </>
                     {props.token?.roles.includes("ROLE_ADMIN") &&
                     <>
                         <ListItemLink icon={<AccessibilityIcon/>} primary={'Spiecjaliści'} to={'/specialists/list'}/>

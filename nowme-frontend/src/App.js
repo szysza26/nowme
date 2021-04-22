@@ -14,6 +14,7 @@ import jwt_decode from 'jwt-decode';
 import Offices from './pages/offices/Offices';
 import Services from './pages/services/Services';
 import Availabilities from "./pages/availabilities/Availabilities";
+import Searcher from "./pages/searcher/Searcher";
 
 const VALID_TOKEN_MS = 60000;
 
@@ -40,6 +41,9 @@ function App() {
                 <Switch>
                     <Route exact path="/">
                         <Home />
+                    </Route>
+                    <Route path="/search">
+                        <Searcher />
                     </Route>
                     <>
                         {!parseToken &&
