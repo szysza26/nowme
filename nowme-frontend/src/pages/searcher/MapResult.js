@@ -27,14 +27,21 @@ const MapResult = (props) => {
 
     const result = props.result;
 
+    const getCoordinates = () => {
+        return [
+            53.437560 + (Math.floor(Math.random()/100)),
+            14.566722 + (Math.floor(Math.random()/100))
+        ]
+    }
+
     const renderMarkers = () => {
         return result.map(element =>
                 <Marker
-                    key={element.office.name}
-                    position={[element.office.lat, element.office.lng]}
+                    key={element.office}
+                    position={getCoordinates()}
                 >
                     <Popup>
-                        {element.office.name}
+                        {element.office}
                     </Popup>
                 </Marker>
             )
@@ -48,7 +55,7 @@ const MapResult = (props) => {
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    {/*{result && renderMarkers()}*/}
+                    {result && renderMarkers()}
                 </MapContainer>
             </Paper>
         </>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, Grid, TextField, Button } from '@material-ui/core';
+import {Paper, Typography, Grid, TextField, Button, Select, MenuItem} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles({
@@ -19,7 +19,9 @@ const ServicesForm = (props) => {
     const history = useHistory();
     const params = useParams();
 
-    const [name, setName] = useState('');
+    const [services, setServices] = useState([]);
+
+    const [service, setService] = useState('');
     const [price, setPrice] = useState('');
     const [duration, setDuration] = useState('');
 
@@ -42,7 +44,7 @@ const ServicesForm = (props) => {
         if(props.action === "edit" || props.action === "show"){
             axios.get(`http://localhost:8000/api/services/${params.id}`)
                 .then((res) => {
-                    setName(res.data.name);
+                    setService(res.data.service);
                     setPrice(res.data.price);
                     setDuration(res.data.duration);
                 })
@@ -51,14 +53,23 @@ const ServicesForm = (props) => {
                     history.push('/services/list');
                 });
         }
+        if(props.action === "edit" || props.action === "add"){
+            axios.get("http://localhost:8000/api/dictionaries/services")
+                .then((res) => {
+                    setServices(res.data)
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+        }
         
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleChange = (event) => {
         switch(event.target.name){
-            case 'name':
-                setName(event.target.value);
+            case 'service':
+                setService(event.target.value);
                 break;
             case 'price':
                 setPrice(event.target.value);
@@ -79,7 +90,7 @@ const ServicesForm = (props) => {
          };
       
         let data = {
-            name,
+            service,
             price,
             duration,
         }
@@ -87,7 +98,7 @@ const ServicesForm = (props) => {
         if(props.action === "add"){
             axios.post("http://localhost:8000/api/services", data, axiosConfig)
                 .then((res) => {
-                  setName('');
+                  setService('');
                   setPrice('');
                   setDuration('');
                   setSuccess(true);
@@ -118,15 +129,25 @@ const ServicesForm = (props) => {
             {error && <Alert severity="error">Niepowodzenie</Alert>}
             <Grid container spacing={3}>
                 <Grid item xs={12}>
+                {props.action === 'show' ?
                     <TextField
                         required
-                        name="name"
+                        name="service"
                         label="Nazwa"
                         fullWidth
-                        InputProps={props.action === 'show' ? {readOnly: true,} : {}}
-                        value={name}
-                        onChange={handleChange}
+                        InputProps={{readOnly: true,}}
+                        value={service}
                     />
+                :
+                    <Select
+                        name="service"
+                        value={service}
+                        onChange={handleChange}
+                        fullWidth
+                    >
+                        {services.map(element => <MenuItem key={element.id} value={element.id}>{element.name}</MenuItem>)}
+                    </Select>
+                }
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextField
