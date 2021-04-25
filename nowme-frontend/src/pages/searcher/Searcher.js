@@ -88,16 +88,16 @@ const Searcher = (props) => {
             dateTo
         }
 
-        setResult([{office: {name: "Labolatorium1", lng: "14.566722", lat: "53.437560"}}, {office: {name: "Labolatorium2", lng: "14.563716", lat: "53.427998"}}, {office: {name: "Labolatorium3", lng: "14.553839", lat: "53.431168"}}])
-        // axios.post("http://localhost:8000/api/search", data, axiosConfig)
-        //     .then((res) => {
-        //         setResult(res.data);
-        //         setSuccess(true);
-        //     })
-        //     .catch((error) => {
-        //         console.log(error)
-        //         setError(true);
-        //     })
+        //setResult([{office: {name: "Labolatorium1", lng: "14.566722", lat: "53.437560"}}, {office: {name: "Labolatorium2", lng: "14.563716", lat: "53.427998"}}, {office: {name: "Labolatorium3", lng: "14.553839", lat: "53.431168"}}])
+        axios.post("http://localhost:8000/api/search", data, axiosConfig)
+            .then((res) => {
+                setResult(res.data);
+                setSuccess(true);
+            })
+            .catch((error) => {
+                console.log(error)
+                setError(true);
+            })
     }
 
     return (
