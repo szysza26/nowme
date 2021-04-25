@@ -56,7 +56,8 @@ final class SearchSpecialistForm extends AbstractType
                     ],
                     'html5' => false,
                     'widget' => 'single_text',
-                    'format' => 'Y-m-d',
+                    'format' => 'Y-M-d',
+                    'input' => 'string',
                 ]
             )->add(
                 'dateTo',
@@ -67,7 +68,8 @@ final class SearchSpecialistForm extends AbstractType
                     ],
                     'html5' => false,
                     'widget' => 'single_text',
-                    'format' => 'Y-m-d',
+                    'input' => 'string',
+                    'format' => 'Y-M-d',
                 ]
             )->add(
                 'service',
