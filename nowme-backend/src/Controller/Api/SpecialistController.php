@@ -43,6 +43,8 @@ class SpecialistController extends AbstractApiController
 
         $offices = $this->officeRepository->allById($form->get('offices')->getData());
 
+        $user->setFirstName($form->get("first_name")->getData());
+        $user->setLastName($form->get("last_name")->getData());
         $user->assignAs('ROLE_SPECIALIST');
         $user->assignOffices($offices);
 

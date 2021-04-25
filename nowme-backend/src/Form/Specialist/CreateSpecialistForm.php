@@ -48,6 +48,22 @@ final class CreateSpecialistForm extends AbstractType
                     ]
                 ]
             )->add(
+                'first_name',
+                TextType::class,
+                [
+                    'constraints' => [
+                        new NotNull(),
+                    ]
+                ]
+            )->add(
+                'last_name',
+                TextType::class,
+                [
+                    'constraints' => [
+                        new NotNull(),
+                    ]
+                ]
+            )->add(
                 'offices',
                 ChoiceType::class,
                 [
