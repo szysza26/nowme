@@ -2,7 +2,17 @@ import React, { useState, useEffect } from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, Grid, TextField, Button, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
+import {
+    Paper,
+    Typography,
+    Grid,
+    TextField,
+    Button,
+    FormGroup,
+    FormControlLabel,
+    Checkbox,
+    MenuItem, Select
+} from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles({
@@ -20,10 +30,11 @@ const SpecialistsForm = (props) => {
     const params = useParams();
 
     const [offices, setOffices] = useState([]);
+    const [specialists, setSpecialists] = useState([]);
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    //const [spec, setSpec] = useState('');
+    const [spec, setSpec] = useState('');
     const [username, setUsername] = useState('');
     const [selectOffices, setSelectOffices] = useState([]);
 
@@ -64,6 +75,14 @@ const SpecialistsForm = (props) => {
                     console.log(error)
                     history.push('/specialists/list');
                 });
+            axios.get(`http://localhost:8000/api/dictionaries/specialists`)
+                .then((res) => {
+                    setSpecialists(res.data);
+                })
+                .catch((error) => {
+                    console.log(error)
+                    history.push('/specialists/list');
+                });
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,9 +96,9 @@ const SpecialistsForm = (props) => {
             case 'lastName':
                 setLastName(event.target.value);
                 break;
-            // case 'spec':
-            //     setSpec(event.target.value);
-            //     break;
+            case 'spec':
+                 setSpec(event.target.value);
+                 break;
             case "username":
                 setUsername(event.target.value);
                 break;
@@ -171,17 +190,16 @@ const SpecialistsForm = (props) => {
                             onChange={handleChange}
                         />
                     </Grid>
-                    {/*<Grid item xs={12} md={6}>*/}
-                    {/*    <TextField*/}
-                    {/*        required*/}
-                    {/*        name="spec"*/}
-                    {/*        label="Specializacija"*/}
-                    {/*        fullWidth*/}
-                    {/*        InputProps={props.action === 'show' ? {readOnly: true,} : {}}*/}
-                    {/*        value={spec}*/}
-                    {/*        onChange={handleChange}*/}
-                    {/*    />*/}
-                    {/*</Grid>*/}
+                    <Grid item xs={12} md={6}>
+                        <Select
+                            name="spec"
+                            value={spec}
+                            onChange={handleChange}
+                            fullWidth
+                        >
+                            {specialists.map(element => <MenuItem key={element.id} value={element.id}>{element.name}</MenuItem>)}
+                        </Select>
+                    </Grid>
                     <Grid item xs={12} md={6}>
                         <TextField
                             required

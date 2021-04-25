@@ -31,14 +31,14 @@ const Searcher = (props) => {
     const [error, setError] = useState(false);
 
     useEffect(() => {
-        setServices([{id: 1, name:"usługa1"}, {id: 2, name: "usługa2"}])
-        // axios.get("http://localhost:8000/api/services")
-        //     .then((res) => {
-        //         setServices(res.data)
-        //     })
-        //     .catch((error) => {
-        //         console.log(error)
-        //     });
+        //setServices([{id: 1, name:"usługa1"}, {id: 2, name: "usługa2"}])
+        axios.get("http://localhost:8000/api/dictionaries/services")
+            .then((res) => {
+                setServices(res.data)
+            })
+            .catch((error) => {
+                console.log(error)
+            });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
