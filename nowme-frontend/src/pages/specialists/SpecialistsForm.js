@@ -129,7 +129,7 @@ const SpecialistsForm = (props) => {
         let data = {
             first_name: firstName,
             last_name: lastName,
-            //spec,
+            spec,
             username,
             offices: selectOffices
         }
@@ -139,7 +139,7 @@ const SpecialistsForm = (props) => {
                 .then((res) => {
                     setFirstName('');
                     setLastName('');
-                    //setSpec('');
+                    setSpec('');
                     setUsername('');
                     setSuccess(true);
                 })
@@ -197,7 +197,11 @@ const SpecialistsForm = (props) => {
                             onChange={handleChange}
                             fullWidth
                         >
-                            {specialists.map(element => <MenuItem key={element.id} value={element.id}>{element.name}</MenuItem>)}
+                            {props.action === 'show' ?
+                            specialists.filter(element => element.id === spec).map(element => <MenuItem key={element.id} value={element.id}>{element.name}</MenuItem>)
+                            :
+                            specialists.map(element => <MenuItem key={element.id} value={element.id}>{element.name}</MenuItem>)
+                            }
                         </Select>
                     </Grid>
                     <Grid item xs={12} md={6}>

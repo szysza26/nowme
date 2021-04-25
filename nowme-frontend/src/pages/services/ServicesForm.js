@@ -129,25 +129,18 @@ const ServicesForm = (props) => {
             {error && <Alert severity="error">Niepowodzenie</Alert>}
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                {props.action === 'show' ?
-                    <TextField
-                        required
-                        name="service"
-                        label="Nazwa"
-                        fullWidth
-                        InputProps={{readOnly: true,}}
-                        value={service}
-                    />
-                :
                     <Select
                         name="service"
                         value={service}
                         onChange={handleChange}
                         fullWidth
                     >
-                        {services.map(element => <MenuItem key={element.id} value={element.id}>{element.name}</MenuItem>)}
+                        {props.action === 'show' ?
+                        services.filter(element => element.id === service).map(element => <MenuItem key={element.id} value={element.id}>{element.name}</MenuItem>)
+                        :
+                        services.map(element => <MenuItem key={element.id} value={element.id}>{element.name}</MenuItem>)
+                        }
                     </Select>
-                }
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextField

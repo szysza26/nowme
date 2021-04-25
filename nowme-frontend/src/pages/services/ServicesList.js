@@ -72,7 +72,6 @@ const ServicesList = (props) => {
                 <TableHead>
                     <TableRow>
                         <TableCell align="center">Id</TableCell>
-                        <TableCell align="center">Nazwa</TableCell>
                         <TableCell align="center">Cena</TableCell>
                         <TableCell align="center">Czas</TableCell>
                         <TableCell align="center">Akcja</TableCell>
@@ -82,7 +81,6 @@ const ServicesList = (props) => {
                 {services && services.map((row, index) => (
                     <TableRow key={row.id}>
                         <TableCell align="center" component="th" scope="row">{row.id}</TableCell>
-                        <TableCell align="center">{row.service}</TableCell>
                         <TableCell align="center">{row.price}</TableCell>
                         <TableCell align="center">{row.duration}</TableCell>
                         <TableCell align="center">
