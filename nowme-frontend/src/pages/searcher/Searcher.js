@@ -5,7 +5,7 @@ import {Button, Grid, MenuItem, Paper, Select, TextField, Typography} from "@mat
 import Alert from "@material-ui/lab/Alert";
 
 import MapResult from './MapResult';
-// import TableResult from './TableResult';
+import TabResult from './TabResult';
 
 
 const useStyles = makeStyles({
@@ -155,7 +155,7 @@ const Searcher = (props) => {
                 </Grid>
             </Paper>
             <MapResult result={result} />
-            {/*{result && <TableResult result={result} />*/}
+            <TabResult result={result} />
         </>
     );
 }
