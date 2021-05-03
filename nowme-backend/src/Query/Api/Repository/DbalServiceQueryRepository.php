@@ -25,7 +25,7 @@ final class DbalServiceQueryRepository implements ServiceQueryRepository
                 'o.street',
                 'o.house_number',
                 'o.zip',
-                's.name'
+                's.name_id'
             ]
         )
             ->from('availability', 'a')
@@ -35,7 +35,7 @@ final class DbalServiceQueryRepository implements ServiceQueryRepository
             ->leftJoin('u', 'service', 's', 'a.specjalist_id = s.specialist_id');
 
         if ($filters['service']) {
-            $qb->where($qb->expr()->like('s.id', ':service'))
+            $qb->andWhere($qb->expr()->like('s.name_id', ':service'))
                 ->setParameter('service', "%{$filters['service']}%");
         }
 

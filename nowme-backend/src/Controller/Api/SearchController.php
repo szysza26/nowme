@@ -45,7 +45,7 @@ final class SearchController extends AbstractApiController
         return array_map(
             static function (array $service) {
                 return [
-                    'service' => $service['name'],
+                    'service' => $service['name_id'],
                     'office' => \sprintf(
                         '%s %s %s %s',
                         $service['zip'],
