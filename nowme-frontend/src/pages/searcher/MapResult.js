@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import {Paper, Box, Typography} from "@material-ui/core";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
@@ -6,6 +6,7 @@ import 'leaflet/dist/leaflet.css';
 
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
+import axios from "axios";
 let DefaultIcon = L.icon({
     iconUrl: icon
 });
@@ -25,23 +26,39 @@ const useStyles = makeStyles({
 const MapResult = (props) => {
     const classes = useStyles();
 
-    const result = props.result;
+    const [result, setResult] = useState([]);
 
-    const getCoordinates = () => {
-        return [
-            53.437560 + (Math.floor(Math.random()/100)),
-            14.566722 + (Math.floor(Math.random()/100))
-        ]
-    }
+    useEffect(() => {
+        if(props.result) {
+            props.result.forEach((element, index) => {
+                axios.get("https://nominatim.openstreetmap.org/search.php?format=json&q=" + element.office)
+                    .then((res) => {
+                        let office = {
+                            key: index,
+                            name: element.specialist + " " + element.office,
+                            lng: res.data[0].lon,
+                            lat: res.data[0].lat
+                        }
+                        result.push(office);
+                        //setResult([...result, office]);
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    });
+            })
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.result])
 
     const renderMarkers = () => {
         return result.map(element =>
                 <Marker
-                    key={element.office}
-                    position={getCoordinates()}
+                    key={element.name}
+                    position={[element.lat, element.lng]}
                 >
                     <Popup>
-                        {element.office}
+                        {element.name}
                     </Popup>
                 </Marker>
             )
@@ -55,7 +72,7 @@ const MapResult = (props) => {
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    {result && renderMarkers()}
+                    {result.length > 0 && renderMarkers()}
                 </MapContainer>
             </Paper>
         </>
