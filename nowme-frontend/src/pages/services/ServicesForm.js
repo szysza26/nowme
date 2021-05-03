@@ -44,7 +44,7 @@ const ServicesForm = (props) => {
         if(props.action === "edit" || props.action === "show"){
             axios.get(`http://localhost:8000/api/services/${params.id}`)
                 .then((res) => {
-                    setService(res.data.service);
+                    setService(res.data.service.id);
                     setPrice(res.data.price);
                     setDuration(res.data.duration);
                 })
@@ -53,15 +53,14 @@ const ServicesForm = (props) => {
                     history.push('/services/list');
                 });
         }
-        if(props.action === "edit" || props.action === "add"){
-            axios.get("http://localhost:8000/api/dictionaries/services")
-                .then((res) => {
-                    setServices(res.data)
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
-        }
+
+        axios.get("http://localhost:8000/api/dictionaries/services")
+            .then((res) => {
+                setServices(res.data)
+            })
+            .catch((error) => {
+                console.log(error)
+            });
         
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -90,7 +89,7 @@ const ServicesForm = (props) => {
          };
       
         let data = {
-            service,
+            name: service,
             price,
             duration,
         }

@@ -6,6 +6,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ObjectManager;
 use NowMe\Entity\Office;
+use NowMe\Entity\ServiceDictionary;
 use NowMe\Entity\User;
 use NowMe\Entity\Service;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
@@ -41,10 +42,10 @@ class AppFixtures extends Fixture
                 for($j = 1; $j <= 5; $j++) {
                     $office = new Office();
                     $office->setName("Gabinet1".$j);
-                    $office->setStreet("Ulica".$j);
-                    $office->setHouseNumber("NR".$j);
-                    $office->setCity("Miasto".$j);
-                    $office->setZip("00-00".$j);
+                    $office->setStreet("Wyzwolenia");
+                    $office->setHouseNumber("".(5+ $j));
+                    $office->setCity("Szczecin");
+                    $office->setZip("70-552");
 
                     $office->addSpecialist($user);
                     $user->addOffice($office);
@@ -52,7 +53,9 @@ class AppFixtures extends Fixture
                     $manager->persist($office);
 
                     $service = new Service();
-                    $service->setName("usługa".$j);
+                    $name = new ServiceDictionary("Test".$j);
+                    $manager->persist($name);
+                    $service->setName($name);
                     $service->setDuration(1 + $j);
                     $service->setPrice(1 + $j);
 

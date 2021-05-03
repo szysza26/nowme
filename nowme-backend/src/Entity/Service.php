@@ -20,7 +20,7 @@ class Service
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="NowMe\Entity\ServiceDictionary")
      */
     private $name;
 
@@ -56,12 +56,12 @@ class Service
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): ?ServiceDictionary
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?ServiceDictionary $name): self
     {
         $this->name = $name;
 
