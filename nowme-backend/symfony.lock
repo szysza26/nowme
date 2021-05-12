@@ -148,6 +148,9 @@
     "nikic/php-parser": {
         "version": "v4.10.4"
     },
+    "openpayu/openpayu": {
+        "version": "2.3.0"
+    },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
     },
