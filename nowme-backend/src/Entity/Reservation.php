@@ -54,6 +54,11 @@ class Reservation
      */
     private Office $office;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Service::class, inversedBy="reservations")
+     */
+    private $service;
+
 
     public function getDay() : \DateTimeInterface
     {
@@ -125,6 +130,18 @@ class Reservation
     public function setOffice(Office $office): self
     {
         $this->office = $office;
+
+        return $this;
+    }
+
+    public function getService(): ?Service
+    {
+        return $this->service;
+    }
+
+    public function setService(?Service $service): self
+    {
+        $this->service = $service;
 
         return $this;
     }
