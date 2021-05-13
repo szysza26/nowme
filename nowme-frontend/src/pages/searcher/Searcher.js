@@ -155,7 +155,7 @@ const Searcher = (props) => {
                 </Grid>
             </Paper>
             <MapResult result={result} />
-            <TabResult result={result} />
+            <TabResult result={result} dateFrom={dateFrom} dateTo={dateTo}/>
         </>
     );
 }

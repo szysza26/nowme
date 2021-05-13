@@ -10,7 +10,7 @@ const Reservations = (props) => {
             <Route exact path="/reservations/list">
                 <ReservationList />
             </Route>
-            <Route exact path="/reservations/:service">
+            <Route exact path="/reservations/:service/:specialist/:office/:from/:to">
                 <ReservationForm />
             </Route>
         </Switch>

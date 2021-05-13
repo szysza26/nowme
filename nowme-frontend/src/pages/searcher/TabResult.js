@@ -22,8 +22,8 @@ const TabResult = (props) => {
     const classes = useStyles();
     const history = useHistory();
 
-    const handleClick = (id) => {
-        history.push(`/reservations/${id}`);
+    const handleClick = (service, specialist, office, from, to) => {
+        history.push(`/reservations/${service}/${specialist}/${office}/${from}/${to}`);
     }
 
     return (
@@ -46,7 +46,7 @@ const TabResult = (props) => {
                                 <TableCell align="center">{row.office}</TableCell>
                                 <TableCell align="center">{row.specialist}</TableCell>
                                 <TableCell align="center">
-                                    <Button onClick={() => handleClick(row.service)} size="small" color="primary">Rezerwuj</Button>
+                                    <Button onClick={() => handleClick(row.idService, row.idSpecialist, row.idOffice, props.dateFrom, props.dateTo)} size="small" color="primary">Rezerwuj</Button>
                                 </TableCell>
                             </TableRow>
                         ))}

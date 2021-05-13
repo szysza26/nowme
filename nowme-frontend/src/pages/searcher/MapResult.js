@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
-import {Paper, Box, Typography} from "@material-ui/core";
+import {Paper} from "@material-ui/core";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
 
@@ -26,6 +26,7 @@ const useStyles = makeStyles({
 const MapResult = (props) => {
     const classes = useStyles();
 
+    // eslint-disable-next-line
     const [result, setResult] = useState([]);
 
     useEffect(() => {
