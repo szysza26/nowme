@@ -1,6 +1,8 @@
 <?php
 
 
+use Doctrine\Persistence\ManagerRegistry;
+
 class PayU
 {
     public function __contruct()
@@ -17,7 +19,7 @@ class PayU
         OpenPayU_Configuration::setOauthClientSecret('8f33ea0dd3a4ddae44ba302e6da8b83d');
     }
 
-    public function create(\NowMe\Entity\Reservation $reservation)
+    public function create(\NowMe\Entity\Reservation $reservation): string
     {
         $order['continueUrl'] = 'http://localhost/'; //TODO do uzupełnienia
         $order['notifyUrl'] = 'http://localhost/'; //TODO do uzupełnienia
@@ -39,7 +41,48 @@ class PayU
         $order['buyer']['lastName'] = $reservation->getUser()->lastName();
 
         $response = OpenPayU_Order::create($order);
+        $payment = new \NowMe\Entity\Payment();
+        $payment
+            ->setOrderId($response->getResponse()->extOrderId)
+            ->setReservationId($reservation->getId())
+            ->setStatus(\NowMe\Entity\Payment::STATUS_ADD)
+            ->setDateCreate(new DateTime());
+        //TODO zapis payment
 
-        header('Location:'. $response->getResponse()->redirectUri);
+        return $response->getResponse()->redirectUri;
+    }
+
+    public function refund($orderId)
+    {
+        $refund = OpenPayU_Refund::create(
+            $orderId,
+            'Zwrot kaucji'
+        );
+        if($refund->getStatus() == 'SUCCESS'){
+            $payment = new \NowMe\Entity\Payment(); //TODO odczyt payment z bazy
+            $payment->setStatus(\NowMe\Entity\Payment::STATUS_REFUND);
+            //TODO zapis payment
+        }
+    }
+
+    public function notify(\NowMe\Entity\Payment &$payment)
+    {
+        $response = OpenPayU_Order::retrieve($payment->getOrderId());
+        if($response->getStatus() == 'SUCCESS') {
+            $order = $response->getResponse()->orders[0];
+            switch ($order->status) {
+                case 'COMPLETED':
+                    $payment->setStatus(\NowMe\Entity\Payment::STATUS_PAID);
+                    break;
+                case 'CANCELED':
+                    $payment->setStatus(\NowMe\Entity\Payment::STATUS_CANCEL);
+                    break;
+                default:
+                    $diff = $payment->getDateCreate()->diff(new DateTime());
+                    if ($diff->i > 30) {
+                        $payment->setStatus(\NowMe\Entity\Payment::STATUS_CANCEL);
+                    }
+            }
+        }
     }
 }
