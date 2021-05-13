@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace NowMe\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use NowMe\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -58,6 +60,16 @@ class Reservation
      * @ORM\ManyToOne(targetEntity=Service::class, inversedBy="reservations")
      */
     private $service;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Payment::class, mappedBy="reservationId")
+     */
+    private $payments;
+
+    public function __construct()
+    {
+        $this->payments = new ArrayCollection();
+    }
 
 
     public function getDay() : \DateTimeInterface
@@ -142,6 +154,36 @@ class Reservation
     public function setService(?Service $service): self
     {
         $this->service = $service;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Payment[]
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): self
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments[] = $payment;
+            $payment->setReservationId($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): self
+    {
+        if ($this->payments->removeElement($payment)) {
+            // set the owning side to null (unless already changed)
+            if ($payment->getReservationId() === $this) {
+                $payment->setReservationId(null);
+            }
+        }
 
         return $this;
     }
