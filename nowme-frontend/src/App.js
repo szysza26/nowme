@@ -15,6 +15,7 @@ import Offices from './pages/offices/Offices';
 import Services from './pages/services/Services';
 import Availabilities from "./pages/availabilities/Availabilities";
 import Searcher from "./pages/searcher/Searcher";
+import Reservations from "./pages/reservations/Reservations";
 
 const VALID_TOKEN_MS = 60000;
 
@@ -44,6 +45,9 @@ function App() {
                     </Route>
                     <Route path="/search">
                         <Searcher />
+                    </Route>
+                    <Route path="/reservations">
+                        <Reservations />
                     </Route>
                     <>
                         {!parseToken &&

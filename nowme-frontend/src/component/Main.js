@@ -67,6 +67,9 @@ const Main = (props) => {
                 <>
                 <ListItemLink icon={<AccountCircleIcon/>} primary={'Profile'} to={'/profile'}/>
                 <ListItemLink icon={<AccountCircleIcon/>} primary={'Logout'} to={'/logout'}/>
+                <Divider />
+                <ListItemLink icon={<AccessibilityIcon/>} primary={'Wyszukiwarka'} to={'/search'}/>
+                <ListItemLink icon={<AccessibilityIcon/>} primary={'Rezerwacje'} to={'/reservations/list'}/>
                 </>
                 :
                 <>
@@ -78,10 +81,6 @@ const Main = (props) => {
             <Divider />
             <List>
                 <>
-                    <>
-                        <ListItemLink icon={<AccessibilityIcon/>} primary={'Wyszukiwarka'} to={'/search'}/>
-                        <Divider />
-                    </>
                     {props.token?.roles.includes("ROLE_ADMIN") &&
                     <>
                         <ListItemLink icon={<AccessibilityIcon/>} primary={'Spiecjaliści'} to={'/specialists/list'}/>

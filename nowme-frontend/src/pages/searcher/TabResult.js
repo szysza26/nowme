@@ -7,8 +7,9 @@ import {
     TableHead,
     TableRow,
     TableCell,
-    TableBody,
+    TableBody, Button,
 } from "@material-ui/core";
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles({
     paper: {
@@ -19,6 +20,11 @@ const useStyles = makeStyles({
 
 const TabResult = (props) => {
     const classes = useStyles();
+    const history = useHistory();
+
+    const handleClick = (id) => {
+        history.push(`/reservations/${id}`);
+    }
 
     return (
         <>
@@ -30,6 +36,7 @@ const TabResult = (props) => {
                             <TableCell align="center">ID</TableCell>
                             <TableCell align="center">Gabinet</TableCell>
                             <TableCell align="center">Specialista</TableCell>
+                            <TableCell align="center">Rezerwacja</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -38,6 +45,9 @@ const TabResult = (props) => {
                                 <TableCell align="center" component="th" scope="row">{index}</TableCell>
                                 <TableCell align="center">{row.office}</TableCell>
                                 <TableCell align="center">{row.specialist}</TableCell>
+                                <TableCell align="center">
+                                    <Button onClick={() => handleClick(row.service)} size="small" color="primary">Rezerwuj</Button>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
