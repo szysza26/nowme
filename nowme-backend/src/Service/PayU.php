@@ -1,12 +1,17 @@
 <?php
 
-
+namespace NowMe\Service;
 use Doctrine\Persistence\ManagerRegistry;
+use NowMe\Entity\Payment;
+use NowMe\Repository\PaymentRepository;
 
 class PayU
 {
-    public function __contruct()
+    private PaymentRepository $paymentRepository;
+
+    public function __contruct(PaymentRepository $paymentRepository)
     {
+        $this->paymentRepository = $paymentRepository;
         //set Sandbox Environment
         OpenPayU_Configuration::setEnvironment('sandbox');
 
@@ -21,6 +26,7 @@ class PayU
 
     public function create(\NowMe\Entity\Reservation $reservation): string
     {
+        $order = [];
         $order['continueUrl'] = 'http://localhost/'; //TODO do uzupełnienia
         $order['notifyUrl'] = 'http://localhost/'; //TODO do uzupełnienia
         $order['customerIp'] = $_SERVER['REMOTE_ADDR'];
@@ -47,7 +53,7 @@ class PayU
             ->setReservationId($reservation->getId())
             ->setStatus(\NowMe\Entity\Payment::STATUS_ADD)
             ->setDateCreate(new DateTime());
-        //TODO zapis payment
+        $this->paymentRepository->save($payment);
 
         return $response->getResponse()->redirectUri;
     }
@@ -59,9 +65,9 @@ class PayU
             'Zwrot kaucji'
         );
         if($refund->getStatus() == 'SUCCESS'){
-            $payment = new \NowMe\Entity\Payment(); //TODO odczyt payment z bazy
+            $payment = $this->paymentRepository->getByOrderId($orderId);
             $payment->setStatus(\NowMe\Entity\Payment::STATUS_REFUND);
-            //TODO zapis payment
+            $this->paymentRepository->save($payment);
         }
     }
 

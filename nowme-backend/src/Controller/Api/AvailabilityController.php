@@ -19,9 +19,9 @@ class AvailabilityController extends AbstractApiController
     private AvailabilityRepository $availabilityRepository;
     private OfficeRepository $officeRepository;
 
-    public function __construct(AvailabilityRepository $savailabilityRepository, OfficeRepository $officeRepository)
+    public function __construct(AvailabilityRepository $availabilityRepository, OfficeRepository $officeRepository)
     {
-        $this->availabilityRepository = $savailabilityRepository;
+        $this->availabilityRepository = $availabilityRepository;
         $this->officeRepository = $officeRepository;
     }
 
