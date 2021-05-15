@@ -75,10 +75,10 @@ final class ReservationController extends AbstractApiController
             'specialist' => $form->get('specialist')->getData(),
             'reservation_date' => $form->get('reservation_date')->getData()
         ];
-
-        if ($this->checkIfDateIsReserved($data)) {
-            return $this->json(['message' => 'This date is reserved.'], Response::HTTP_CONFLICT);
-        }
+//
+//        if ($this->checkIfDateIsReserved($data)) {
+//            return $this->json(['message' => 'This date is reserved.'], Response::HTTP_CONFLICT);
+//        }
 
         $this->reservationRepository->add($this->createReservation($data));
 
