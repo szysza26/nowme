@@ -80,8 +80,7 @@ final class DbalServiceQueryRepository implements ServiceQueryRepository
             ->leftJoin('a', 'user', 'u', 'a.specjalist_id = u.id')
             ->leftJoin('u', 'user_office', 'uf', 'u.id = uf.user_id')
             ->leftJoin('uf', 'office', 'o', 'uf.office_id = o.id')
-            ->leftJoin('u', 'service', 's', 'a.specjalist_id = s.specialist_id')
-            ->innerJoin('s', 'service_dictionary', 'sd', 's.name_id = sd.id');
+            ->leftJoin('u', 'service', 's', 'a.specjalist_id = s.specialist_id');
 
         if ($data['specialist']) {
             $qb->andWhere($qb->expr()->eq('u.id', ':specialist'))
@@ -89,7 +88,7 @@ final class DbalServiceQueryRepository implements ServiceQueryRepository
         }
 
         if ($data['service']) {
-            $qb->andWhere($qb->expr()->eq('sd.id', ':service'))
+            $qb->andWhere($qb->expr()->eq('s.id', ':service'))
                 ->setParameter('service', $data['service']);
         }
 
@@ -109,8 +108,6 @@ final class DbalServiceQueryRepository implements ServiceQueryRepository
         }
 
         $qb->groupBy('u.id', 'o.id', 's.id', 'a.id');
-
-        dump($qb->getSQL());
 
         $result = $qb->execute()
             ->fetchAllAssociative();
