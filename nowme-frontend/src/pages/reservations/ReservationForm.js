@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, Button } from '@material-ui/core';
+import { Paper, Typography, List, ListItem, ListItemText } from '@material-ui/core';
 
 const useStyles = makeStyles({
     paper: {
@@ -38,7 +38,7 @@ const ReservationForm = (props) => {
 
         axios.post("http://localhost:8000/api/search/details", data, axiosConfig)
             .then((res) => {
-                setResults(res.data);
+                setResults(toArray(res.data));
             })
             .catch((error) => {
                 console.log(error)
@@ -94,6 +94,16 @@ const ReservationForm = (props) => {
             })
     }
 
+    const toArray = objects => {
+        let array = [];
+        for (const property in objects) {
+            objects[property].forEach(value => {
+                array.push(property + " " + value);
+            })
+        }
+        return array;
+    }
+
     return (
         <>
             <Paper className={classes.paper}>
@@ -101,14 +111,19 @@ const ReservationForm = (props) => {
                 {specialist && <p>Specialista: {specialist.first_name} {specialist.last_name}</p>}
                 {office && <p>Gabinet: {office.name} - {office.street} {office.houseNumber}, {office.zip} {office.city}</p>}
                 <Typography variant="h6" gutterBottom>Wolne Terminy: </Typography>
-                {results.map(result => {
-                    return(
-                        <>
-                            <p>Data: result.date</p>
-                            <Button color="primary" onClick={() => {handleClick(result.date)}}>"Rezerwuj"</Button>
-                        </>
-                    )
-                })}
+                <List component="nav" aria-label="">
+                    {results.map(result => {
+                        return(
+                            <ListItem
+                                key = {result}
+                                button
+                                onClick={() => handleClick(result)}
+                            >
+                                <ListItemText primary={"Termin: " + result} />
+                            </ListItem>
+                        )
+                    })}
+                </List>
             </Paper>
         </>
     );
