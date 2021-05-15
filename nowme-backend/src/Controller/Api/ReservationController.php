@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace NowMe\Controller\Api;
 
+use NowMe\Entity\Office;
 use NowMe\Entity\Reservation;
 use NowMe\Entity\User;
 use NowMe\Form\Reservation\CreateReservationForm;
@@ -78,17 +79,35 @@ final class ReservationController extends AbstractApiController
     private function transform(array $reservations): array
     {
         return array_map(
-            static function (Reservation $reservation) {
+            function (Reservation $reservation) {
                 return [
-                    'specialist_id' => $reservation->getSpecialist()->id(),
-                    'office_id' => $reservation->getOffice()->getId(),
-                    'service_id' => $reservation->getService()->getId(),
+                    'specialist' => [
+                        'id' => $reservation->getSpecialist()->id(),
+                        'name' => $reservation->getSpecialist()->fullName(),
+                    ],
+                    'office_address' => $this->transformOfficeAddress($reservation->getOffice()),
+                    'service' => [
+                        'id' => $reservation->getService()->getId(),
+                        'name' => $reservation->getService()->getName()->name(),
+                        'price' => $reservation->getService()->getPrice(),
+                    ],
                     'reservation_date' => $reservation->getDay()->format('Y-m-d'),
                     'reservation_hour_from' => $reservation->getStartTime()->format('H:i'),
                     'reservation_hour_to' => $reservation->getEndTime()->format('H:i'),
                 ];
             },
             $reservations
+        );
+    }
+
+    private function transformOfficeAddress(Office $office): string
+    {
+        return \sprintf(
+            '%s %s %s %s',
+            $office->getStreet(),
+            $office->getHouseNumber(),
+            $office->getCity(),
+            $office->getZip()
         );
     }
 }

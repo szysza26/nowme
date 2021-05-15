@@ -137,6 +137,11 @@ class User implements UserInterface
         return $this->email;
     }
 
+    public function fullName(): string
+    {
+        return \sprintf('%s %s', $this->firstName(), $this->lastName());
+    }
+
     public function firstName(): string
     {
         return $this->firstName;
@@ -288,14 +293,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function setFirstName(string $firstName) : self
+    public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function setLastName(string $lastName) : self
+    public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
 
