@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
+use function Doctrine\ORM\QueryBuilder;
+
 final class ReservationController extends AbstractApiController
 {
     public function __construct(
@@ -35,6 +37,26 @@ final class ReservationController extends AbstractApiController
         return $this->json($this->transform($reservations));
     }
 
+    #[Route('/reservations/{id}', name: 'reservation_delete', methods: ['DELETE'])]
+    public function delete(
+        Request $request,
+        string $id
+    ): Response {
+        $reservation = $this->reservationRepository->find($id);
+
+        if (null === $reservation) {
+            return $this->json(['message' => 'Not found reservation.'], Response::HTTP_NOT_FOUND);
+        }
+
+        if ($reservation->getUser()->getUsername() !== $this->getUser()->getUsername()) {
+            return $this->json(['message' => 'This reservation is not yours.'], Response::HTTP_FORBIDDEN);
+        }
+
+        $this->reservationRepository->remove($reservation);
+
+        return $this->json(['message' => 'Reservation was removed successfully.']);
+    }
+
     #[Route('/reservations', name: 'reservation_create', methods: ['POST'])]
     public function create(
         Request $request
@@ -53,6 +75,10 @@ final class ReservationController extends AbstractApiController
             'specialist' => $form->get('specialist')->getData(),
             'reservation_date' => $form->get('reservation_date')->getData()
         ];
+//
+//        if ($this->checkIfDateIsReserved($data)) {
+//            return $this->json(['message' => 'This date is reserved.'], Response::HTTP_CONFLICT);
+//        }
 
         $this->reservationRepository->add($this->createReservation($data));
 
@@ -109,5 +135,29 @@ final class ReservationController extends AbstractApiController
             $office->getCity(),
             $office->getZip()
         );
+    }
+
+    private function checkIfDateIsReserved(array $data): bool
+    {
+        $date = new \DateTimeImmutable($data['reservation_date']);
+
+        $qb = $this->reservationRepository->createQueryBuilder('r');
+
+        $qb->where($qb->expr()->eq('r.day', ':date'))
+            ->andWhere($qb->expr()->gte('r.startTime', ':start_time'))
+            ->andWhere($qb->expr()->lte('r.endTime', ':end_time'))
+            ->andWhere($qb->expr()->eq('r.specialist', ':specialist_id'))
+            ->setParameters(
+                [
+                    'date' => $date->format('Y-m-d'),
+                    'start_time' => $date->format('H:i:s'),
+                    'end_time' => $date->add(new \DateInterval('PT15M'))->format('H:i:s'),
+                    'specialist_id' => $data['specialist']
+                ]
+            );
+
+        $result = $qb->getQuery()->execute();
+
+        return !empty($result);
     }
 }
