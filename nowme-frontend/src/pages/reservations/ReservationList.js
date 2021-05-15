@@ -2,10 +2,12 @@ import React, {useState, useEffect} from 'react';
 import axios from "axios";
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Typography, Table, TableBody, TableHead, TableRow, TableCell, Button } from '@material-ui/core';
+import Calendar from "./Calendar";
 
 const useStyles = makeStyles({
     paper: {
         padding: '8px',
+        marginBottom: '16px'
     }
 });
 
@@ -44,18 +46,26 @@ const ReservationList = (props) => {
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center">Id</TableCell>
                             <TableCell align="center">Usługa</TableCell>
+                            <TableCell align="center">Cena</TableCell>
                             <TableCell align="center">Data</TableCell>
+                            <TableCell align="center">Od</TableCell>
+                            <TableCell align="center">Do</TableCell>
+                            <TableCell align="center">Specialista</TableCell>
+                            <TableCell align="center">Gabinet</TableCell>
                             <TableCell align="center">Akcja</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {reservations.map((row, index) => (
                             <TableRow key={row.id}>
-                                <TableCell align="center" component="th" scope="row">{row.id}</TableCell>
-                                <TableCell align="center">{row.service}</TableCell>
-                                <TableCell align="center">{row.date}</TableCell>
+                                <TableCell align="center">{row.service.name}</TableCell>
+                                <TableCell align="center">{row.service.price}</TableCell>
+                                <TableCell align="center">{row.reservation_date}</TableCell>
+                                <TableCell align="center">{row.reservation_hour_from}</TableCell>
+                                <TableCell align="center">{row.reservation_hour_to}</TableCell>
+                                <TableCell align="center">{row.specialist.name}</TableCell>
+                                <TableCell align="center">{row.office_address}</TableCell>
                                 <TableCell align="center">
                                     <Button onClick={() => handleClickDelete(row.id)} size="small" color="secondary">Anuluj</Button>
                                 </TableCell>
@@ -63,6 +73,9 @@ const ReservationList = (props) => {
                         ))}
                     </TableBody>
                 </Table>
+            </Paper>
+            <Paper className={classes.paper}>
+                <Calendar />
             </Paper>
         </>
     );
