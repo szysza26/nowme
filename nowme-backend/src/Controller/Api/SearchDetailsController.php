@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace NowMe\Controller\Api;
 
+use DateInterval;
+use DatePeriod;
+use DateTime;
 use NowMe\Form\Search\SearchDetailsForm;
 use NowMe\Query\Api\Repository\ServiceQueryRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,32 +35,29 @@ final class SearchDetailsController extends AbstractApiController
             'date_from' => $form->get('dateFrom')->getData(),
             'date_to' => $form->get('dateTo')->getData(),
             'service' => $form->get('service')->getData(),
-            'city' => $form->get('city')->getData()
+            'specialist' => $form->get('specialist')->getData(),
+            'office' => $form->get('office')->getData()
         ];
 
-        $services = $this->serviceRepository->findByFilter($filters);
-
-        return $this->json($this->transformServices($services));
+        $availabilities = $this->serviceRepository->details($filters);
+        return $this->json($this->createRanges($availabilities));
     }
 
-    private function transformServices(array $services): array
+    private function createRanges(array $availabilities): array
     {
-        return array_map(
-            static function (array $service) {
-                return [
-                    'service' => $service['name_id'],
-                    'office' => \sprintf(
-                        '%s %s %s %s',
-                        $service['zip'],
-                        $service['city'],
-                        $service['street'],
-                        $service['house_number']
-                    ),
-                    'specialist' => \sprintf('%s %s', $service['first_name'], $service['last_name']),
-                    'dateTime' => '',
-                ];
-            },
-            $services
-        );
+        $tmp = [];
+
+        foreach ($availabilities as $availability) {
+            $start = new DateTime(\sprintf('%s %s', $availability['date'], $availability['hour_from']));
+            $end = new DateTime(\sprintf('%s %s', $availability['date'], $availability['hour_to']));
+            $interval = new DateInterval("PT15M");
+            $range = new DatePeriod($start, $interval, $end);
+
+            foreach ($range as $date) {
+                $tmp[$availability['date']][] = $date->format("H:i:s");
+            }
+        }
+
+        return $tmp;
     }
 }
