@@ -146,7 +146,7 @@ class Reservation
         return $this;
     }
 
-    public function getService(): ?Service
+    public function getService(): Service
     {
         return $this->service;
     }

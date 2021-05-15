@@ -40,6 +40,7 @@ final class SearchDetailsController extends AbstractApiController
         ];
 
         $availabilities = $this->serviceRepository->details($filters);
+
         return $this->json($this->createRanges($availabilities));
     }
 
