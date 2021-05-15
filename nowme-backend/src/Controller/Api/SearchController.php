@@ -47,7 +47,7 @@ final class SearchController extends AbstractApiController
                 return [
                     'specialist_id' => $service['id'],
                     'office_id' => $service['office_id'],
-                    'service_id' => $service['name_id'],
+                    'service_id' => $service['service_id'],
                     'office' => \sprintf(
                         '%s %s %s %s',
                         $service['zip'],

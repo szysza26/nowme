@@ -79,7 +79,7 @@ const ReservationForm = (props) => {
         };
 
         let data = {
-            date: date,
+            reservation_date: date,
             service: params.service,
             specialist: params.specialist,
             office: params.office,

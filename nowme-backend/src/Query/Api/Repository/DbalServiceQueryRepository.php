@@ -26,6 +26,7 @@ final class DbalServiceQueryRepository implements ServiceQueryRepository
                 'o.house_number',
                 'o.zip',
                 's.name_id',
+                's.id as service_id',
                 'o.id as office_id'
             ]
         )
