@@ -34,7 +34,7 @@ class PaymentRepository extends ServiceEntityRepository
 
     public function getByReservationId(int $reservationId): array
     {
-        $payments = $this->findBy(['reservationId' => $reservationId]);
+        $payments = $this->findBy(['reservation_id' => $reservationId]);
 
         return $payments;
     }

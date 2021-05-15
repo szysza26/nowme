@@ -4,6 +4,7 @@ namespace NowMe\Controller\Api;
 
 use NowMe\Repository\ReservationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,7 +17,20 @@ class FileICalController extends AbstractController
         $this->reservationRepository = $reservationRepository;
     }
     #[Route('/file-ical/generate', name: 'fileical')]
-    public function index(): Response
+    public function generateForAll(Request $request): Response
+    {
+        $reservations = $this->reservationRepository->findAll();
+        $this->makeFileForReservations($reservations);
+    }
+
+    #[Route('/file-ical/generate/{id}', name: 'fileical_for_user')]
+    public function generateForUser(Request $request, int $id): Response
+    {
+        $reservations = $this->reservationRepository->getByUserId($id);
+        $this->makeFileForReservations($reservations);
+    }
+
+    private function makeFileForReservations($reservations)
     {
         $iCal = "";
         $iCal .= "BEGIN:VCALENDAR\n";
@@ -25,7 +39,6 @@ class FileICalController extends AbstractController
         $iCal .= "CALSCALE:GREGORIAN\n";
         $iCal .= "METHOD:PUBLISH\n";
 
-        $reservations = $this->reservationRepository->findAll();
         foreach ($reservations as $reservation) {
             $iCal .= "BEGIN:VEVENT\n";
             $iCal .= "DTSTART:" . date('Ymd\THis', $reservation->getStartTime()->getTimestamp()) . "\n";
@@ -36,7 +49,7 @@ class FileICalController extends AbstractController
         $iCal .= "END:VCALENDAR\n";
 
         header("Content-Type: text/Calendar");
-        header("Content-Disposition: inline; filename=filename.ics");
+        header("Content-Disposition: inline; filename=calendar.ics");
         echo $iCal;
         die();
     }
