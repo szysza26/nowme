@@ -46,6 +46,7 @@ final class SearchController extends AbstractApiController
             static function (array $service) {
                 return [
                     'specialist_id' => $service['id'],
+                    'office_id' => $service['office_id'],
                     'service_id' => $service['name_id'],
                     'office' => \sprintf(
                         '%s %s %s %s',
@@ -71,7 +72,7 @@ final class SearchController extends AbstractApiController
                 continue;
             }
 
-            $tmp[$transformService['specialist_id']] = $transformServices;
+            $tmp[$transformService['specialist_id']] = $transformService;
         }
 
         return array_values($tmp);

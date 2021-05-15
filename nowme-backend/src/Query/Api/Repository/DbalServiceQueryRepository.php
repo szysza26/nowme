@@ -25,7 +25,8 @@ final class DbalServiceQueryRepository implements ServiceQueryRepository
                 'o.street',
                 'o.house_number',
                 'o.zip',
-                's.name_id'
+                's.name_id',
+                'o.id as office_id'
             ]
         )
             ->from('availability', 'a')
