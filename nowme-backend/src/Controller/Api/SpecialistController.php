@@ -61,6 +61,21 @@ class SpecialistController extends AbstractApiController
         return $this->json($this->transformSpecialists($specialists));
     }
 
+    #[Route('/specialists/{specialistId}', name: 'show_specialist', methods: ['GET'])]
+    public function show(string $specialistId): Response {
+        $specialist = $this->userRepository->findBy($specialistId);
+
+        if (null === $specialist) {
+            throw new NotFoundHttpException();
+        }
+
+        return $this->json([
+            'id' => $specialist->id(),
+            'first_name' => $specialist->firstName(),
+            'last_name' => $specialist->lastName(),
+        ]);
+    }
+
     #[Route('/specialists/{specialistId}', name: 'delete_specialist', methods: ['DELETE'])]
     public function deleteSpecialist(string $specialistId): Response {
         $user = $this->userRepository->findBy($specialistId);
