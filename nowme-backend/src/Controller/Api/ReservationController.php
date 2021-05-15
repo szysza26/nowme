@@ -107,6 +107,7 @@ final class ReservationController extends AbstractApiController
         return array_map(
             function (Reservation $reservation) {
                 return [
+                    'id' => $reservation->getId(),
                     'specialist' => [
                         'id' => $reservation->getSpecialist()->id(),
                         'name' => $reservation->getSpecialist()->fullName(),
