@@ -85,9 +85,9 @@ const ReservationForm = (props) => {
             office: params.office,
         }
 
-        axios.post("http://localhost:8000/reservations", data, axiosConfig)
+        axios.post("http://localhost:8000/api/reservations", data, axiosConfig)
             .then((res) => {
-                history.push(res.data.payUrl);
+                history.push('/reservations/list');
             })
             .catch((error) => {
                 console.log(error);
