@@ -46,7 +46,7 @@ const TabResult = (props) => {
                                 <TableCell align="center">{row.office}</TableCell>
                                 <TableCell align="center">{row.specialist}</TableCell>
                                 <TableCell align="center">
-                                    <Button onClick={() => handleClick(row.idService, row.idSpecialist, row.idOffice, props.dateFrom, props.dateTo)} size="small" color="primary">Rezerwuj</Button>
+                                    <Button onClick={() => handleClick(row.service_id, row.specialist_id, row.office_id, props.dateFrom, props.dateTo)} size="small" color="primary">Rezerwuj</Button>
                                 </TableCell>
                             </TableRow>
                         ))}

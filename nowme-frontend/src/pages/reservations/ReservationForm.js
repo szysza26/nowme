@@ -97,9 +97,9 @@ const ReservationForm = (props) => {
     return (
         <>
             <Paper className={classes.paper}>
-                <p>Usługa: {service.name} - {service.price}zł</p>
-                <p>Specialista: {specialist.first_name} {specialist.last_name}</p>
-                <p>Gabinet: {office.name} - {office.street} {office.houseNumber}, {office.zip} {office.city}</p>
+                {service && <p>Usługa: {service.name} - {service.price}zł {service.duration}minut</p>}
+                {specialist && <p>Specialista: {specialist.first_name} {specialist.last_name}</p>}
+                {office && <p>Gabinet: {office.name} - {office.street} {office.houseNumber}, {office.zip} {office.city}</p>}
                 <Typography variant="h6" gutterBottom>Wolne Terminy: </Typography>
                 {results.map(result => {
                     return(
