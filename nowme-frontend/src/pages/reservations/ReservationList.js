@@ -75,7 +75,7 @@ const ReservationList = (props) => {
                 </Table>
             </Paper>
             <Paper className={classes.paper}>
-                <Calendar />
+                <Calendar reservations={reservations}/>
             </Paper>
         </>
     );
