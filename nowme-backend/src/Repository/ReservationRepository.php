@@ -47,4 +47,11 @@ class ReservationRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getByUserId(int $userId): array
+    {
+        $reservations = $this->findBy(['user_id' => $userId]);
+
+        return $reservations;
+    }
 }
