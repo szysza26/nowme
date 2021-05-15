@@ -30,7 +30,7 @@ function App() {
         axios.defaults.headers.common['Authorization'] = "Bearer " + token;
 
         const interval = setInterval(() => {
-            token && (jwt_decode(token).exp * 1000) < (Date.now() - (2* VALID_TOKEN_MS)) && setToken(null);
+            //token && (jwt_decode(token).exp * 1000) < (Date.now() - (2* VALID_TOKEN_MS)) && setToken(null);
         }, VALID_TOKEN_MS);
 
         return () => clearInterval(interval);
