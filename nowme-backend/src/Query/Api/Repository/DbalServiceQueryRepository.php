@@ -32,11 +32,12 @@ final class DbalServiceQueryRepository implements ServiceQueryRepository
             ->leftJoin('a', 'user', 'u', 'a.specjalist_id = u.id')
             ->leftJoin('u', 'user_office', 'uf', 'u.id = uf.user_id')
             ->leftJoin('uf', 'office', 'o', 'uf.office_id = o.id')
-            ->leftJoin('u', 'service', 's', 'a.specjalist_id = s.specialist_id');
+            ->leftJoin('u', 'service', 's', 'a.specjalist_id = s.specialist_id')
+            ->leftJoin('s', 'service_dictionary', 'sd', 's.name_id = sd.id');
 
         if ($filters['service']) {
-            $qb->andWhere($qb->expr()->like('s.name_id', ':service'))
-                ->setParameter('service', "%{$filters['service']}%");
+            $qb->andWhere($qb->expr()->eq('s.name_id', ':service'))
+                ->setParameter('service', $filters['service']);
         }
 
         if ($filters['city']) {

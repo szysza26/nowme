@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace NowMe\Controller\Api;
 
-use NowMe\Form\Search\SearchSpecialistForm;
+use NowMe\Form\Search\SearchDetailsForm;
 use NowMe\Query\Api\Repository\ServiceQueryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class SearchController extends AbstractApiController
+final class SearchDetailsController extends AbstractApiController
 {
     public function __construct(private ServiceQueryRepository $serviceRepository)
     {
     }
 
-    #[Route('/search', name: 'search', methods: ['POST'])]
+    #[Route('/search/details', name: 'search_details', methods: ['POST'])]
     public function __invoke(
         Request $request
     ): Response {
-        $form = $this->createForm(SearchSpecialistForm::class);
+        $form = $this->createForm(SearchDetailsForm::class);
 
         $form->submit($this->parseJsonRequestContent($request));
 
@@ -37,7 +37,7 @@ final class SearchController extends AbstractApiController
 
         $services = $this->serviceRepository->findByFilter($filters);
 
-        return $this->json($this->filterUnique($this->transformServices($services)));
+        return $this->json($this->transformServices($services));
     }
 
     private function transformServices(array $services): array
@@ -45,8 +45,7 @@ final class SearchController extends AbstractApiController
         return array_map(
             static function (array $service) {
                 return [
-                    'specialist_id' => $service['id'],
-                    'service_id' => $service['name_id'],
+                    'service' => $service['name_id'],
                     'office' => \sprintf(
                         '%s %s %s %s',
                         $service['zip'],
@@ -60,20 +59,5 @@ final class SearchController extends AbstractApiController
             },
             $services
         );
-    }
-
-    private function filterUnique(array $transformServices): array
-    {
-        $tmp = [];
-
-        foreach ($transformServices as $transformService) {
-            if (isset($tmp[$transformService['specialist_id']])) {
-                continue;
-            }
-
-            $tmp[$transformService['specialist_id']] = $transformServices;
-        }
-
-        return array_values($tmp);
     }
 }
