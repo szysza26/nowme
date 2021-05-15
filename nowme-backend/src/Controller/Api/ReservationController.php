@@ -35,6 +35,26 @@ final class ReservationController extends AbstractApiController
         return $this->json($this->transform($reservations));
     }
 
+    #[Route('/reservations/{id}', name: 'reservation_delete', methods: ['DELETE'])]
+    public function delete(
+        Request $request,
+        string $id
+    ): Response {
+        $reservation = $this->reservationRepository->find($id);
+
+        if (null === $reservation) {
+            return $this->json(['message' => 'Not found reservation.'], Response::HTTP_NOT_FOUND);
+        }
+
+        if ($reservation->getUser()->getUsername() !== $this->getUser()->getUsername()) {
+            return $this->json(['message' => 'This reservation is not yours.'], Response::HTTP_FORBIDDEN);
+        }
+
+        $this->reservationRepository->remove($reservation);
+
+        return $this->json(['message' => 'Reservation was removed successfully.']);
+    }
+
     #[Route('/reservations', name: 'reservation_create', methods: ['POST'])]
     public function create(
         Request $request
