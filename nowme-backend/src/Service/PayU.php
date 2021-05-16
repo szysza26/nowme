@@ -30,8 +30,8 @@ class PayU
     public function create(\NowMe\Entity\Reservation $reservation): string
     {
         $order = [];
-        $order['continueUrl'] = 'http://localhost/'; //TODO do uzupełnienia
-        $order['notifyUrl'] = 'http://localhost/'; //TODO do uzupełnienia
+        $order['continueUrl'] = 'http://localhost:3000/reservations/list';
+        $order['notifyUrl'] = 'http://localhost:3000/reservations/list';
         $order['customerIp'] = $_SERVER['REMOTE_ADDR'];
         $order['merchantPosId'] = OpenPayU_Configuration::getMerchantPosId();
         $order['description'] = 'New order';
@@ -39,7 +39,7 @@ class PayU
         $order['totalAmount'] = $reservation->getService()->getPrice();
         $order['extOrderId'] = $reservation->getId();
 
-        $order['products'][0]['name'] = $reservation->getService()->getName();
+        $order['products'][0]['name'] = $reservation->getService()->getName()->name();
         $order['products'][0]['unitPrice'] = $reservation->getService()->getPrice();
         $order['products'][0]['quantity'] = 1;
 
@@ -49,11 +49,13 @@ class PayU
         $order['buyer']['firstName'] = $reservation->getUser()->firstName();
         $order['buyer']['lastName'] = $reservation->getUser()->lastName();
 
+        //dd($order);
+
         $response = OpenPayU_Order::create($order);
         $payment = new \NowMe\Entity\Payment();
         $payment
             ->setOrderId($response->getResponse()->extOrderId)
-            ->setReservationId($reservation->getId())
+            ->setReservationId($reservation)
             ->setStatus(\NowMe\Entity\Payment::STATUS_ADD)
             ->setDateCreate(new \DateTime());
         $this->paymentRepository->save($payment);
