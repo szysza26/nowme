@@ -2,11 +2,11 @@
 
 namespace NowMe\Controller\Api;
 
-use http\Env\Request;
 use NowMe\Repository\PaymentRepository;
 use NowMe\Service\PayU;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PaymentController extends AbstractApiController
