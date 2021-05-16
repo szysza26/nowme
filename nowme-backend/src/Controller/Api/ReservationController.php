@@ -9,6 +9,7 @@ use NowMe\Entity\Reservation;
 use NowMe\Entity\User;
 use NowMe\Form\Reservation\CreateReservationForm;
 use NowMe\Repository\ReservationRepository;
+use NowMe\Service\PayU;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,7 +21,8 @@ final class ReservationController extends AbstractApiController
 {
     public function __construct(
         private Security $security,
-        private ReservationRepository $reservationRepository
+        private ReservationRepository $reservationRepository,
+        private PayU $payU
     ) {
     }
 
@@ -80,9 +82,16 @@ final class ReservationController extends AbstractApiController
 //            return $this->json(['message' => 'This date is reserved.'], Response::HTTP_CONFLICT);
 //        }
 
-        $this->reservationRepository->add($this->createReservation($data));
+        $reservation = $this->createReservation($data);
 
-        return $this->json(['message' => 'Reservation was created successfully']);
+        $this->reservationRepository->add($reservation);
+
+        $url = $this->payU->create($reservation);
+
+        return $this->json([
+            'message' => 'Reservation was created successfully',
+            'url' => $url
+        ]);
     }
 
     private function createReservation(array $data): Reservation

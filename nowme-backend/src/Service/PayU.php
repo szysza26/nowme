@@ -4,12 +4,15 @@ namespace NowMe\Service;
 use Doctrine\Persistence\ManagerRegistry;
 use NowMe\Entity\Payment;
 use NowMe\Repository\PaymentRepository;
+use OpenPayU_Configuration;
+use OpenPayU_Order;
+use OpenPayU_Refund;
 
 class PayU
 {
     private PaymentRepository $paymentRepository;
 
-    public function __contruct(PaymentRepository $paymentRepository)
+    public function __construct(PaymentRepository $paymentRepository)
     {
         $this->paymentRepository = $paymentRepository;
         //set Sandbox Environment
@@ -52,7 +55,7 @@ class PayU
             ->setOrderId($response->getResponse()->extOrderId)
             ->setReservationId($reservation->getId())
             ->setStatus(\NowMe\Entity\Payment::STATUS_ADD)
-            ->setDateCreate(new DateTime());
+            ->setDateCreate(new \DateTime());
         $this->paymentRepository->save($payment);
 
         return $response->getResponse()->redirectUri;
@@ -84,7 +87,7 @@ class PayU
                     $payment->setStatus(\NowMe\Entity\Payment::STATUS_CANCEL);
                     break;
                 default:
-                    $diff = $payment->getDateCreate()->diff(new DateTime());
+                    $diff = $payment->getDateCreate()->diff(new \DateTime());
                     if ($diff->i > 30) {
                         $payment->setStatus(\NowMe\Entity\Payment::STATUS_CANCEL);
                     }
