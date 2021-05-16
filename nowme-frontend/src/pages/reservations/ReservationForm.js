@@ -87,8 +87,8 @@ const ReservationForm = (props) => {
 
         axios.post("http://localhost:8000/api/reservations", data, axiosConfig)
             .then((res) => {
-                console.log(res.data);
-                //history.push('/reservations/list');
+                history.push('/reservations/list');
+                window.open(res.data.url, "_blank");
             })
             .catch((error) => {
                 console.log(error);

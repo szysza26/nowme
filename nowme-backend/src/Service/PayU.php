@@ -36,11 +36,11 @@ class PayU
         $order['merchantPosId'] = OpenPayU_Configuration::getMerchantPosId();
         $order['description'] = 'New order';
         $order['currencyCode'] = 'PLN';
-        $order['totalAmount'] = $reservation->getService()->getPrice();
+        $order['totalAmount'] = $reservation->getService()->getPrice() * 100;
         $order['extOrderId'] = $reservation->getId();
 
         $order['products'][0]['name'] = $reservation->getService()->getName()->name();
-        $order['products'][0]['unitPrice'] = $reservation->getService()->getPrice();
+        $order['products'][0]['unitPrice'] = $reservation->getService()->getPrice() * 100;
         $order['products'][0]['quantity'] = 1;
 
         //optional section buyer
@@ -54,7 +54,7 @@ class PayU
         $response = OpenPayU_Order::create($order);
         $payment = new \NowMe\Entity\Payment();
         $payment
-            ->setOrderId($response->getResponse()->extOrderId)
+            ->setOrderId($response->getResponse()->orderId)
             ->setReservationId($reservation)
             ->setStatus(\NowMe\Entity\Payment::STATUS_ADD)
             ->setDateCreate(new \DateTime());

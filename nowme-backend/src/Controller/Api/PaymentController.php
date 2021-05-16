@@ -12,10 +12,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class PaymentController extends AbstractApiController
 {
     private PaymentRepository $paymentRepository;
+    private PayU $payU;
 
-    public function __construct(PaymentRepository $paymentRepository)
+    public function __construct(PaymentRepository $paymentRepository, PayU $payU)
     {
         $this->paymentRepository = $paymentRepository;
+        $this->payU = $payU;
     }
 
     #[Route('/payment', name: 'payment', methods: ['GET'])]
@@ -23,9 +25,8 @@ class PaymentController extends AbstractApiController
     {
         $payments = $this->paymentRepository->getAllAdd();
 
-        $payU = new PayU();
         foreach ($payments as $payment) {
-            $payU->notify($payment);
+            $this->payU->notify($payment);
             $this->paymentRepository->save($payment);
         }
         return $this->json(['status' => 'OK']);
