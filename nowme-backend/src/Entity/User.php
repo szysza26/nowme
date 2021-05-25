@@ -98,6 +98,16 @@ class User implements UserInterface
      */
     private $availabilities;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Opinions::class, mappedBy="user")
+     */
+    private $opinions;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Opinions::class, mappedBy="specjalist")
+     */
+    private $opinionsAbout;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
@@ -106,6 +116,8 @@ class User implements UserInterface
         $this->specialistReservations = new ArrayCollection();
         $this->userReservations = new ArrayCollection();
         $this->availabilities = new ArrayCollection();
+        $this->opinions = new ArrayCollection();
+        $this->opinionsAbout = new ArrayCollection();
     }
 
     public static function create(
@@ -303,6 +315,66 @@ class User implements UserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Opinions[]
+     */
+    public function getOpinions(): Collection
+    {
+        return $this->opinions;
+    }
+
+    public function addOpinion(Opinions $opinion): self
+    {
+        if (!$this->opinions->contains($opinion)) {
+            $this->opinions[] = $opinion;
+            $opinion->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOpinion(Opinions $opinion): self
+    {
+        if ($this->opinions->removeElement($opinion)) {
+            // set the owning side to null (unless already changed)
+            if ($opinion->getUser() === $this) {
+                $opinion->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Opinions[]
+     */
+    public function getOpinionsAbout(): Collection
+    {
+        return $this->opinionsAbout;
+    }
+
+    public function addOpinionsAbout(Opinions $opinionsAbout): self
+    {
+        if (!$this->opinionsAbout->contains($opinionsAbout)) {
+            $this->opinionsAbout[] = $opinionsAbout;
+            $opinionsAbout->setSpecjalist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOpinionsAbout(Opinions $opinionsAbout): self
+    {
+        if ($this->opinionsAbout->removeElement($opinionsAbout)) {
+            // set the owning side to null (unless already changed)
+            if ($opinionsAbout->getSpecjalist() === $this) {
+                $opinionsAbout->setSpecjalist(null);
+            }
+        }
 
         return $this;
     }
