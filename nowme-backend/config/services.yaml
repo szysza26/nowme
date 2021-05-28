@@ -47,3 +47,4 @@ services:
     tags: [ 'controller.service_arguments' ]
 
   NowMe\Service\Notification\SMS\SMSNotification: '@NowMe\Service\Notification\SMS\SymfonyNotifierSMSNotification'
+  NowMe\Service\Notification\Email\EmailNotification: '@NowMe\Service\Notification\Email\SymfonyMailerEmailNotification'
