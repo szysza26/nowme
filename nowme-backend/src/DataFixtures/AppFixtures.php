@@ -24,6 +24,18 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
+        $me = User::create(
+            "szysza",
+            "szy162@gmail.com",
+            $this->encoderFactory->getEncoder(User::class)->encodePassword("test123", null),
+            "Krzysztof",
+            "Gorzynski",
+            "123456789",
+            "884395806"
+        );
+        $me->assignAs("ROLE_USER");
+        $manager->persist($me);
+
         for($i = 1; $i <= 5; $i++) {
             $role = "ROLE_USER";
             if($i == 4) $role = "ROLE_SPECIALIST";
@@ -34,7 +46,8 @@ class AppFixtures extends Fixture
                 $this->encoderFactory->getEncoder(User::class)->encodePassword("test123", null),
                 "imie".$i,
                 "nazwisko".$i,
-                "123456789".$i
+                "123456789".$i,
+                "123456789"
             );
             $user->assignAs($role);
 

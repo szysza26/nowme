@@ -131,7 +131,8 @@ class User implements UserInterface
         string $password,
         string $firstName,
         string $lastName,
-        string $emailConfirmToken
+        string $emailConfirmToken,
+        string $phoneNumber
     ): User {
         $self = new self();
         $self->username = $username;
@@ -140,6 +141,7 @@ class User implements UserInterface
         $self->firstName = $firstName;
         $self->lastName = $lastName;
         $self->emailConfirmToken = $emailConfirmToken;
+        $self->phoneNumber = $phoneNumber;
 
         return $self;
     }
