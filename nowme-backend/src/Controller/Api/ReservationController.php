@@ -93,7 +93,7 @@ final class ReservationController extends AbstractApiController
         $url = $this->payU->create($reservation);
 
         $this->eventDispatcher->dispatch(
-            new ReservationWasCreated($this->getUser()->phoneNumber(), $reservation->getId())
+            new ReservationWasCreated($this->getUser()->phoneNumber())
         );
 
         return $this->json(
