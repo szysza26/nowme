@@ -65,7 +65,7 @@ const SignIn = (props) => {
       "password": password
     }
 
-    axios.post("http://localhost:8000/api/login_check", data, axiosConfig)
+    axios.post("https://api.szysza.ovh/api/login_check", data, axiosConfig)
       .then((res) => {
         props.setToken(res.data.token);
         history.push('/profile');

@@ -42,7 +42,7 @@ const ServicesForm = (props) => {
 
     useEffect(() => {
         if(props.action === "edit" || props.action === "show"){
-            axios.get(`http://localhost:8000/api/services/${params.id}`)
+            axios.get(`https://api.szysza.ovh/api/services/${params.id}`)
                 .then((res) => {
                     setService(res.data.service.id);
                     setPrice(res.data.price);
@@ -54,7 +54,7 @@ const ServicesForm = (props) => {
                 });
         }
 
-        axios.get("http://localhost:8000/api/dictionaries/services")
+        axios.get("https://api.szysza.ovh/api/dictionaries/services")
             .then((res) => {
                 setServices(res.data)
             })
@@ -95,7 +95,7 @@ const ServicesForm = (props) => {
         }
 
         if(props.action === "add"){
-            axios.post("http://localhost:8000/api/services", data, axiosConfig)
+            axios.post("https://api.szysza.ovh/api/services", data, axiosConfig)
                 .then((res) => {
                   setService('');
                   setPrice('');
@@ -107,7 +107,7 @@ const ServicesForm = (props) => {
                   setError(true);
                 })
         } else if(props.action === "edit"){
-            axios.put(`http://localhost:8000/api/services/${params.id}`, data, axiosConfig)
+            axios.put(`https://api.szysza.ovh/api/services/${params.id}`, data, axiosConfig)
                 .then((res) => {
                     setSuccess(true);
                 })

@@ -18,7 +18,7 @@ const ReservationList = (props) => {
     const [reservations, setReservations] = useState([]);
 
     const handleClickDelete = (id) => {
-        axios.delete(`http://localhost:8000/api/reservations/${id}`)
+        axios.delete(`https://api.szysza.ovh/api/reservations/${id}`)
             .then((res) => {
                 setReservations(reservations.filter(reservation => reservation.id !== id));
             })
@@ -28,7 +28,7 @@ const ReservationList = (props) => {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/reservations`)
+        axios.get(`https://api.szysza.ovh/api/reservations`)
             .then((res) => {
                 setReservations(res.data);
             })

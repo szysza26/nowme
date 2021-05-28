@@ -36,7 +36,7 @@ const ReservationForm = (props) => {
             dateTo: params.to
         };
 
-        axios.post("http://localhost:8000/api/search/details", data, axiosConfig)
+        axios.post("https://api.szysza.ovh/api/search/details", data, axiosConfig)
             .then((res) => {
                 setResults(toArray(res.data));
             })
@@ -44,7 +44,7 @@ const ReservationForm = (props) => {
                 console.log(error)
             });
 
-        axios.get(`http://localhost:8000/api/services/${params.service}`)
+        axios.get(`https://api.szysza.ovh/api/services/${params.service}`)
             .then((res) => {
                 setService(res.data);
             })
@@ -52,7 +52,7 @@ const ReservationForm = (props) => {
                 console.log(error)
             });
 
-        axios.get(`http://localhost:8000/api/specialists/${params.specialist}`)
+        axios.get(`https://api.szysza.ovh/api/specialists/${params.specialist}`)
             .then((res) => {
                 setSpecialist(res.data);
             })
@@ -60,7 +60,7 @@ const ReservationForm = (props) => {
                 console.log(error)
             });
 
-        axios.get(`http://localhost:8000/api/offices/${params.office}`)
+        axios.get(`https://api.szysza.ovh/api/offices/${params.office}`)
             .then((res) => {
                 setOffice(res.data);
             })
@@ -85,7 +85,7 @@ const ReservationForm = (props) => {
             office: params.office,
         }
 
-        axios.post("http://localhost:8000/api/reservations", data, axiosConfig)
+        axios.post("https://api.szysza.ovh/api/reservations", data, axiosConfig)
             .then((res) => {
                 history.push('/reservations/list');
                 window.open(res.data.url, "_blank");

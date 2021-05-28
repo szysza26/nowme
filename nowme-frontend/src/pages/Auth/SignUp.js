@@ -87,7 +87,7 @@ const SignUp = (props) => {
       "username": username
   }
 
-    axios.post("http://localhost:8000/api/register", data, axiosConfig)
+    axios.post("https://api.szysza.ovh/api/register", data, axiosConfig)
       .then((res) => {
         history.push('/signin')
       })

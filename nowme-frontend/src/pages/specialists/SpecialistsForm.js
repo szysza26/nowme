@@ -55,7 +55,7 @@ const SpecialistsForm = (props) => {
 
     useEffect(() => {
         if(props.action === "edit" || props.action === "show"){
-            axios.get(`http://localhost:8000/api/specialists/${params.id}`)
+            axios.get(`https://api.szysza.ovh/api/specialists/${params.id}`)
                 .then((res) => {
                     setFirstName(res.data.first_name);
                     setLastName(res.data.last_name);
@@ -67,7 +67,7 @@ const SpecialistsForm = (props) => {
                     history.push('/specialists/list');
                 });
         }else{
-            axios.get(`http://localhost:8000/api/offices`)
+            axios.get(`https://api.szysza.ovh/api/offices`)
                 .then((res) => {
                     setOffices(res.data);
                 })
@@ -75,7 +75,7 @@ const SpecialistsForm = (props) => {
                     console.log(error)
                     history.push('/specialists/list');
                 });
-            axios.get(`http://localhost:8000/api/dictionaries/specialists`)
+            axios.get(`https://api.szysza.ovh/api/dictionaries/specialists`)
                 .then((res) => {
                     setSpecialists(res.data);
                 })
@@ -135,7 +135,7 @@ const SpecialistsForm = (props) => {
         }
 
         if(props.action === "add"){
-            axios.post("http://localhost:8000/api/specialists", data, axiosConfig)
+            axios.post("https://api.szysza.ovh/api/specialists", data, axiosConfig)
                 .then((res) => {
                     setFirstName('');
                     setLastName('');
@@ -148,7 +148,7 @@ const SpecialistsForm = (props) => {
                     setError(true);
                 })
         } else if(props.action === "edit"){
-            axios.put(`http://localhost:8000/api/specialists/${params.id}`, data, axiosConfig)
+            axios.put(`https://api.szysza.ovh/api/specialists/${params.id}`, data, axiosConfig)
                 .then((res) => {
                     setSuccess(true);
                 })

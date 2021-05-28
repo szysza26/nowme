@@ -33,7 +33,7 @@ const AvailabilitiesList = (props) => {
 
     useEffect(() => {
 
-        axios.get("http://localhost:8000/api/availabilities")
+        axios.get("https://api.szysza.ovh/api/availabilities")
             .then((res) => {
                 setAvailabilities(res.data)
             })
@@ -51,7 +51,7 @@ const AvailabilitiesList = (props) => {
         history.push(`/availabilities/edit/${id}`);
     }
     const handleClickDelete = (id) => {      
-        axios.delete(`http://localhost:8000/api/availabilities/${id}`)
+        axios.delete(`https://api.szysza.ovh/api/availabilities/${id}`)
             .then((res) => {
               setSuccess(true);
               setAvailabilities(availabilities.filter(availability => availability.id !== id));

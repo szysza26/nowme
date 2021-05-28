@@ -72,7 +72,7 @@ const ResetPasswordForm = (props) => {
       "email": email,
     }
 
-    axios.post("http://localhost:8000/api/reset-password", data, axiosConfig)
+    axios.post("https://api.szysza.ovh/api/reset-password", data, axiosConfig)
       .then((res) => {
         setEmail('');
         console.log(res);
@@ -93,7 +93,7 @@ const ResetPasswordForm = (props) => {
       "email": email,
     }
 
-    axios.post(`http://localhost:8000/api/reset-password/${resetToken}`, data, axiosConfig)
+    axios.post(`https://api.szysza.ovh/api/reset-password/${resetToken}`, data, axiosConfig)
         .then((res) => {
           console.log(res);
           history.push('/siginin');

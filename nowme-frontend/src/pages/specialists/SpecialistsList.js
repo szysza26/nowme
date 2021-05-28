@@ -33,7 +33,7 @@ const SpecialistsList = (props) => {
 
     useEffect(() => {
 
-        axios.get("http://localhost:8000/api/specialists")
+        axios.get("https://api.szysza.ovh/api/specialists")
             .then((res) => {
                 setSpecialists(res.data)
             })
@@ -51,7 +51,7 @@ const SpecialistsList = (props) => {
         history.push(`/specialists/edit/${id}`);
     }
     const handleClickDelete = (id) => {
-        axios.delete(`http://localhost:8000/api/specialists/${id}`)
+        axios.delete(`https://api.szysza.ovh/api/specialists/${id}`)
             .then((res) => {
                 setSuccess(true);
                 setSpecialists(specialists.filter(specialist => specialist.id !== id));

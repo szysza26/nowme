@@ -31,7 +31,7 @@ const Searcher = (props) => {
     const [error, setError] = useState(false);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/dictionaries/services")
+        axios.get("https://api.szysza.ovh/api/dictionaries/services")
             .then((res) => {
                 setServices(res.data)
             })
@@ -87,7 +87,7 @@ const Searcher = (props) => {
             dateTo
         }
 
-        axios.post("http://localhost:8000/api/search", data, axiosConfig)
+        axios.post("https://api.szysza.ovh/api/search", data, axiosConfig)
             .then((res) => {
                 setResult(res.data);
                 setSuccess(true);

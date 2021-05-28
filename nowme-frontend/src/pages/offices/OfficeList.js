@@ -33,7 +33,7 @@ const OfficesList = (props) => {
 
     useEffect(() => {
 
-        axios.get("http://localhost:8000/api/offices")
+        axios.get("https://api.szysza.ovh/api/offices")
             .then((res) => {
                 setOffices(res.data)
             })
@@ -51,7 +51,7 @@ const OfficesList = (props) => {
         history.push(`/offices/edit/${id}`);
     }
     const handleClickDelete = (id) => {      
-        axios.delete(`http://localhost:8000/api/offices/${id}`)
+        axios.delete(`https://api.szysza.ovh/api/offices/${id}`)
             .then((res) => {
               setSuccess(true);
               setOffices(offices.filter(office => office.id !== id));

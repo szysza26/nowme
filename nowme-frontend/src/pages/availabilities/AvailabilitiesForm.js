@@ -43,7 +43,7 @@ const AvailabilitiesForm = (props) => {
 
     useEffect(() => {
         if(props.action === "edit" || props.action === "show"){
-            axios.get(`http://localhost:8000/api/availabilities/${params.id}`)
+            axios.get(`https://api.szysza.ovh/api/availabilities/${params.id}`)
                 .then((res) => {
                     setDate(res.data.date.substring(0, 10));
                     setHourFrom(res.data.hour_from.substring(11, 19));
@@ -57,7 +57,7 @@ const AvailabilitiesForm = (props) => {
                 });
         }
         if(props.action === "add" || props.action === "edit"){
-            axios.get(`http://localhost:8000/api/offices`)
+            axios.get(`https://api.szysza.ovh/api/offices`)
                 .then((res) => {
                     setOffices(res.data);
                 })
@@ -104,7 +104,7 @@ const AvailabilitiesForm = (props) => {
         }
 
         if(props.action === "add"){
-            axios.post("http://localhost:8000/api/availabilities", data, axiosConfig)
+            axios.post("https://api.szysza.ovh/api/availabilities", data, axiosConfig)
                 .then((res) => {
                     setDate('2021-01-01');
                     setHourFrom('08:00:00');
@@ -118,7 +118,7 @@ const AvailabilitiesForm = (props) => {
                   setError(true);
                 })
         } else if(props.action === "edit"){
-            axios.put(`http://localhost:8000/api/availabilities/${params.id}`, data, axiosConfig)
+            axios.put(`https://api.szysza.ovh/api/availabilities/${params.id}`, data, axiosConfig)
                 .then((res) => {
                     setSuccess(true);
                 })

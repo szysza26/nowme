@@ -42,7 +42,7 @@ const OfficesForm = (props) => {
 
     useEffect(() => {
         if(props.action === "edit" || props.action === "show"){
-            axios.get(`http://localhost:8000/api/offices/${params.id}`)
+            axios.get(`https://api.szysza.ovh/api/offices/${params.id}`)
                 .then((res) => {
                     setName(res.data.name);
                     setStreet(res.data.street);
@@ -97,7 +97,7 @@ const OfficesForm = (props) => {
         }
 
         if(props.action === "add") {
-            axios.post("http://localhost:8000/api/offices", data, axiosConfig)
+            axios.post("https://api.szysza.ovh/api/offices", data, axiosConfig)
                 .then((res) => {
                     setName('');
                     setStreet('');
@@ -111,7 +111,7 @@ const OfficesForm = (props) => {
                     setError(true);
                 })
         }else if(props.action === "edit"){
-            axios.put(`http://localhost:8000/api/offices/${params.id}`, data, axiosConfig)
+            axios.put(`https://api.szysza.ovh/api/offices/${params.id}`, data, axiosConfig)
                 .then((res) => {
                     setSuccess(true);
                 })

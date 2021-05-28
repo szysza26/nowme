@@ -33,7 +33,7 @@ const ServicesList = (props) => {
 
     useEffect(() => {
 
-        axios.get("http://localhost:8000/api/services")
+        axios.get("https://api.szysza.ovh/api/services")
             .then((res) => {
                 setServices(res.data)
             })
@@ -51,7 +51,7 @@ const ServicesList = (props) => {
         history.push(`/services/edit/${id}`);
     }
     const handleClickDelete = (id) => {      
-        axios.delete(`http://localhost:8000/api/services/${id}`)
+        axios.delete(`https://api.szysza.ovh/api/services/${id}`)
             .then((res) => {
               setSuccess(true);
                 setServices(services.filter(service => service.id !== id));
