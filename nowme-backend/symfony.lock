@@ -503,6 +503,15 @@
     "symfony/service-contracts": {
         "version": "v2.2.0"
     },
+    "symfony/smsapi-notifier": {
+        "version": "5.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "908405e1f48e7e81a186f25c685758127d3aa1db"
+        }
+    },
     "symfony/stopwatch": {
         "version": "v5.2.4"
     },

@@ -108,6 +108,11 @@ class User implements UserInterface
      */
     private $opinionsAbout;
 
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $phoneNumber;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
@@ -147,6 +152,11 @@ class User implements UserInterface
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function phoneNumber(): ?string
+    {
+        return $this->phoneNumber;
     }
 
     public function fullName(): string

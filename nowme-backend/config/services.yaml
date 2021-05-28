@@ -26,7 +26,6 @@ services:
     arguments:
       $sender: '%env(resolve:MAILER_SENDER)%'
 
-
   NowMe\Repository\DoctrineORMUserRepository: ~
   NowMe\Repository\UserRepository: '@NowMe\Repository\DoctrineORMUserRepository'
 
@@ -46,3 +45,5 @@ services:
   NowMe\Controller\:
     resource: '../src/Controller/'
     tags: [ 'controller.service_arguments' ]
+
+  NowMe\Service\Notification\SMS\SMSNotification: '@NowMe\Service\Notification\SMS\SymfonyNotifierSMSNotification'

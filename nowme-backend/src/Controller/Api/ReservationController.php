@@ -7,6 +7,7 @@ namespace NowMe\Controller\Api;
 use NowMe\Entity\Office;
 use NowMe\Entity\Reservation;
 use NowMe\Entity\User;
+use NowMe\Event\ReservationWasCreated;
 use NowMe\Form\Reservation\CreateReservationForm;
 use NowMe\Repository\ReservationRepository;
 use NowMe\Service\PayU;
@@ -15,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+
 use function Doctrine\ORM\QueryBuilder;
 
 final class ReservationController extends AbstractApiController
@@ -22,7 +25,8 @@ final class ReservationController extends AbstractApiController
     public function __construct(
         private Security $security,
         private ReservationRepository $reservationRepository,
-        private PayU $payU
+        private PayU $payU,
+        private EventDispatcherInterface $eventDispatcher
     ) {
     }
 
@@ -51,7 +55,7 @@ final class ReservationController extends AbstractApiController
         }
 
         if ($reservation->getUser()->getUsername() !== $this->getUser()->getUsername()) {
-            return $this->json(['message' => 'This reservation is not yours.'], Response::HTTP_FORBIDDEN);
+            return $this->json(['message' => 'Not found reservation.'], Response::HTTP_NOT_FOUND);
         }
 
         $this->reservationRepository->remove($reservation);
@@ -77,7 +81,7 @@ final class ReservationController extends AbstractApiController
             'specialist' => $form->get('specialist')->getData(),
             'reservation_date' => $form->get('reservation_date')->getData()
         ];
-//
+
 //        if ($this->checkIfDateIsReserved($data)) {
 //            return $this->json(['message' => 'This date is reserved.'], Response::HTTP_CONFLICT);
 //        }
@@ -88,10 +92,16 @@ final class ReservationController extends AbstractApiController
 
         $url = $this->payU->create($reservation);
 
-        return $this->json([
-            'message' => 'Reservation was created successfully',
-            'url' => $url
-        ]);
+        $this->eventDispatcher->dispatch(
+            new ReservationWasCreated($this->getUser()->phoneNumber(), $reservation->getId())
+        );
+
+        return $this->json(
+            [
+                'message' => 'Reservation was created successfully',
+                'url' => $url
+            ]
+        );
     }
 
     private function createReservation(array $data): Reservation
