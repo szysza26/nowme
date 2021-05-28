@@ -6,12 +6,12 @@ namespace NowMe\Event;
 
 final class ReservationWasCreated
 {
-    public function __construct(private int $reservationId)
+    public function __construct(private ?string $phoneNumber)
     {
     }
 
-    public function reservationId(): int
+    public function phoneNumber(): ?string
     {
-        return $this->reservationId;
+        return $this->phoneNumber;
     }
 }

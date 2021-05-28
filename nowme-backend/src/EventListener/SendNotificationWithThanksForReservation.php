@@ -15,6 +15,10 @@ final class SendNotificationWithThanksForReservation
 
     public function __invoke(ReservationWasCreated $event): void
     {
+        if (null === $event->phoneNumber()) {
+            return;
+        }
+
         $this->notification->sendThanksForReservation($event->phoneNumber());
     }
 }
